@@ -34,14 +34,19 @@
 			</div>
 		 
 			<div style="font-size:10px">3. emit msg to someone [All sids=cid, self_sid emit msg  to(distinct (toSids ∪ toSids)-self_sid) ]&nbsp; {"emit":"msg","toSids":["2"],"toGids":[1,2],"data":"hi, I am Tom."} </div>           
-			 <!--<div style="font-size:10px">4.  串口&nbsp; {"emit":"open","Obj":"comm","pos":1,"par":{"AppShow":true},"data":"1111","par0":{"codePage":65001,"backNoJson":0}} </div> 
+			  <div style="font-size:10px">4.  串口&nbsp; {"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"AppShow":true,"Port":"com1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii","BaudRate_list":["50","75","110","134","150","300","600","1200","1800","2400","4800","7200","9600","19200","38400","57600","115200","230400","460800","921600"],"ByteSize_list":["5","6","7","8"],"Parity_list":["none","even","odd","spc","mrk"],"StopBits_list":["1","1.5","2"]}} </div> 
+			  
+	
+ 
+ 
 			<div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","data":"可以,第a1 "}</div>           
-                      -->
-             <div  id="AppEmbedOut"></div>  
-              <div style="margin-top:10px;text-align:center">
-			 <!--    textarea或者改为div  ， AppEmbed 要一致 -->
-				<textarea readonly id="AppEmbed"  style="min-width:30px;min-height:20px;width:600px;height:400px" ></textarea>
-		</div>
+                 <div>
+				 <div  id="AppEmbedOut" style="float:left;width:40%"></div>  
+				  <div style="margin-top:10px;text-align:center;float:right;width:60%  ">
+				 <!--    textarea或者改为div  ， AppEmbed 要一致 -->
+					<textarea readonly id="AppEmbed"  style="min-width:30px;min-height:20px;width:800px;height:400px" ></textarea>
+			    </div>
+		</div>  
 </div>
 
 </body>
