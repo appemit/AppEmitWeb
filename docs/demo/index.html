@@ -21,7 +21,7 @@
 <div class="container">
     
 
-             <div style="font-size:10px">0. install/open Appemit.exe (F12 see console info)   &nbsp; &nbsp; &nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed Demo</a> &nbsp; &nbsp;<a href="office.html?file=1" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp; &nbsp;<a href="http://www.appemit.com/login.html" target="_blank">Register</a> </div>
+             <div style="font-size:10px">0. install/open Appemit.exe (F12 see console info)   &nbsp; &nbsp; &nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed Demo</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp; &nbsp;<a href="http://www.appemit.com/login.html" target="_blank">Register</a> </div>
 			<div style="font-size:10px"> 1. connet websocket,support wss
 			<input type="text" class="form-control" size="80" style="margin-bottom:3px;" id="input_url" value="ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" />
 			 <button type="button" id="btn_Flash" onclick="init_App() " >websocket</button>
@@ -34,12 +34,10 @@
 			</div>
 		 
 			<div style="font-size:10px">3. emit msg to someone [All sids=cid, self_sid emit msg  to(distinct (toSids ∪ toSids)-self_sid) ]&nbsp; {"emit":"msg","toSids":["2"],"toGids":[1,2],"data":"hi, I am Tom."} </div>           
-			  <div style="font-size:10px">4.  串口&nbsp; {"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"AppShow":true,"Port":"com1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii","BaudRate_list":["50","75","110","134","150","300","600","1200","1800","2400","4800","7200","9600","19200","38400","57600","115200","230400","460800","921600"],"ByteSize_list":["5","6","7","8"],"Parity_list":["none","even","odd","spc","mrk"],"StopBits_list":["1","1.5","2"]}} </div> 
-			  
-	
+			  <div style="font-size:10px">4.  串口&nbsp; {"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"objName":"Pcomm1","AppShow":true,"Port":"com1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii","BaudRate_list":["50","75","110","134","150","300","600","1200","1800","2400","4800","7200","9600","19200","38400","57600","115200","230400","460800","921600"],"ByteSize_list":["5","6","7","8"],"Parity_list":["none","even","odd","spc","mrk"],"StopBits_list":["1","1.5","2"]}} </div> 
+			 <!-- "Parity_list":["none"/*0*/,"even"/*24*/,"odd"/*8*/,"spc"/*56*/,"mrk"/*40*/]
  
- 
-			<div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","data":"可以,第a1 "}</div>           
+			<div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","data":"可以,第a1 "}</div>       -->    
                  <div>
 				 <div  id="AppEmbedOut" style="float:left;width:40%"></div>  
 				  <div style="margin-top:10px;text-align:center;float:right;width:60%  ">
