@@ -51,7 +51,7 @@
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"createEmbed"      //可视化的控件 createEmbed(comCarrier,clsId,iid) ,只能有一个 , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 									,comName:"flash"                                  //ocx
-									,objName:"shockwave"
+									,objName:"shockwave"             //AppJsObject.shockwave 来访问此控件
 									//,comCarrier:"custom"           // createEmbed可视化 picture(图片控件设置)、static 、 winform   默认推荐 custom         //不同类型组件采取不要载体
 									,dllFile:"C:/Windows/SysWOW64/Macromed/Flash/Flash32_32_0_0_403.ocx"     //  必须 \\   /
 									,clsId :"D27CDB6E-AE6D-11CF-96B8-444553540000"  //guid
@@ -73,7 +73,7 @@
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"createEmbed"       //可视化的控件createEmbed(comCarrier,clsId,iid)  , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 									,comName:"reportXOCX"
-									,objName:"reportX"
+									,objName:"reportX"            //AppJsObject.reportX 来访问此控件
 									// ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
 									,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
 									,clsId :"A5DA6E97-1D4C-4708-B705-84A45716B4DD"  //guid
@@ -96,7 +96,7 @@
 						src:[  {
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"createDll"               //  dll开发
-								    ,objName:"dll_demo1"              //自行定义
+								    ,objName:"dll_demo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
  									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/dll_demo1.dll"     //  必须 \\   / 放在/plugins/private/clsId/文件夹下面
 									,clsId :dll_demo1_clsId  //guid   发送给dll  信息 
 									,AuthKey:"A1-Xzjo5wbjkv+E8EUkOiZdJIyVJPV2EifTPR8OD1DFplM="                //
@@ -120,7 +120,7 @@
 						src:[  {
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"callDll"               //  dll调用      
-								    ,objName:"dll_demo1"
+								    ,objName:"dll_demo1"            //AppJsObject.dll_demo1 来访问此dll
  									,dllFile:"/plugins/thirdparty/dll_demo1.dll"     //  必须 \\   /     本例使用dll_demo1，调用add方法
 									,clsId :dll_demo1_clsId  //guid   发送给dll  信息 
 									//,AuthKey:"A1-Xzjo5wbjkv+E8EUkOiZdJIyVJPV2EifTPR8OD1DFplM="                //

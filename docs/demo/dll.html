@@ -188,29 +188,32 @@ return  sum;
  
  	
 		
- 	      //codeStr转为为url 或者二进制？ 
+ 	      //codeStr支持转为Base64.encode编码
  	//  var Req={"emit":"runCmd","Obj":"dll","codeStr":Base64.encode(codeStr),Base64:1 }    //都支持
       var Req={"emit":"runCmd","Obj":"dll","codeStr":codeStr }    //都支持
 
 	   EmitReqs(Req);
 	  //////////////////////////////////////////////////////////////////////////
 
-
-		//异步调用 最好用消息队列处理  下面一种简单示例  获得存储路径
+   /*
+		//异步调用 最好用消息队列处理  下面一种简单示例  获得存储路径。或者获得反馈的data数据
 	   if  (!reportXPath &&  cmdId=="reportX_save"){  
 		   setTimeout( function(){  
 					  
 						  var LastRid=rid-1 ;   //获得上一步的结果
 							   var inerLastRid=setInterval(function(){
 													   if (AppJs_OutData[LastRid]) { 
-														   reportXPath=AppJs_OutData[LastRid]["data"]["path"];    //统一在data下面
-														  if  (reportXPath) clearInterval(inerLastRid);
+														   reportXPath=AppJs_OutData[LastRid]["data"]["path"];    //统一在data下面 AppJs_OutData在AppEmit里面定义的
+														  if  (reportXPath) {clearInterval(inerLastRid);
 														  //do something
 															console.log(reportXPath);  
+															}
 														 }
 											  }, 10)
 								} ,100)   
 	  }
+	  
+	  */
 	
 }	
 //////////////////////////////////////////////////////////////////////////////////////////
