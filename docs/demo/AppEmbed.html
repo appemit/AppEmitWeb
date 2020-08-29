@@ -30,25 +30,25 @@
     <div style="font-size:10px">f3. web vedio file:   &nbsp; &nbsp;{"emit":"open","Obj":"flash","AppType":3,"src":"https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb/docs/vedio/x1.flv","pos":1,"par0":{"autoPlay":1,"loop":1,"header":null,"userAgent":null,"crossDomain":true,"show_UpdateTool":true}}</div>
 	 <div style="font-size:10px">f4.support localfile: d:/.../test1.swf or demo/htmlDemo/file/test1.swf , need install flash ActiveX:  &nbsp; &nbsp;{"emit":"open","Obj":"flash","AppType":4,"src":"http://img1.yo4399.com/swf/00/0ff035e0e96584c07df65ab3636f72.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0,"flashVars":"a=0&b=0&c=SetInSrc","show_UpdateTool":true}}</div>
  
-	 <div style="font-size:10px">close flash:  {"emit":"close","Obj":"flash"}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"flash"}</div>      
-	    <div style="font-size:10px">w1.Embed IE(支持flash):   &nbsp; &nbsp;{"emit":"open","Obj":"web","AppType":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.appemit.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}}</div>      
+	 <div style="font-size:10px">close  :  {"emit":"close","Obj":"flash","AppId":1}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"flash"}</div>      
+	    <div style="font-size:10px">w1.Embed IE(支持flash):   &nbsp; &nbsp;{"emit":"open","Obj":"web","AppType":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}}</div>      
 
 		   </div>
              <div style="margin-top:10px;text-align:center">
 			 <!--    textarea或者改为div  都可以，绑定嵌入APP的位置， AppEmbed 要一致 -->
-				<textarea readonly id="AppEmbed"  style="min-width:30px;min-height:20px;width:600px;height:400px" ></textarea>
+				<textarea readonly id="AppEmbed1"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:600px;height:400px" ></textarea>
+			 <textarea readonly id="AppEmbed2"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:600px;height:400px" ></textarea>
+
 		</div>
               <div style="margin-top:1900px;text-align:center ">
 			     测试滚动 
 		</div>
 </div>
-
-</body>
   <script type="text/javascript" src="AppEmit_1.0_min.js"></script>
 <script>
  
 	var init_App=function(){   
-		initAppEmit(document.getElementById('input_url').value);
+		AE_initAppWs(document.getElementById('input_url').value);
 	}
 	   
 	var input_App=   function(){
@@ -58,9 +58,11 @@
 		  
  		//   ReqPar={"emit":"open","Obj":"flash","src":"D:/work/temp/m1.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0}}
 	
-	   	   startAppEmit(ReqPar);
+	   	   AE_OpenApp(ReqPar);
 	   }
 	   
 	   
 </script>
+</body>
+
 </html>

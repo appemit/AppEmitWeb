@@ -30,42 +30,50 @@
 
 			<div style="font-size:10px">2. get hardware info
 				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"hardWare","Obj":"pc","par0":{"dev":["os","base"]}}' />
+				 <!-- 更多信息 ["device","os","display","cpu","net","memory","storage","base"]   -->
 				<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>
 			</div>
 		 
-			<div style="font-size:10px">3. emit msg to someone [All sids=cid, self_sid emit msg  to(distinct (toSids ∪ toSids)-self_sid) ]&nbsp; {"emit":"msg","toSids":["2"],"toGids":[1,2],"data":"hi, I am Tom."} </div>           
-			  <div style="font-size:10px">4.  串口&nbsp; {"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"objName":"Pcomm1","AppShow":true,"Port":"com1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii","BaudRate_list":["50","75","110","134","150","300","600","1200","1800","2400","4800","7200","9600","19200","38400","57600","115200","230400","460800","921600"],"ByteSize_list":["5","6","7","8"],"Parity_list":["none","even","odd","spc","mrk"],"StopBits_list":["1","1.5","2"]}} </div> 
-			 <!-- "Parity_list":["none"/*0*/,"even"/*24*/,"odd"/*8*/,"spc"/*56*/,"mrk"/*40*/]
+			<div style="font-size:10px">3. emit msg to someone [All sids=cid, self_sid emit msg  to(distinct (toSids ∪ toSids)-self_sid) ]&nbsp; {"emit":"msg", "Obj":"sid","toSids":["2"],"toGids":[1,2],"data":"hi, I am Tom."} </div>           
+	 			  <div style="font-size:10px">4.  2串口&nbsp; [{"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"objName":"Pcomm1","Port":"COM1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}},{"emit":"open","Obj":"comm","AppType":1,"AppId":2,"pos":1,"par":{"objName":"Pcomm2","Port":"COM2","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}}] </div> 
  
-			<div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","data":"可以,第a1 "}</div>       -->    
+ 
+			<!--<div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","data":"可以,第a1 "}</div>   -->
                  <div>
+				 <div   style="min-width:30px;min-height:10px;width:600px;height:100px" ></div>
 				 <div  id="AppEmbedOut" style="float:left;width:40%"></div>  
 				  <div style="margin-top:10px;text-align:center;float:right;width:60%  ">
 				 <!--    textarea或者改为div  ， AppEmbed 要一致 -->
-					<textarea readonly id="AppEmbed"  style="min-width:30px;min-height:20px;width:800px;height:400px" ></textarea>
+					<textarea readonly id="AppEmbed1"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:700px;height:300px" ></textarea>
+					<div   style="min-width:30px;min-height:5px;width:600px;height:20px" ></div>
+					<textarea readonly id="AppEmbed2"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:700px;height:300px" ></textarea>
 			    </div>
+				<div   style="min-width:30px;min-height:700px;width:600px;height:700px" ></div>
+				<div   style="min-width:30px;min-height:5px;width:600px;height:700px" >测试</div>
 		</div>  
 </div>
 
-</body>
-  <script type="text/javascript" src="AppEmit_1.0_min.js"></script>
- 
-<script>
- 
+<script type="text/javascript" src="AppEmit_1.0_min.js"></script>
+<script type="text/javascript">
 	var init_App=function(){   
-		initAppEmit(document.getElementById('input_url').value);
+		AE_initAppWs(document.getElementById('input_url').value);
 	}
 	   
 	var input_App=   function(){
  
 	      var ReqPar={};
 	       ReqPar=JSON.parse(document.getElementById("input_par").value);
-		  
- 		//   ReqPar={"emit":"open","Obj":"flash","src":"D:/work/temp/m1.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0}}
-	
-	   	   startAppEmit(ReqPar);
-	   }
  
-  
+	   	  AE_OpenApp(ReqPar);            //数组多条消息异步打开APP
+		   // AE_OpenApp_sync(ReqPar);     //数组多条消息同步打开 
+ 
+	   }
+	   
+
+ 
 </script>
+</body>
+
+ 
+
 </html>

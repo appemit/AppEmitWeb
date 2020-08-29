@@ -22,7 +22,7 @@
 <body>
 
      <div style="font-size:10px">(?file=1 -> pdf )&nbsp; 2.local word  
-				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"office","AppType":1,"src":[["https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/file/d1.tmp","d1.docx"]],"pos":1,"par0":{"Titlebar":0,"Menubar":0,"Toolbars":0,"btnFile":0,"Statusbar":0,"HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"s1.docx"},"MNU_NEWBLANK":0,"MNU_NEW":0,"MNU_OPEN":0,"MNU_CLOSE":0,"MNU_SAVE":0,"MNU_SAVEAS":0,"MNU_PGSETUP":0,"MNU_PRINT":0,"MNU_PROPS":0,"show_UpdateTool":true}}'/>
+				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"office","AppType":1,"AppFollow":1,"src":[["https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/file/d1.tmp","d1.docx"]],"pos":1,"par0":{"attach":1,"Titlebar":0,"Menubar":0,"Toolbars":0,"btnFile":0,"Statusbar":0,"HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"s1.docx"},"MNU_NEWBLANK":0,"MNU_NEW":0,"MNU_OPEN":0,"MNU_CLOSE":0,"MNU_SAVE":0,"MNU_SAVEAS":0,"MNU_PGSETUP":0,"MNU_PRINT":0,"MNU_PROPS":0,"show_UpdateTool":true}}'/>
 		   	<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>&nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed Demo</a> &nbsp; &nbsp;<a href="office.html" target="_blank">office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> 
 		   </div>
                                                                                                          
@@ -36,11 +36,10 @@
   
 </div>
 
- <div readonly id="AppEmbed"  style="border:none; 	width:100%;height:100%" ></textarea>
+ <div readonly id="AppEmbed1"  style="border:none; 	width:100%;height:100%" ></textarea>
 	 
-  
+ 
 
-</body>
   <script type="text/javascript" src="AppEmit_1.0_min.js"></script>  
 <script>
 	 function getQueryString(name) {
@@ -58,7 +57,7 @@
 	  
  var file=getQueryString("file") ;     //office.html?file=pdf
  
-  var init_mark=  initAppEmit("ws://localhost:80/appemit?cid=00000-1&flag=1");
+  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&flag=1");
  
  	//office
  	var input_App=   function(){
@@ -68,7 +67,7 @@
 		  
  		//   ReqPar={"emit":"open","Obj":"flash","src":"D:/work/temp/m1.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0}}
 	
-	   	   startAppEmit(ReqPar);
+	   	   AE_OpenApp(ReqPar);
 	   }
 	   
 
@@ -86,7 +85,7 @@
 			}else if (  file==4){ // pptx 
 				ReqPar=  {"emit":"open","Obj":"office","AppType":3,"src":[["https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/file/p1.tmp","p1.pptx"]],"pos":1,"par0":{"ViewType":1,"Titlebar":0,"Menubar":1,"Toolbars":1,"btnFile":0,"HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0},"MNU_NEWBLANK":0,"MNU_NEW":0,"MNU_OPEN":0,"MNU_CLOSE":0,"MNU_SAVE":0,"MNU_SAVEAS":0,"MNU_PGSETUP":0,"MNU_PRINT":0,"MNU_PROPS":0,"show_UpdateTool":true}}
 			}
-			if  (ReqPar)  setTimeout(  function(){ startAppEmit( ReqPar)   
+			if  (ReqPar)  setTimeout(  function(){ AE_OpenApp( ReqPar)   
 										   },800);
 	}	
 
@@ -113,16 +112,17 @@ Selection.TypeText("多个命令插入");
 */});
 		}
 		
-	  var Req={"emit":"runCmd","Obj":"office","codeStr":codeStr }   
-      var Req2={"emit":"runCmd","Obj":"office","codeStr":codeStr2 }  
+	  var Req={"emit":"runCmd","Obj":"office","AppId":1,"codeStr":codeStr }   
+      var Req2={"emit":"runCmd","Obj":"office","AppId":1,"codeStr":codeStr2 }  
 	 if(cmdId=="word1"  )  { 
-	     EmitReqs([Req,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2]);
+	     AE_EmitReq_PIP([Req,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2],null,null,100);
      }else{
-      EmitReqs( Req );
+      AE_EmitReq_PIP( Req );
    
    }
 
 }
 
 </script>
+</body>
 </html>

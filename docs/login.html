@@ -20,7 +20,7 @@
   
 		   </div>
              <div style="margin-top:10px;text-align:center">
-				<textarea readonly id="AppEmbed"  style="border:none;min-width:30px;min-height:20px;width:850px;height:560px" ></textarea>
+				<textarea readonly id="AppEmbed1"  style="border:none;min-width:30px;min-height:20px;width:850px;height:560px" ></textarea>
 		</div>
  
 </div>
@@ -30,11 +30,11 @@
 <script>
  
   
-  var init_mark=  initAppEmit("ws://localhost:80/appemit?cid=00000-1");
+  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1");
  
   if  (init_mark)  {
  
-      setTimeout(  function(){ startAppEmit(  {"emit":"login" ,"Obj":"web" ,"AppType":0,"pos":1}) 
+      setTimeout(  function(){ AE_OpenApp(  {"emit":"login" ,"Obj":"web" ,"AppType":0,"pos":1}) 
 	                           },800);
  
 		}

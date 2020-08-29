@@ -70,7 +70,7 @@
   
 	/////////////////一、js被 AppEmit调用/////////////////////////////////////////// 
   
-    var AppisOpen;      //0 关闭  1打开  word   2 excel    3 ppt
+    var AppType;      //0 关闭  1打开  word   2 excel    3 ppt
 	var AppJs_inPar=null;
 	var AppJs_out=null;   //获得执行结果 
 	var  Text_a="html 这是动态生成的字符"; 
@@ -148,11 +148,11 @@
 		  return par  ;      //  必须 json string 
 	}
 	AppJs_loaded=function(AppType){        //系统启动APP ,产生AppJsObject.objName对象后执行
-			AppisOpen=AppType;            //1  获得AppEmit的打开参数  //0 关闭  1打开  word   2 excel    3 ppt
+			AppType=AppType;            //1  获得AppEmit的打开参数  //0 关闭  1打开  word   2 excel    3 ppt
 			// 对象全局变量 AppJsObject.objName
 			// 不支持with,VBA的常量需要设置为具体数值。
 			var codeStr;
-		if ( AppisOpen==1 ){             //word
+		if ( AppType==1 ){             //word
 		      codeStr='Selection=AppJsObject.word.Selection;Application=AppJsObject.word.Application;'    //注意 结尾一定要有;  或者\r\n 
  
 		     codeStr+=   txt2code(function(){/*
@@ -188,7 +188,7 @@ oRng.InsertBefore("开头插入的数据");
 Selection.TypeText("回到了首位")	;
 */});
 
-			}else if (AppisOpen==2){          //excel      AppJsObject.excel.run("test(""OK"")")
+			}else if (AppType==2){          //excel      AppJsObject.excel.run("test(""OK"")")
  
 		     codeStr =   txt2code(function(){/* 
 Application=AppJsObject.excel.Application;
@@ -211,7 +211,7 @@ try{
 */});
 
 
-			}else if (AppisOpen==3){ //ppt
+			}else if (AppType==3){ //ppt
 		     codeStr =   txt2code(function(){/* 
 Application=AppJsObject.powerpoint.Application;
 AppJs.msgbox(AppJsObject.powerpoint.ActivePresentation.Slides.Count)
@@ -219,25 +219,25 @@ AppJs.msgbox(AppJsObject.powerpoint.ActivePresentation.Slides.Count)
 */});
 			}
 
-          codeStr +='return {status="loaded '+AppisOpen+' OK "};';     //  getOut可以获得 {"status":"loaded OK 1"}
+          codeStr +='return {status="loaded '+AppType+' OK "};';     //  getOut可以获得 {"status":"loaded OK 1"}
 			return codeStr;    // 必须string /null
 	}
  
 	AppJs_destroy=function(AppType){    //AppJsObject.objName销毁前执行
 		 //追加
 		 var codeStr;
-		 if  (AppisOpen==1){
+		 if  (AppType==1){
 			 codeStr='Selection.TypeParagraph();'          
 				codeStr+='Selection.TypeText("'+"关闭前保存,save before close"+'");' ;   
 			   codeStr+='Selection.TypeParagraph();' ;   
 				 codeStr+='Selection.TypeText("'+"好的"+'");' ;   
 				 
 				codeStr+='AppJsObject.word.ActiveDocument.Save();' ;    
-		}else if (AppisOpen==2){
+		}else if (AppType==2){
          //
 
 
-	    }else if (AppisOpen==3){
+	    }else if (AppType==3){
 //
 
 		}		 
@@ -245,7 +245,7 @@ AppJs.msgbox(AppJsObject.powerpoint.ActivePresentation.Slides.Count)
 		//系统自动 AppJsObject.objName.quit()
 	}	
 	AppJs_closed=function(status){  //AppJsObject.objName关闭后执行。已经没有AppJsObject.objName对象了
-		AppisOpen=status;                  //0
+		AppType=status;                  //0
 		var  codeStr=null;
 		
 		return codeStr; // // 必须string /null
@@ -253,15 +253,15 @@ AppJs.msgbox(AppJsObject.powerpoint.ActivePresentation.Slides.Count)
 
    runCmd=function(codeStr){                 //同时可以在浏览器网页中运行
    
-   if  (!AppisOpen)  return ;
+   if  (!AppType)  return ;
  
-		 if  (AppisOpen==1){
+		 if  (AppType==1){
           //  olog(getVar("src") )          // 获得变量src
 			 codeStr='Selection.TypeParagraph();'        
 			 codeStr+='Selection.TypeText("'+"主动插入一句话"+'");' ;   
-		 }else if (AppisOpen==2){
+		 }else if (AppType==2){
 
-	    }else if (AppisOpen==3){
+	    }else if (AppType==3){
 
 		}	
     	 try{

@@ -20,23 +20,24 @@
 </head>
 <body>
 
-     <div style="font-size:10px"> 1.可视化com组件 
+     <div style="font-size:10px"> 2.可视化com组件 
 				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"dll","AppType":2,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}'/>
 		   	<button type="button" id="btn_Flash" onclick="start_App() " >do it</button> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> 
 		   </div>  
   	
-	<div style="font-size:10px"> 2. 要安装flash ocx&nbsp;   {"emit":"open","Obj":"dll","AppType":1,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1} </div>
- 	 	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":3,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1,"AppShow":false},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
- 	 	<div style="font-size:10px"> 4.第3方dll调用无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":4,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1,"AppShow":false},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
+	<div style="font-size:10px"> 1. 要安装flash ocx&nbsp;   {"emit":"open","Obj":"dll","AppType":1,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1}}</div>
+ 	 	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":3,"src":[],"AppShow":false,"AppFollow":false,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
+ 	 	<div style="font-size:10px"> 4.第3方dll调用无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":4,"src":[],"AppShow":false,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1 },"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
 	 	 
 	 
-	 <div >flash_OCX
-     <button type="button" id="btn_runCmd" onclick="runCmd('stop') " >stop</button>  
-	 <button type="button" id="btn_runCmd" onclick="runCmd('play') " >play</button>  
+	 <div >	   reportX_OCX
+     <button type="button" id="btn_runCmd" onclick="runCmd('reportX_open') " >2open</button>  
+	 <button type="button" id="btn_runCmd" onclick="runCmd('reportX_save') " >2save</button>  
+	 flash_OCX
+     <button type="button" id="btn_runCmd" onclick="runCmd('stop') " >1stop</button>  
+	 <button type="button" id="btn_runCmd" onclick="runCmd('play') " >1play</button>  
  
-	   reportX_OCX
-     <button type="button" id="btn_runCmd" onclick="runCmd('reportX_open') " >open</button>  
-	 <button type="button" id="btn_runCmd" onclick="runCmd('reportX_save') " >save</button>  
+
 	    file
 	 <button type="button" id="btn_runCmd" onclick="runCmd('file_upload') " >upload</button>    
 	 	 <button type="button" id="btn_runCmd" onclick="runCmd('file_download') " >download</button> 
@@ -44,11 +45,11 @@
 			    <button type="button" id="btn_runCmd" onclick="runCmd('RevMsg') " >3RevMsg</button>    
 	 <button type="button" id="btn_runCmd" onclick="runCmd('myadd') " >4myadd(1,5)</button>    
     </div >     
- <div readonly id="AppEmbed"  style="border:none; 	width:100%;height:100%" ></textarea>
+ <div readonly id="AppEmbed1"  style="border:none; 	width:100%;height:100%" ></textarea>
 	 
   
 
-</body>
+
   <script type="text/javascript" src="AppEmit_1.0_min.js"></script>  
 <script>
 	 function getQueryString(name) {
@@ -69,7 +70,7 @@
 	  var file=getQueryString("file") ;     //office.html?file=pdf
 	  var  reportXPath;
 	  
-	  var init_mark=  initAppEmit("ws://localhost:80/appemit?cid=00000-1&flag=1");
+	  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&flag=1");  //flag=1 调试环境
 	 
  	//office
 	var start_App=   function(){
@@ -79,7 +80,7 @@
 		  
  		//   ReqPar={"emit":"open","Obj":"flash","src":"D:/work/temp/m1.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0}}
 	
-	   	   startAppEmit(ReqPar);
+	   	   AE_OpenApp(ReqPar);
 		    
 	     //  setTimeout(function(){console.log(AppJs_OutData)},5000)  //获得结果反馈
 	   }
@@ -90,8 +91,6 @@
 		 
 	runCmd=function(cmdId){                 //  或者在嵌入网页 dllJs.html 中 js 直接调用
  
-       // com.DumpTypeInfo(shockwave)
-
 		var codeStr;
       
 	 if(cmdId=="openDlg"	){
@@ -106,6 +105,7 @@ return {status="stop"}
 */});
 		} else if(cmdId=="play"	){
 			  codeStr =   txt2code(function(){/*
+ AppJs.msgbox(AppJsObject.shockwave.Movie)			  
 AppJsObject.shockwave.play(); 
 return {status="play"}
 */});
@@ -190,9 +190,9 @@ return  sum;
 		
  	      //codeStr支持转为Base64.encode编码
  	//  var Req={"emit":"runCmd","Obj":"dll","codeStr":Base64.encode(codeStr),Base64:1 }    //都支持
-      var Req={"emit":"runCmd","Obj":"dll","codeStr":codeStr }    //都支持
+      var Req={"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr }    //都支持
 
-	   EmitReqs(Req);
+	   AE_EmitReq_PIP(Req);
 	  //////////////////////////////////////////////////////////////////////////
 
    /*
@@ -203,7 +203,7 @@ return  sum;
 						  var LastRid=rid-1 ;   //获得上一步的结果
 							   var inerLastRid=setInterval(function(){
 													   if (AppJs_OutData[LastRid]) { 
-														   reportXPath=AppJs_OutData[LastRid]["data"]["path"];    //统一在data下面 AppJs_OutData在AppEmit里面定义的
+														   reportXPath=AppJs_OutData[LastRid]["data"]["path"];    //统一在data下面, AppJs_OutData在AppEmit里面定义的
 														  if  (reportXPath) {clearInterval(inerLastRid);
 														  //do something
 															console.log(reportXPath);  
@@ -224,11 +224,12 @@ return  sum;
 	if (init_mark ) {	 
                var  ReqPar	
         //
-			if  (ReqPar)  setTimeout(  function(){ startAppEmit( ReqPar)   
+			if  (ReqPar)  setTimeout(  function(){ AE_OpenApp( ReqPar)   
 										   },800);
 	}	
 
 
  
 </script>
+</body>
 </html>

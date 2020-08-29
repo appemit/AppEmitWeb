@@ -10,11 +10,12 @@
  
 <script type="text/javascript">
  /////////////////////////////////////////////////////////////////////////////
+ //  此文件代码都可以放入在dll.html的websocket的js里面使用runcmd ，AE_OpenApp 中参数webJs=0 。
    //AppJs 开头的变量和函数 名称不要修改
   // external  为直接访问Appemit函数
   //// appemit@appemit.com 问题反馈
 
-   // 代码里面不能有错误,要不没有结果
+   // 代码里面不能有错误, 要不没有结果
    // 全局变量 AppJsObject     AppJsObject.objName 访问对象
  ///////////////////////////////////////////////////////////////////////////////////////  
    
@@ -26,7 +27,7 @@
    // 3       dll  个人开发 dll ,交互信息
   //4     第三方dll 调用      Photoshop.Application
    //////////////////////////////////////////////////////////////////////
-    var AppisOpen;      //0 关闭 
+    var AppType;      //0 关闭 
 	var AppJs_inPar=null;
 	var AppJs_out=null;   //获得执行结果 
  
@@ -52,8 +53,8 @@
 								    createType:"createEmbed"      //可视化的控件 createEmbed(comCarrier,clsId,iid) ,只能有一个 , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 									,comName:"flash"                                  //ocx
 									,objName:"shockwave"             //AppJsObject.shockwave 来访问此控件
-									//,comCarrier:"custom"           // createEmbed可视化 picture(图片控件设置)、static 、 winform   默认推荐 custom         //不同类型组件采取不要载体
-									,dllFile:"C:/Windows/SysWOW64/Macromed/Flash/Flash32_32_0_0_403.ocx"     //  必须 \\   /
+									//,comCarrier:"custom"           // createEmbed可视化 picture(图片控件设置)、static 、 winform   默认推荐 custom         //不同类型组件采取不同载体
+									,dllFile:"C:/Windows/SysWOW64/Macromed/Flash/Flash32_32_0_0_414.ocx"     //  必须 和自己电脑安装的一致
 									,clsId :"D27CDB6E-AE6D-11CF-96B8-444553540000"  //guid
 									,iid:null
 									,itface:null
@@ -87,10 +88,11 @@
 				    	//,userAgent:                                   
 						//	,proxy:                                         
 					   //	,proxyBypass:                              
-					  //,flags:     	   
+					  //,flags:   
+                  		  
 			       }
 
-
+ 
           }	else if(AppType==3){           // 32位  dll  个人开发dll   可以 交互信息 示例 data为发送数据. dll的源码是c编写，请见 demo/htmlDemo/dll/dll_demo1.c
 		      par={ 
 						src:[  {
@@ -145,31 +147,32 @@
 	}
 	 
 	AppJs_loaded=function(AppType){        //系统启动APP ,产生AppJsObject对象后执行
-			AppisOpen=AppType;            //1  获得AppEmit的打开参数  //0 关闭  1打开 
+		           //1  获得AppEmit的打开参数  //0 关闭  1打开 
 			// 对象全局变量 AppJsObject
 			// 不支持with,VBA的常量需要设置为具体数值。
 			var codeStr;
-		if ( AppisOpen==1 ){             //1
+		if ( AppType==1 ){             //1
 		        //注意 结尾一定要有;  或者\r\n 
  
 		     codeStr =   txt2code(function(){/*
- 
-AppJsObject.shockwave.Movie = "/demo/htmlDemo/file/test1.swf"
-	 
+ AppJsObject.shockwave.Movie =AppJs.fullpath("/demo/htmlDemo/file/s1.swf");
+ AppJsObject.shockwave.stop();  //不自动播放
+	 AppJs.msgbox( AppJsObject.shockwave.Movie );
 */});
  
 			// 分段可以采用下面的各种形式   末尾\ 。如果节约压缩空间，可以去掉前面的对齐空格. 
  
-			}else if (AppisOpen==2){           
+			}else if (AppType==2){        
+               codeStr	 ="return '测试loaded2'"	
  
-			}else if (AppisOpen==3){     
+			}else if (AppType==3){     
 
  		     codeStr =   txt2code(function(){/*
 
- AppJsObject.dll_demo1.AppDll_loaded(AppDll_hwnd,'{"rid":-2}','{"msg":"loaded from JS","info":2}');    //dll里面默认在ids里面增加了clsid,msg 修改为data，则在浏览器中反馈。或者在dll设置data字段也行
+ AppJsObject.dll_demo1.AppDll_loaded(AppDll_hwnd,'{"rid":-2}','{"data":"loaded from JS","info":2}');    //dll里面默认在ids里面增加了clsid, 此时执行命令， 反馈的msg 中有字段 data，则在浏览器中显示。或者在dll设置data字段也行
                                                                                
 */});
-			}else if (AppisOpen==4){        
+			}else if (AppType==4){        
 //   dll 接口__declspec(dllexport) int Add(int a, int b ) 		
 //自行声明接口，再调用。	
  		     codeStr =   txt2code(function(){/*
@@ -188,28 +191,28 @@ return  {data=sum}; 	      	                 //结果在  external.out 中
 //  return  sum; 
 //  *    /});
 //		 var Req={"emit":"runCmd","Obj":"dll","codeStr":codeStr }    
-//	    EmitReqs(Req);
+//	    AE_EmitReq_PIP(Req);
 /////////////////////////////
                                                        
 */});
 			}
  
-          // codeStr +='return {status="loaded '+AppisOpen+' OK "};';     //  getOut可以获得 {"status":"loaded OK 1"}
+          // codeStr +='return {status="loaded '+AppType+' OK "};';     //  getOut可以获得 {"status":"loaded OK 1"}
 		 	return codeStr;    // 必须string /null   
 
 	}
  
-	AppJs_destroy=function(){    //AppJsObject销毁前执行
+	AppJs_destroy=function(AppType){    //AppJsObject销毁前执行。 No_Quit_FreeLibrary  不释放dll, FreeLibrary(dll)
 		 //追加
 		 var codeStr;
-		 if  (AppisOpen==1){
-			 codeStr=''          
+		 if  (AppType==1){
+			   
  
-		}else if (AppisOpen==2){
-         //
+		}else if (AppType==2){
+         // //系统本身已经执行了FreeLibrary， 执行释放dll 但是quit 接口不一定正确。可自行释放退出 ; 
+         codeStr="return 'test destroy ,应该执行退出ocx接口的quit、 release等命令，释放资源'";  
 
-
-	    } else if (AppisOpen==3){           
+	    } else if (AppType==3){           
  		     codeStr =   txt2code(function(){/*
 AppJsObject.dll_demo1.AppDll_destroy(AppDll_hwnd,'','{"msg":"destroy from JS","info":3}');      //dll里面默认在ids里面增加了clsid 
 */});
@@ -218,33 +221,14 @@ AppJsObject.dll_demo1.AppDll_destroy(AppDll_hwnd,'','{"msg":"destroy from JS","i
 		//系统自动 AppJsObject.quit()
 	}	
 	AppJs_closed=function(status){  //AppJsObject关闭后执行。已经没有AppJsObject对象了
-		AppisOpen=status;                  //0
-		var  codeStr=null;
+		AppType=status;                  //0
+		var  codeStr= "return '测试close'";
 		
 		return codeStr; // // 必须string /null
 	}	
 
-   runCmd=function(codeStr){
-   
-   if  (!AppisOpen)  return ;
  
-		 if  (AppisOpen==1){
-          //  olog(getVar("src") )          // 获得变量src
- 
-		 }else if (AppisOpen==2){
- 
-	    } 	
-    	 try{
-			  external.runCmd(codeStr); 
-			 
-		   }catch(err) {
-			  //console.log(err);
-		   }
-        
-   
-   }
 
- //   setTimeout("runCmd()",10000)      //测试
  
   getOut=function(){
      slog(external.out)       //获得上一次命令的结果 为json
@@ -289,8 +273,6 @@ AppJsObject.dll_demo1.AppDll_destroy(AppDll_hwnd,'','{"msg":"destroy from JS","i
     <!-- <div id="header"><a href="javascript:call_user32('WinAPI','JS直接调用');" >  api user32</a> &nbsp;&nbsp;  <a href="javascript:void(0);"  onclick="call_user32('JS直接调用WinAPI','user32.MessageBox')"> webJS=2可调用window api user32接口</a></div>
     -->
 	<div id="container"> 
-        <div class="lside">  </div> 
-        <div class="rside"> </div>  
     </div>
 </body>
 </html>
