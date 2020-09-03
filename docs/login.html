@@ -25,20 +25,22 @@
  
 </div>
 
-</body>
-  <script type="text/javascript" src="demo/AppEmit_1.0_min.js"></script>  
+
+<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
+  <script type="text/javascript" src="htmlDemo/AppEmit_1.0.js"></script>  
 <script>
  
   
-  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1");
+  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&flag=0");
  
   if  (init_mark)  {
  
-      setTimeout(  function(){ AE_OpenApp(  {"emit":"login" ,"Obj":"webLogin" ,"AppType":0,"pos":1}) 
+      setTimeout(  function(){ AE_OpenApp(  {"emit":"open" ,"Obj":"webLogin" ,"AppType":0,"pos":1}) 
 	                           },800);
  
 		}
  
  
 </script>
+</body>
 </html>
