@@ -35,7 +35,8 @@
 			</div>
 		 
 			<div style="font-size:10px">3. emit msg to someone [All sids=cid, self_sid emit msg  to(distinct (toSids ∪ toSids)-self_sid) ]&nbsp; {"emit":"msg", "Obj":"sid","toSids":["2"],"toGids":[1,2],"data":"hi, I am Tom."} </div>           
-	 			  <div style="font-size:10px">4.  2串口&nbsp; [{"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"objName":"Pcomm1","Port":"COM1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}},{"emit":"open","Obj":"comm","AppType":1,"AppId":2,"pos":1,"par":{"objName":"Pcomm2","Port":"COM2","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}}] </div> 
+	 			<div style="font-size:10px">4. 默认方式打开文件&nbsp; {"emit":"open", "Obj":"file","AppShow":false,"src":["/demo/htmlDemo/file/d1.docx",null]} </div>           
+   	     <div style="font-size:10px">5.  2串口&nbsp; [{"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"objName":"Pcomm1","Port":"COM1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}},{"emit":"open","Obj":"comm","AppType":1,"AppId":2,"pos":1,"par":{"objName":"Pcomm2","Port":"COM2","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}}] </div> 
  
  
 			<!--<div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","data":"可以,第a1 "}</div>   -->
@@ -52,9 +53,13 @@
 				<div   style="min-width:30px;min-height:5px;width:600px;height:700px" >测试</div>
 		</div>  
 </div>
-
+ 
+<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
 <script type="text/javascript" src="AppEmit_1.0_min.js"></script>
+
 <script type="text/javascript">
+		 //可调整的参数                                       //$(function () { window.οnlοad=	 function () {
+ 
 	var init_App=function(){   
 		AE_initAppWs(document.getElementById('input_url').value);
 	}
@@ -64,11 +69,12 @@
 	      var ReqPar={};
 	       ReqPar=JSON.parse(document.getElementById("input_par").value);
  
-	   	  AE_OpenApp(ReqPar);            //数组多条消息异步打开APP
-		   // AE_OpenApp_sync(ReqPar);     //数组多条消息同步打开 
+	   	  AE_OpenApp(ReqPar);            //数组内多条消息异步打开APP
+		   // AE_OpenApp_sync(ReqPar);     //数组内多条消息同步打开 
  
 	   }
 	   
+
 
  
 </script>
