@@ -26,7 +26,7 @@
 	*/
 	char *myuid ="00000";  //申请的公司uid ，(cid="00000-1")需要修改
 	char *clsId="50FCF891-1B93-4AE5-8A66-AB26A3C03378";  // pid>=guid=clsId 可使用GUID工具自行生成
-	char *AuthKey="A1-Xzjo5wbjkv+E8EUkOiZdJIyVJPV2EifTPR8OD1DFplM=";  //在注册网站生成
+	char *AuthKey="A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh";  //在注册网站生成
 	int dllThid;        //本进程ID
 	// sid;            //websocket里面设置的,一般为用户ID或者sessionID，唯一
 	//  rid ;        //第rid次调用

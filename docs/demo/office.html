@@ -108,7 +108,7 @@ Selection.TypeText("多个命令插入");
 	  var Req={"emit":"runCmd","Obj":"office","AppId":1,"codeStr":codeStr }   
       var Req2={"emit":"runCmd","Obj":"office","AppId":1,"codeStr":codeStr2 }  
 	 if(cmdId=="word1"  )  { 
-	     AE_EmitReq_PIP([Req,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2],null,null,100);
+	     AE_EmitReq_PIP([Req,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2],null,null,200); //间隔时间应该长一些防止office反应不过来
      }else{
       AE_EmitReq_PIP( Req );
    
