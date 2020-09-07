@@ -36,11 +36,13 @@
 		 
 			<div style="font-size:10px">3. emit msg to someone [All sids=cid, self_sid emit msg  to(distinct (toSids ∪ toSids)-self_sid) ]&nbsp; {"emit":"msg", "Obj":"sid","toSids":["2"],"toGids":[1,2],"data":"hi, I am Tom."} </div>           
 	 			<div style="font-size:10px">4. 默认方式打开文件&nbsp; {"emit":"open", "Obj":"file","AppShow":false,"src":["/demo/htmlDemo/file/d1.docx",null]} </div>           
-   	     <div style="font-size:10px">5.  2串口&nbsp; [{"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"objName":"Pcomm1","Port":"COM1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}},{"emit":"open","Obj":"comm","AppType":1,"AppId":2,"pos":1,"par":{"objName":"Pcomm2","Port":"COM2","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"AppMethod":"POST","Send_AsciiHex":"Ascii","Resv_AsciiHex":"Ascii"}}] </div> 
- 
- 
-			<!--<div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","data":"可以,第a1 "}</div>   -->
-                 <div>
+   	     <div style="font-size:10px">5.  2串口&nbsp; [{"emit":"open","Obj":"comm","AppType":1,"pos":1,"par":{"objName":"Pcomm1","Port":"COM1","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"Send_AsciiHex":"Ascii","Recv_AsciiHex":"Ascii"}},{"emit":"open","Obj":"comm","AppType":1,"AppId":2,"pos":1,"par":{"objName":"Pcomm2","Port":"COM2","BaudRate":"9600","ByteSize":"8","Parity":"none","StopBits":"1"},"par0":{"Send_AsciiHex":"Ascii","Recv_AsciiHex":"Ascii"}}] </div> 
+  
+		 <div style="font-size:10px"> &nbsp;发送数据&nbsp; {"emit":"send","Obj":"comm","AppType":1,"AppId":1,"data":"可以,第1，from com1 ","par0":{"Send_AsciiHex":"Hex","toFormat":"Hex"}}</div>   
+          <div style="font-size:10px">  {"emit":"runCmd","Obj":"comm","AppType":1,"AppId":1,"codeStr":"AppJsObject.Pcomm1.write('动态写入ascii数据1')"}</div>   
+				 
+				 <div>
+				 
 				 <div   style="min-width:30px;min-height:10px;width:600px;height:100px" ></div>
 				 <div  id="AppEmbedOut" style="float:left;width:40%"></div>  
 				  <div style="margin-top:10px;text-align:center;float:right;width:60%  ">
