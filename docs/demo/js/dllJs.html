@@ -16,7 +16,10 @@
   //// appemit@appemit.com 问题反馈
 
    // 代码里面不能有错误, 要不没有结果
-   // 全局变量 AppJsObject     AppJsObject.objName 访问对象
+   //全局变量 com库 AppJsLibrary   AppJsLibrary.objName 访问调用的库的处理  AppJsLibrary.objName.dll 引用dll 只有private可以访问
+   // 全局变量 对象  AppJsObject     AppJsObject.objName 访问实例对象 
+   //   dll :  AppJsLibrary[objName].dll = ..loadDll(v["dllFile"] );   组件: AppJsObject.objName =AppJsLibrary.objName.dll.createEmbed._object 
+   //
  ///////////////////////////////////////////////////////////////////////////////////////  
    
    
@@ -51,10 +54,9 @@
 						src:[  {
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"createEmbed"      //可视化的控件 createEmbed(comCarrier,clsId,iid) ,只能有一个 , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
-									,comName:"flash"                                  //ocx
 									,objName:"shockwave"             //AppJsObject.shockwave 来访问此控件
 									//,comCarrier:"custom"           // createEmbed可视化 picture(图片控件设置)、static 、 winform   默认推荐 custom         //不同类型组件采取不同载体
-									,dllFile:"C:/Windows/SysWOW64/Macromed/Flash/Flash32_32_0_0_414.ocx"     //  必须 和自己电脑安装的一致
+									,dllFile:"C:/Windows/SysWOW64/Macromed/Flash/Flash32_33_0_0_401.ocx"     //  必须 和自己电脑安装的一致
 									,clsId :"D27CDB6E-AE6D-11CF-96B8-444553540000"  //guid
 									,iid:null
 									,itface:null
@@ -73,7 +75,6 @@
 						src:[  {
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"createEmbed"       //可视化的控件createEmbed(comCarrier,clsId,iid)  , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
-									,comName:"reportXOCX"
 									,objName:"reportX"            //AppJsObject.reportX 来访问此控件
 									// ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
 									,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
@@ -99,7 +100,7 @@
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"createDll"               //  dll开发
 								    ,objName:"dll_demo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
- 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/dll_demo1.dll"     //  必须 \\   / 放在/plugins/private/clsId/文件夹下面
+ 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/dll_demo1.dll"     //  必须 \\   / , 个人的插件放在/plugins/private/clsId/文件夹下面
 									,clsId :dll_demo1_clsId  //guid   发送给dll  信息 
 									,AuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                //
 									,ver:"1.0.0"  
@@ -109,6 +110,7 @@
 								   }   //暂时支持一个控件
 						    ]
 						 ,AppShow:false                  //整体不可见 必须设置，默认可见
+						 
 						 //,cookies:                                      
 				    	//,userAgent:                                   
 						//	,proxy:                                         
@@ -121,7 +123,7 @@
 		      par={ 
 						src:[  {
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
-								    createType:"callDll"               //  dll调用      
+								    createType:"callDll"               //  dll调用  								
 								    ,objName:"dll_demo1"            //AppJsObject.dll_demo1 来访问此dll
  									,dllFile:"/plugins/thirdparty/dll_demo1.dll"     //  必须 \\   /     本例使用dll_demo1，调用add方法
 									,clsId :dll_demo1_clsId  //guid   发送给dll  信息 
@@ -176,7 +178,7 @@
 //   dll 接口__declspec(dllexport) int Add(int a, int b ) 		
 //自行声明接口，再调用。	
  		     codeStr =   txt2code(function(){/*
- AppJsObject.dll_demo1.myAdd =AppJsObject.dll_demo1.dll.api( "Add","int(int a,int b)", "cdecl" );   //必须是cdecl 声明
+ AppJsObject.dll_demo1.myAdd =AppJsLibrary.dll_demo1.dll.api( "Add","int(int a,int b)", "cdecl" );   //必须是cdecl 声明
  
  //////方法1///////////////////
  var sum=AppJsObject.dll_demo1.myAdd(3,5);
