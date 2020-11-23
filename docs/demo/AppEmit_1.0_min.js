@@ -32,6 +32,7 @@
 	var debounce_throttle_time=80;                        //防抖 节流时间间隔 可以修改
 	var rid = 0;                                                         //必需。 本次发送请求的标识 request id  ,可以修改。
    var AE_elementId="AppEmbed";                        //必需。绑定的div或者textarea等节点名称前缀，可以修改，要求和html一致
+    var iframePos={"Left":0,"Top":0};                  //嵌套iframe或者object或者使用#div来load加载html，需要修改为嵌套的相对位置来确定AE_elementId的位置
  
   
 
