@@ -34,23 +34,36 @@
 
 <div class="container">
 <input type="text" class="form-control" size="50" style="margin-bottom:3px;" id="input_url" value="ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" />
-     <button type="button" id="btn_Flash" onclick="init_App() " >websocket</button> &nbsp;  &nbsp; &nbsp;<a href="index.html" target="_blank">hardware Demo</a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp;  &nbsp; <a href="../login.html" target="_blank">Register</a> 
+     <button type="button" id="btn_Flash" onclick="init_App() " >websocket</button> &nbsp;  &nbsp; &nbsp;<a href="index.html" target="_blank">hardware Demo</a> &nbsp; &nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed</a>&nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp;  &nbsp; <a href="../login.html" target="_blank">Register</a> 
       <div >  
-		<div style="font-size:10px">f1. webtype:   
-			  <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"flash","AppType":1,"src":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","pos":1,"par0":{"header":null,"userAgent":null,"crossDomain":true,"show_UpdateTool":true}}'/>
- 	 	
-   <!--   <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}}'/>
-	  -->
+		<div style="font-size:10px">v1. libvlc :   
+				<!-- <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}}'/>
+ -->		 	
+ <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value=' {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }}'/>
+	 
 		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button>
 		   </div>
- 
-	<div style="font-size:10px">f2. web swf file: &nbsp; &nbsp;{"emit":"open","Obj":"flash","AppType":2,"src":"http://sxiao.4399.com/4399swf/upload_swf/ftp18/liuxy/20160130/17801/game.swf","pos":1,"par0":{"autoPlay":true,"loop":true,"quality":"high","wmode":"Transparent","header":null,"userAgent":null,"crossDomain":true,"show_UpdateTool":true}}</div>
-    <div style="font-size:10px">f3. web vedio file:   &nbsp; &nbsp;{"emit":"open","Obj":"flash","AppType":3,"src":"https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb/docs/vedio/x1.flv","pos":1,"par0":{"autoPlay":1,"loop":1,"header":null,"userAgent":null,"crossDomain":true,"show_UpdateTool":true}}</div>
-	 <div style="font-size:10px">f4.support localfile: d:/.../test1.swf or demo/htmlDemo/file/test1.swf , need install flash ActiveX:  &nbsp; &nbsp;{"emit":"open","Obj":"flash","AppType":4,"src":"http://img1.yo4399.com/swf/00/0ff035e0e96584c07df65ab3636f72.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0,"flashVars":"a=0&b=0&c=SetInSrc","show_UpdateTool":true}}</div>
- 
-	 <div style="font-size:10px">close  :  {"emit":"close","Obj":"flash","AppId":1}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"flash"}</div>      
-	    <div style="font-size:10px">w1. Embed IE(支持flash):   &nbsp; &nbsp;[{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}]</div>      
- 
+	  
+		 	    <div style="font-size:10px">v2. NPAPI网页:   &nbsp; &nbsp;  {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","htmlStr":null,"kernel":2},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"height":"95%" }}</div>      
+    <div style="font-size:10px"><a href="rtsp_ogg.html" target="_blank">v3. 转为ogg ，支持原生浏览器</a><div>
+	    <div style="font-size:10px"><a href="rtsp2WebRTC.html" target="_blank">v4. 转为webRTC ，支持原生浏览器</a><div>
+  <div style="font-size:10px">v11.libvlc插件播放多个rtsp: [{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030",
+	 "--freetype-font=宋体","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapWidth":0,"snapHeight":0 }}]</div> 	
+  <div style="font-size:10px">close  :  {"emit":"close","Obj":"libvlc","AppId":1}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"libvlc"}</div>      
+<!-- 
+https://wiki.videolan.org/VLC_command-line_help/
+
+https://blog.csdn.net/langal1212/article/details/77676592
+
+ 减少VLC开始接收视频花屏现象，可以加上：
+
+"--network-caching=500",                   //网络额外缓存值 (ms)500-800
+"--rtsp-frame-buffer-size=1000000",   //RTSP帧缓冲大小，默认大小为100000
+"--rtsp-tcp",                                                //RTSP采用TCP传输方式
+
+"--vout=direct2d"              //不支持3D改为2D
+
+ -->
 
 <!--  .Appboxs {
                 margin: 0 30px 0 260px;
@@ -64,7 +77,6 @@
 当左右拉动放大缩小浏览器时，不会变化。
  -->
  
- 	 
 		   </div>
              <div class="Appboxs" >
 			 
@@ -72,9 +84,11 @@
  		     <div id="AppEmbed1"  style="border: solid 1px #F0F0F0; min-width:30px;min-height:20px;width:400px;height:360px" ></div>
 			 <div id="AppEmbed2"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:400px;height:360px" ></div>
  
-			 
+
+  
 			                
 		</div>
+	 
               <div style=" margin-left:1200px; margin-top:1200px;text-align:center ">
 			     测试滚动 
 		</div>  
@@ -86,20 +100,9 @@
  
   //init_App();    //载入页面运行 
   
- 
-	
-	
-	
-	var init_App=function(){ 
-       
+	var init_App=function(){   
 		AE_initAppWs(document.getElementById('input_url').value);
-	  //或者采用回调	
-	//  	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE_callbackFunc.func
-    //      var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1},"func":input_App} //连接websocket成功后，执行input_App
-    //                                     ] ;
-	//  
-	//  	 AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);   //连接websocket成功后，执行input_App
-	//      // setTimeout(  function (  ) { input_App()},500);     //或者采用延迟执行，不够严谨
+	
 	}
 	   
    

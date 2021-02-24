@@ -1,0 +1,148 @@
+<!DOCTYPE html>  <!--  manifest="/websocket.appcache"-->
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title> AppEmit 嵌入APP,支持播放flash的flv swf 以及视频播放，可以嵌入各类程序</title>  
+	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+
+    <script type="text/javascript">
+    </script>
+ 
+ 	<!-- json2 is included because some browsers doesnt have it (e.g. ie8)	
+	<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+ -->
+   <style type="text/css">
+  .Appboxs {
+  margin-top:10px;
+    display: -webkit-box; 
+    display: -moz-box; 
+    display: -ms-flexbox; 
+    display: -webkit-flex 
+    display: flex; 
+   display: box;
+  display: flexbox;
+  justify-content:space-around;
+}
+</style>  
+</head>
+
+<body >
+
+
+<div class="container">
+ 
+	 
+		   </div>
+		   
+   <div style="font-size:10px">IE 和 Safari 不支持 .ogg 文件格式。这只是一个例子。如需使其在所有浏览器中运行，您应该在 video 元素中使用 source 元素<button type="button" onclick="init_App() " >do it</button> </div>     
+
+<!-- 
+https://wiki.videolan.org/VLC_command-line_help/
+
+https://blog.csdn.net/langal1212/article/details/77676592
+
+ 减少VLC开始接收视频花屏现象，可以加上：
+
+"--network-caching=500",                   //网络额外缓存值 (ms)500-800
+"--rtsp-frame-buffer-size=1000000",   //RTSP帧缓冲大小，默认大小为100000
+"--rtsp-tcp",                                                //RTSP采用TCP传输方式
+
+"--vout=direct2d"              //不支持3D改为2D
+
+ -->
+
+<!--  .Appboxs {
+                margin: 0 30px 0 260px;
+                padding: 40px 0 0 0;
+                position:absolute;绝对
+                top: 30px; 固定上部
+                left: 3%; 左边留成百分比
+                width:1200px;宽度固定
+                }
+ 
+当左右拉动放大缩小浏览器时，不会变化。
+ -->
+ 
+		   </div>
+             <div id="Appboxs" >
+			 
+                  <video id="vlcVideo"  width="600" height="450" controls="controls" muted="true"    >
+    　         　<source  src="" >
+                           </video> 
+<!-- 		      <video id="vlcVideo"  src="http://192.168.1.110:8080/stream" type="video/ogg" width="600" height="450" autoplay="autoplay" controls="controls" loop="loop"> 
+                  Your browser does not support the video tag. 
+             </video>   -->
+  
+			                
+		</div>
+ 
+</div>
+<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据,则需要引入-->
+  <script type="text/javascript" src="AppEmit_1.0_min.js"></script>
+ 
+<script>
+	
+ 
+ 
+	var input_App=   function(){
+ 
+		 //直接rtsp->ogg          
+		 //需要转码       "-vvv  \"rtsp://:8554/vlc\"  --loop :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-keep
+		 //   不需要转码          "-vvv  \"rtsp://:8554/vlc\"  --loop  :sout=#http{mux=ogg,dst=:8080/stream} :sout-keep
+	  var ReqPar  =[{"emit":"open","Obj":"media","AppType":1,"AppId":"AppId_lvcSvr1","AppShow":0,"par":{"gui":0,"cmds":[ "-vvv  \"rtsp://:8554/vlc\"  --loop  :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-all :sout-keep\" "]}} 
+						   ,{"emit":"getPar","Obj":"appemit","par":["intranetIP"]}     //获得本地的内网IP
+						   ];
+ 		 //下面的命令执行本地的mp4转为rtsp  ，rtsp转为 ogg
+ 	   //  var ReqPar  =[{"emit":"open","Obj":"media","AppType":1,"AppId":"AppId_lvcSvr1","AppShow":0,"par":{"gui":0,"cmds":["-vvv  \"file:///${dir_Cur}/demo/htmlDemo/file/h1.mp4\"  --loop --sout \"#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:8554/vlc}\" ","-vvv  \"rtsp://:8554/vlc\"  --loop  :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-all :sout-keep\" "]}} 
+ 	   //  	            ,{"emit":"getPar","Obj":"appemit","par":["intranetIP"]}             //获得本地的内网IP
+		// ];						   
+						   
+	     AE_OpenApp(ReqPar,null,1);   //同步处理，等前面执行完再执行后面 的语句
+ 
+	   }
+	   
+  	  var callPlayFunc= function (Jdata){
+
+	   setTimeout(function(Jdata){
+	          console.log("play"+Jdata.data.intranetIP[0])
+			   if  ( Jdata && Jdata.data  && Jdata.data.intranetIP) {
+					  var  vlcVideo = document.getElementById("vlcVideo")
+						  vlcVideo.src="http://"+Jdata.data.intranetIP[0]+":8080/stream"  ;             // "http://192.168.1.110:8080/stream";
+		 
+						 vlcVideo.play() ;
+					   // vlcVideo.innerHTML = '<  src="' + "http://192.168.1.110:8080/stream" + '  type="video/ogg" width="600" height="450"   controls="controls" loop="loop">';
+					  // vlcVideo.play();
+				  }
+				  },800,Jdata)
+	   }
+ 
+   //处理chrome Uncaught (in promise) DOMException: play() failed 报错
+ 
+ if (window.addEventListener)
+        document.body.addEventListener("mousedown",  function(){document.getElementById("vlcVideo").muted = false;}, false);
+ else if (window.attachEvent)
+        document.body.attachEvent("onmousedown",  function(){document.getElementById("vlcVideo").muted = false;});
+
+ 
+	var init_App=function(){   
+ 
+	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开,转码成功, ,任务管理器会出现vlc.exe，再执行AE_callbackFunc.func
+        var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1},"func":input_App} //连接websocket成功后，执行input_App
+                                      ,{"equ": { "Obj":"appemit" ,"rid": 1},"func":callPlayFunc}     //执行input_App的emit":"getPar"命令反馈"Obj":"appemit", "rid": 1,获取intranetIP参数，调用callPlayFunc  
+                                 ] 
+ 
+		 AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);   //连接websocket成功后，执行input_App
+	    // setTimeout(  function (  ) { input_App()},500);     //或者采用延迟执行，不够严谨
+	}
+
+   // init_App();    //载入页面运行 
+
+ 
+
+</script>
+</body>
+
+</html>
