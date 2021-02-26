@@ -1574,7 +1574,7 @@
   * @argument {Function} fn
   * @returns {Function}
   */
-  var debounce = supportsMicroTasks ? microtaskDebounce : taskDebounce;
+  var AE_debounce = supportsMicroTasks ? microtaskDebounce : taskDebounce;
 
   /**
    * Check if the given variable is a function
@@ -3947,7 +3947,7 @@
       };
 
       // make update() debounced, so that it only runs at most once-per-tick
-      this.update = debounce(this.update.bind(this));
+      this.update = AE_debounce(this.update.bind(this));
 
       // with {} we create a new object with the options inside it
       this.options = _extends({}, Popper.Defaults, options);

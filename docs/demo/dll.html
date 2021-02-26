@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title> AppEmit dll ocx ActiveX</title>  
 	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
-	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
  <!--  <script src="https://cdn.jsdelivr.net/npm/js-base64@3.2.4/base64.min.js"></script>  -->
  
       <style type="text/css">
@@ -26,7 +26,7 @@
 		   </div>  
   	
 	<div style="font-size:10px"> 1. 要安装flash ocx&nbsp;   {"emit":"open","Obj":"dll","AppType":1,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1}}</div>
- 	 	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":3,"src":[],"AppShow":false,"AppFollow":false,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
+ 	 	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":3,"src":[],"AppShow":false,"AppFollow":0,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
  	 	<div style="font-size:10px"> 4.第3方dll调用无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":4,"src":[],"AppShow":false,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1 },"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
 	 	 
 	 
@@ -50,7 +50,7 @@
   
 
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.0_min.js"></script>  
+  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>  
 <script>
 /**步骤
  // 1. AE_initAppWs  连接ws
@@ -92,7 +92,7 @@
 	    
 	   }
 	   
-	   	function txt2code(fn) {
+	   	function AE_txt2code(fn) {
 				return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
 	  }
 		 
@@ -101,23 +101,23 @@
 		var codeStr;
       
 	 if(cmdId=="openDlg"	){
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
  var path=fsys.dlg.open('docx|*.docx|所有文件|*.*||',,fsys.getSpecial(0x8))
 return {path=path}
 */});
 		}else if (cmdId=="stop"	){
-				  codeStr =   txt2code(function(){/*
+				  codeStr =   AE_txt2code(function(){/*
 AppJsObject.shockwave.stop(); 
 return {status="stop"}
 */});
 		} else if(cmdId=="play"	){
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
  AppJs.msgbox(AppJsObject.shockwave.Movie)			  
 AppJsObject.shockwave.play(); 
 return {status="play"}
 */});
 		} else if(cmdId=="reportX_open"	){
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
 //AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
 var  reportXPath=AppJs.dlgOpen('rpxe|*.rpxe|所有文件|*.*||')	  
  AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var
@@ -146,7 +146,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 	 //    codeStr = "var savePath=AppJs.dlgSave('rpxe|*.rpxe|所有文件|*.*||','另存为')  if (savePath) AppJsObject.reportX.SaveReport(savePath);"
 	 
 		}else if(cmdId=="file_upload"	){
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
  var upPar={
 				URL= "http://eu.httpbin.org/post"
 				;filePath=AppJsVar_reportXPath
@@ -163,7 +163,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
   return {upload_status=upload_status}
 */});
 		}else if(cmdId=="file_download"	){
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
  var upPar={
 				URL= "https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb/docs/img/logo.png"
 				;savePath=AppJs.dlgSave('png|*.png|所有文件|*.*||')                  //需要手动指定路径，或者默认相对路径  "/download"
@@ -180,12 +180,12 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 */});
  
 		}else if(cmdId=="RevMsg"	){   //执行AppDll_RevMsg方法
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
  AppJsObject.dll_demo1.AppDll_RevMsg(AppDll_hwnd,'','{"data":"send from bowser JS ","info":555}'); 
 */});
  
 		}else if(cmdId=="myadd"	){   
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
 
  var sum=AppJsObject.dll_demo1.myAdd(1,5);
 return  sum; 
@@ -231,7 +231,7 @@ return  sum;
 //         		 	if  (ReqPar)  setTimeout(  function(){ AE_OpenApp( ReqPar)  ;},800);          
 //        		
 //          			if  (ReqPar)  setTimeout(  function(){ 
-//        		 codeStr =   txt2code(function(){/*
+//        		 codeStr =   AE_txt2code(function(){/*
 //        //AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
 //        var  reportXPath=AppJs.dlgOpen('rpxe|*.rpxe|所有文件|*.*||')	  
 //         AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var

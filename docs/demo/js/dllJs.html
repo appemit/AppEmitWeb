@@ -34,7 +34,7 @@
 	var AppJs_inPar=null;
 	var AppJs_out=null;   //获得执行结果 
  
-			function txt2code(fn) {
+			function AE_txt2code(fn) {
 				return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
 			}
 // {"emit":"open","Obj":"dll","AppType":1,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"POST Need set" }}
@@ -156,7 +156,7 @@
 		if ( AppType==1 ){             //1
 		        //注意 结尾一定要有;  或者\r\n 
  
-		     codeStr =   txt2code(function(){/*
+		     codeStr =   AE_txt2code(function(){/*
  AppJsObject.shockwave.Movie =AppJs.fullpath("/demo/htmlDemo/file/s1.swf");
  AppJsObject.shockwave.stop();  //不自动播放
 	 AppJs.msgbox( AppJsObject.shockwave.Movie );
@@ -169,7 +169,7 @@
  
 			}else if (AppType==3){     
 
- 		     codeStr =   txt2code(function(){/*
+ 		     codeStr =   AE_txt2code(function(){/*
 
  AppJsObject.dll_demo1.AppDll_loaded(AppDll_hwnd,'{"rid":-2}','{"data":"loaded from JS","info":2}');    //dll里面默认在ids里面增加了clsid, 此时执行命令， 反馈的msg 中有字段 data，则在浏览器中显示。或者在dll设置data字段也行
                                                                                
@@ -177,7 +177,7 @@
 			}else if (AppType==4){        
 //   dll 接口__declspec(dllexport) int Add(int a, int b ) 		
 //自行声明接口，再调用。	
- 		     codeStr =   txt2code(function(){/*
+ 		     codeStr =   AE_txt2code(function(){/*
  AppJsObject.dll_demo1.myAdd =AppJsLibrary.dll_demo1.dll.api( "Add","int(int a,int b)", "cdecl" );   //必须是cdecl 声明
  
  //////方法1///////////////////
@@ -188,7 +188,7 @@ return  {data=sum}; 	      	                 //结果在  external.out 中
      
 ///////方法2///////////////////
 	     //或者浏览器网页  发布命令runCmd,执行AppDll_RevMsg方法
-//	   codeStr= txt2code(function(){/     *
+//	   codeStr= AE_txt2code(function(){/     *
 //  var sum=AppJsObject.dll_demo1.myAdd(3,5);
 //  return  sum; 
 //  *    /});
@@ -215,7 +215,7 @@ return  {data=sum}; 	      	                 //结果在  external.out 中
          codeStr="return 'test destroy ,应该执行退出ocx接口的quit、 release等命令，释放资源'";  
 
 	    } else if (AppType==3){           
- 		     codeStr =   txt2code(function(){/*
+ 		     codeStr =   AE_txt2code(function(){/*
 AppJsObject.dll_demo1.AppDll_destroy(AppDll_hwnd,'','{"msg":"destroy from JS","info":3}');      //dll里面默认在ids里面增加了clsid 
 */});
 			}	 

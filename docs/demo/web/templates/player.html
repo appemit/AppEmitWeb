@@ -6,9 +6,9 @@
 
  
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title> AppEmit 嵌入APP,支持播放flash的flv swf 以及视频播放，可以嵌入各类程序</title>  
+    <title> AppEmit 嵌入APP,支持播放flash的flv swf 以及RTSP等视频播放，可以嵌入各类程序</title>  
 	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
-	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
  
 <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
 <script type="text/javascript" src="../../static/js/jquery-3.4.1.min.js"></script>
@@ -60,7 +60,7 @@
     </div>
 </div>
 		<script>
-   function getUrlPar(url,name) {
+   function AE_getUrlPar(url,name) {
     var  paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
     var paraObj = {}
     for (i = 0; j = paraString[i]; i++) {
@@ -75,7 +75,7 @@
 }
 
 window.onload=function(){
- var AEruntime2=getUrlPar(window.location.href, "aert")
+ var AEruntime2=AE_getUrlPar(window.location.href, "aert")
     $("#runtime2").attr("href",AEruntime2);
 }
 

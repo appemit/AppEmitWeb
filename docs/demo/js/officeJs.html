@@ -76,7 +76,7 @@
 	var  Text_a="html 这是动态生成的字符"; 
  
  
-			function txt2code(fn) {
+			function AE_txt2code(fn) {
 				return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
 			}
 
@@ -155,7 +155,7 @@
 		if ( AppType==1 ){             //word
 		      codeStr='Selection=AppJsObject.word.Selection;Application=AppJsObject.word.Application;'    //注意 结尾一定要有;  或者\r\n 
  
-		     codeStr+=   txt2code(function(){/*
+		     codeStr+=   AE_txt2code(function(){/*
 ActiveDocument = AppJsObject.word.ActiveDocument;
 Content=ActiveDocument.Content; 
 Content.InsertAfter("后面插入内容");
@@ -179,7 +179,7 @@ Content.InsertAfter("后面插入内容");
 				  codeStr+='Selection.TypeParagraph();'  
 				  codeStr+='Selection.TypeText("'+"These are dynamically generated characters"+'");'    
  
-		     codeStr+=   txt2code(function(){/*
+		     codeStr+=   AE_txt2code(function(){/*
 ActiveDocument = AppJsObject.word.ActiveDocument;
 oRng = ActiveDocument.Range(0, 0);
 oRng.InsertBefore("开头插入的数据");
@@ -190,7 +190,7 @@ Selection.TypeText("回到了首位")	;
 
 			}else if (AppType==2){          //excel      AppJsObject.excel.run("test(""OK"")")
  
-		     codeStr =   txt2code(function(){/* 
+		     codeStr =   AE_txt2code(function(){/* 
 Application=AppJsObject.excel.Application;
 ActiveWorkbook=Application.ActiveWorkbook;
 Worksheets=Application.Worksheets;  
@@ -212,7 +212,7 @@ try{
 
 
 			}else if (AppType==3){ //ppt
-		     codeStr =   txt2code(function(){/* 
+		     codeStr =   AE_txt2code(function(){/* 
 Application=AppJsObject.powerpoint.Application;
 AppJs.msgbox(AppJsObject.powerpoint.ActivePresentation.Slides.Count)
  

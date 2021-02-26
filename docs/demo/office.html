@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title> AppEmit  office word/excel/PPT/PDF</title>  
 	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
-	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
 
     <script type="text/javascript">
     </script>
@@ -22,7 +22,7 @@
 <body>
 
      <div style="font-size:10px">(?file=1 -> pdf )&nbsp; 2.local word  
-				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"office","AppType":1,"AppFollow":1,"src":"/demo/htmlDemo/file/d1.docx","pos":1,"par0":{"attach":1, "HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"s1.docx"},"show_UpdateTool":true}}'/>
+				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"office","AppType":1,"AppFollow":31,"src":"/demo/htmlDemo/file/d1.docx","pos":1,"par0":{"attach":1, "HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"s1.docx"},"show_UpdateTool":true}}'/>
 		   	<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>&nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed  </a> &nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> 
 		   </div>
                                                                                                          
@@ -40,7 +40,7 @@
 	 
  
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.0_min.js"></script>  
+  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>  
 <script>
 	 function getQueryString(name) {
 	var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
@@ -51,7 +51,7 @@
 	return null;
 	}
  
- 	   	function txt2code(fn) {
+ 	   	function AE_txt2code(fn) {
 				return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
 	  }
 	  
@@ -90,17 +90,17 @@ runCmd=function(cmdId){         //  或者在嵌入网页officeJs.html 中 js   
       
 	 if(cmdId=="word1"  ){
  //  在officeJs里面定义了   Selection=AppJsObject.word.Selection,直接调用Selection
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
 Selection.TypeParagraph();                          
 Selection.TypeText("控制插入一句话-runCmd"); 
 */});
-			  codeStr2 =   txt2code(function(){/*
+			  codeStr2 =   AE_txt2code(function(){/*
 Selection.TypeParagraph();                          
 Selection.TypeText("多个命令插入"); 
 */});
 		}else if(cmdId=="excel1"  ){
  //  在officeJs里面定义了   Selection=AppJsObject.excel.Selection,直接调用Selection
-			  codeStr =   txt2code(function(){/*
+			  codeStr =   AE_txt2code(function(){/*
  Application.ActiveCell.FormulaR1C1 = "动态插入数据123";
 */});
 		}
