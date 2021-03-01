@@ -30,6 +30,8 @@
     return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
  }
  
+ 
+ 
  var  contentStr =   AE_txt2code(function(){/*
 <div class="container">
             12345
@@ -41,15 +43,12 @@
   
  
 */});
-
-
-
  
  
 ///////////修正 fixed=ture  offset: 'auto'  F12出现console的情况以及windowresize更新后layer延迟auto///////////////////////////////// 
   var targetNode ;
  var targetNode_oldOffset={"left":0,"top":0};
- 
+ var observer;
 var fixedOffsetAuto_callback = function(mutationsList, observer) {
 	// Use traditional 'for loops' for IE 11
 	for(  k in mutationsList) {
@@ -57,16 +56,15 @@ var fixedOffsetAuto_callback = function(mutationsList, observer) {
  
 			 if (targetNode_oldOffset.left!=mutationsList[k].target.offsetLeft || targetNode_oldOffset.top!=mutationsList[k].target.offsetTop) {
 		 		 targetNode_oldOffset.left =mutationsList[k].target.offsetLeft; targetNode_oldOffset.top =mutationsList[k].target.offsetTop;
-			    //修正  fixed=ture  offset: 'auto' F12调试窗口改变时的情况
-			      AE_AppRunEvent("move",{},1,AE_EVENTTYPE["move"]);  
- 
+			    //修正  fixed=ture  offset: 'auto' F12调试窗口改变时的情况  
+		 			 AE_AppRunEvent("move",{},1,AE_EVENTTYPE["move"]);
+            
 			 }
  
 		}
 	}
 };
- var MutationObserver = window.MutationObserver || window.webkitMutationObserver || window.MozMutationObserver;
-var observer = new MutationObserver(fixedOffsetAuto_callback);
+
 /////////////////////////////////
  
  
@@ -85,7 +83,6 @@ layui.use(['layer', 'form'], function(){
 	  ,fixed: layer_fixed
 	 //,move: false
  
-     
 	 // ,content: ['iframe_in.html', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://www.baidu.com', 'no']
 	 ,content: contentStr
 	 ,success: function(layero, index){
@@ -93,9 +90,11 @@ layui.use(['layer', 'form'], function(){
 	 if (!layer_fixed) {
 	      AE_absolutePos=$(layero.selector).offset();     //使用了相对位置但是固定不动，需要修正
 	 }else{
-		AE_fixedPos_NoPageOffset=true;  // 固定则初始化是不计算PageOffset
+		AE_fixedPos_NoPageOffset=true;  // 固定则  不计算PageOffset
 		AE_AppFollow=30;                     // 固定则不响应滚动事件,全部响应默认31
 		// fixed=ture  offset: 'auto'  F12出现console的情况以及windowresize更新后layer延迟auto
+		 var MutationObserver = window.MutationObserver || window.webkitMutationObserver || window.MozMutationObserver;
+         observer = new MutationObserver(fixedOffsetAuto_callback);
 	   targetNode = document.getElementById( (layero.selector).substring(1, layero.selector.length));
        observer.observe(targetNode, { attributes: true, childList: false, subtree: false });
     }
@@ -103,7 +102,7 @@ layui.use(['layer', 'form'], function(){
          AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);    //启动websocket,成功后AE_callbackFunc执行input_App
       }
 	 ,cancel: function(index, layero){ 
-	      AE_AppClose();   //关闭当前所有App，或者指定AppId
+	      AE_CloseApp({});   //关闭当前所有App   ， 指定AppId则关闭对应的
 		 if (observer) observer.disconnect();  //关闭监控
 	  }
 	 , moveEnd: function(layero){
@@ -127,6 +126,7 @@ layui.use(['layer', 'form'], function(){
 			];
            AE_OpenApp(ReqPar);
        }
+	   
 	   
    	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE_callbackFunc.func
        var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1},"func":input_App}   ] ;//连接websocket成功后，执行input_App

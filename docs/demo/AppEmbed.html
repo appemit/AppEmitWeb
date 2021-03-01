@@ -15,7 +15,8 @@
  -->
    <style type="text/css">
   .Appboxs {
-  margin-top:10px;
+    margin-top:10px;
+     justify-content:space-around;
     display: -webkit-box; 
     display: -moz-box; 
     display: -ms-flexbox; 
@@ -23,7 +24,7 @@
     display: flex; 
    display: box;
   display: flexbox;
-  justify-content:space-around;
+
 }
 </style>  
 </head>
@@ -68,13 +69,13 @@
              <div class="Appboxs" >
 			 
 			 <!--    textarea或者改为div  都可以,绑定嵌入APP的位置, AppEmbed 要一致。如果要跟随浏览器变化大小，设置相对%比例即可-->
- 		     <div id="AppEmbed1"  style="border: solid 1px #F0F0F0; min-width:30px;min-height:20px;width:400px;height:360px" ></div>
-			 <div id="AppEmbed2"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:400px;height:360px" ></div>
+ 		     <div id="AppEmbed1"  style="	border: solid 1px #F0F0F0; min-width:30px;min-height:20px;width:500px;height:360px" ></div>
+			 <div id="AppEmbed2"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:500px;height:360px" ></div>
  
 			 
 			                
 		</div>
-              <div style=" margin-left:1200px; margin-top:1200px;text-align:center ">
+              <div style=" margin-left:1800px; margin-top:1800px;text-align:center ">
 			     测试滚动 
 		</div>  
 </div>
@@ -86,8 +87,7 @@
   //init_App();    //载入页面运行 
   
  
-	
-	
+ 
 	
 	var init_App=function(){ 
        
@@ -111,14 +111,14 @@
       //,"maskLayer_pos":[320,2,50,50],"maskLayer_html":'<!doctype html><html><head> </head><body > text123 </body></head></html>' 
 	// ReqPar=[{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030", "--freetype-font=宋体","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapWidth":0,"snapHeight":0}}]	;
   
-	   	   AE_OpenApp(ReqPar);
-		 
+	   	  AE_OpenApp(ReqPar);
+		  //下面表示打开"AppId":1后完成，再打开"AppId":2
+		  //AE_OpenApp([{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}],null,true);
 		 
 	   }
 	   
 	   
-
-
+ 
 
 </script>
 </body>
