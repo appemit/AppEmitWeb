@@ -123,8 +123,8 @@
 	var init_App=function(){   
  
 	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开,转码成功, ,任务管理器会出现vlc.exe，再执行AE_callbackFunc.func
-        var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1},"func":input_App} //连接websocket成功后，执行input_App    
-		                                     ,{"equ": { "Obj":"rtsp2webRTC", "rid": 1,"AppStatus":1},"func":link_player} //连接websocket成功后，执行input_App    
+        var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App    
+		                                     ,{"equ": { "Obj":"rtsp2webRTC", "rid": 1,"AppStatus":1,"rep": 0},"func":link_player} //连接websocket成功后，执行input_App    
                                  ] ;
  
 		 AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);   //连接websocket成功后，执行input_App
@@ -139,10 +139,13 @@
 	         init_App();          //载入页面运行 
 	 }else if(runtime_flag ==2){
 	       //关闭后台服务程序
-	         var  AE_callbackFunc_close= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1}
+	         var  AE_callbackFunc_close= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0}
 			                                        ,"func":function(){
-															     ReqPar= {"emit":"closeAll","Obj":"rtsp2webRTC"};					   
-																 AE_OpenApp(ReqPar );     }
+															     ReqPar= {"emit":"closeAll","Obj":"rtsp2webRTC","AppRuntime":1};					   
+																 AE_OpenApp(ReqPar );    
+ 																 
+																 setTimeout(function(){window.location.href=window.location.href.replace(/\?runtime=2/,"");},1500)  //回到初始页面
+																 }
 			                   }   ] ;
 		                                   
  
