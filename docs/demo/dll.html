@@ -59,22 +59,13 @@
   //4. 结束时一定需要正常退出调用AE_EmitReq_PIP的dll, stop或者null或者销毁
 **/
 
-	 function getQueryString(name) {
-	var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-	var r = window.location.search.substr(1).match(reg);
-	if (r != null) {
-	return unescape(r[2]);
-	}
-	return null;
-	}
+ 
  
 //console.log(Base64.encodeURI("string")   ) // 编码
  
 //console.log( Base64.decode(Base64.encodeURI( "string") ) ) // 解码
  
-
-
-	  var file=getQueryString("file") ;     //office.html?file=pdf
+ 
 	  var  reportXPath;
 	  
 	  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
@@ -92,9 +83,7 @@
 	    
 	   }
 	   
-	   	function AE_txt2code(fn) {
-				return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
-	  }
+ 
 		 
 	runCmd=function(cmdId){                 //  或者在嵌入网页 dllJs.html 中 js 直接调用
  
@@ -197,57 +186,14 @@ return  sum;
  	//  var Req={"emit":"runCmd","Obj":"dll","codeStr":Base64.encode(codeStr),Base64:1 }    //都支持
       var Req={"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr }    //都支持
 
-	   AE_EmitReq_PIP(Req);
-	  //////////////////////////////////////////////////////////////////////////
-
+	   AE_OpenApp(Req);
+ 
   
 	
 }	
-//////////////////////////////////////////////////////////////////////////////////////////
  
-
-//        //自动运行，非按钮控制示例（可更改），没有分开为dllJs.html,
-//        //统一在此js中调用，增加src，过程中使用AE_EmitReq_PIP发送命令即可。AppEmit.js中AE_ws.onmessage获得反馈数据
-//         	if (init_mark ) {	 
-//                var  ReqPar;	
-//             ReqPar={"emit":"open","Obj":"dll","AppType":2,  src:[  {
-//        								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
-//        								    createType:"createEmbed"       //可视化的控件createEmbed(comCarrier,clsId,iid)  , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
-//        									,objName:"reportX"            //AppJsObject.reportX 来访问此控件
-//        									// ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
-//        									,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
-//        									,clsId :"A5DA6E97-1D4C-4708-B705-84A45716B4DD"  //guid
-//        									,iid:null 
-//        									,itface:null
-//        									,embedObject:null
-//        								   }   //暂时支持一个控件
-//        						    ],"pos":1
-//        	            ,"par":{
-//        	                "plugins":["ReportX"] 
-//         
-//        					   }
-//        					  , "par0":{}} ;
-//        					  //启动APP
-//         		 	if  (ReqPar)  setTimeout(  function(){ AE_OpenApp( ReqPar)  ;},800);          
-//        		
-//          			if  (ReqPar)  setTimeout(  function(){ 
-//        		 codeStr =   AE_txt2code(function(){/*
-//        //AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
-//        var  reportXPath=AppJs.dlgOpen('rpxe|*.rpxe|所有文件|*.*||')	  
-//         AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var
-//        if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
-//             return {status="open reportX"; path=reportXPath}      //获得反馈数据
-//        }else {
-//           return null;
-//        }
-//        */});
-//                      var Req={"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr	 }  ;  //都支持
-//        
-//        	        AE_EmitReq_PIP(Req);		   //发送命令就好
-//        			},2000);     
-//         	    
-//        			
-//         	}	
+ 
+ 
 
  
  

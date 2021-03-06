@@ -42,7 +42,7 @@
 	  
    //下面4个函数AppJs_init  AppJs_loaded AppJs_destroy AppJs_closed，自动被程序运行。
    // 如果需要主动命令，同时可以在websocket的html文件 设置
-   var dll_demo1_clsId ="50FCF891-1B93-4AE5-8A66-AB26A3C03378" ;
+ 
 	 AppJs_init=function(AppType){  //按照 websocket的参数createObject      生成AppJsObject前执行
 	 //如果这里重新更新定义了，则以此为准,若设置null会替换默认值。 参数结构同调用websocket时一致
 	 // AppType   webJs 最好不要在这里设置
@@ -56,6 +56,7 @@
 								    createType:"createEmbed"      //可视化的控件 createEmbed(comCarrier,clsId,iid) ,只能有一个 , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 									,objName:"shockwave"             //AppJsObject.shockwave 来访问此控件
 									//,comCarrier:"custom"           // createEmbed可视化 picture(图片控件设置)、static 、 winform   默认推荐 custom         //不同类型组件采取不同载体
+									,pid:"flashActiveX"
 									,dllFile:"C:/Windows/SysWOW64/Macromed/Flash/Flash32_33_0_0_401.ocx"     //  必须 和自己电脑安装的一致
 									,clsId :"D27CDB6E-AE6D-11CF-96B8-444553540000"  //guid
 									,iid:null
@@ -77,6 +78,7 @@
 								    createType:"createEmbed"       //可视化的控件createEmbed(comCarrier,clsId,iid)  , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 									,objName:"reportX"            //AppJsObject.reportX 来访问此控件
 									// ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
+									,pid:"ReportX"
 									,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
 									,clsId :"A5DA6E97-1D4C-4708-B705-84A45716B4DD"  //guid
 									,iid:null 
@@ -98,12 +100,18 @@
 		      par={ 
 						src:[  {
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
-								    createType:"createDll"               //  dll开发
+								    "admin":0   //1需要管理员权限注册 0不需要
+									,"reg":null    //null 不注册   true 注册 false 卸载注册    使用appemit直接调用，一般可以不注册
+								    ,createType:"createDll"               //  dll开发
 								    ,objName:"dll_demo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
  									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/dll_demo1.dll"     //  必须 \\   / , 个人的插件放在/plugins/private/clsId/文件夹下面
-									,clsId :dll_demo1_clsId  //guid   发送给dll  信息 
-									,AuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                //
-									,ver:"1.0.0"  
+									,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"
+									,AuthKey:"A1-_oIYHJBXdKnEfUESO4Qd46CQ8axbkVcs0QV8eqRMcPJNYs2XSzGKamaBq8gJzbre"                //pid的授权，appemit网站获取
+ 
+									,sha1:"3C0F78B0495F38BA1940D6CA3E15D926AA462279"             //私有的必需
+									,clsId :"50FCF891-1B93-4AE5-8A66-AB26A3C03378"  //guid  自己自行生成的， 最好和pid不同。 dll  里面设置的一致 
+								   ,clsIdAuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                //dll文件访问的授权 自行设置
+								    ,ver:"1.0.0"  
 									,iid:null  
 									,data:'{"msg":"init from JS","info":1}'               //发送给dll  数据
 									
@@ -125,8 +133,9 @@
 								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
 								    createType:"callDll"               //  dll调用  								
 								    ,objName:"dll_demo1"            //AppJsObject.dll_demo1 来访问此dll
+									,pid:"dll_demo1"
  									,dllFile:"/plugins/thirdparty/dll_demo1.dll"     //  必须 \\   /     本例使用dll_demo1，调用add方法
-									,clsId :dll_demo1_clsId  //guid   发送给dll  信息 
+									,clsId :"50FCF891-1B93-4AE5-8A66-AB26A3C03378"  //guid   发送给dll  信息 
 									//,AuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                //
 									,iid:null
 									
