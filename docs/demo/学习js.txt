@@ -1,0 +1,201 @@
+
+	   a={b:5,d:{a:4,f:5}};
+	   
+	   if (a.d?.a) console.log(1);
+    
+
+
+ typeof (Par) =="object"  && Par.constructor == Array 数组
+ 
+ 
+ 
+function AppObj(Obj,AppId,AppType,AppShow)
+{
+    //"Obj":"comm" ,AppId   "AppType"  -1  AppShow
+    this.Obj=Obj;      // flash office comm web
+    this.AppId=AppId;  // 1 2 3 
+    this.AppType=AppType;
+    this.AppShow=AppShow;
+	this.dotid=1;
+	function a(id){
+	 this.dotid=id;
+	}
+ 
+}
+// a={a:3,"b":4,"1":"cc"}
+
+
+for(let key  in obj){
+        console.log(key + '---' + obj[key])
+  }
+  
+  1）、Object.keys（obj）
+
+2）、Object.values（obj）
+////////////////////////////数组
+  for(j = 0,len=arr.length; j < len; j++) {
+    
+}
+
+可以正确响应break、continue和return语句
+ x=[2,3,4,5,6]
+ for (var value of x) {
+console.log(value);
+}
+
+find
+
+find()方法返回数组中符合测试函数条件的第一个元素。否则返回undefined 
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+var stu = [
+    {
+        name: '张三',
+        gender: '男',
+        age: 20
+    },
+    {
+        name: '王小毛',
+        gender: '男',
+        age: 20
+    },
+    {
+        name: '李四',
+        gender: '男',
+        age: 20
+    }
+]
+1
+2
+3
+4
+5
+6
+7
+function getStu(element){
+   return element.name == '李四'
+}
+ 
+stu.find(getStu)
+//返回结果为
+//{name: "李四", gender: "男", age: 20}
+
+
+
+
+
+
+
+对于已经存在的属性和方法，用.和用[]得到的结果一致、
+
+对于不存在(未定义)的属性和方法，用.会创建这个新的属性或方法，而用[]的方式访问不会创建新的属性或方法
+
+
+  a={a:3,"b":4,"1":"cc"}
+b={c:3,"b":5,"1":"ccd"}
+//var a=new AppObj("comm","comm1",1,false)
+var AppObj={ 
+                   AppId:{Obj:  "flash" ,//flash office comm web
+                              AppType:1,
+							  AppShow:true,
+                             }
+	
+}
+ x=[2,3,4,5,6]
+ for (var value of x) {
+//console.log(value);
+}
+
+ //console.log( b ="undefined" ?false:true )
+ //b="ss"
+// console.log(typeof a  ,typeof b ,typeof x)
+/*
+console.log(a)
+console.log(b)
+console.log(Object.assign({},a,b))  //$.extend
+console.log(a)
+console.log(b)
+*/
+for (key in b){
+
+if  (b.hasOwnProperty(key)===true) {
+     a[key]=b[key]
+   }
+
+}
+ /*
+ function addEvent(object,type,handler,remove){
+                if(typeof object!='object'||typeof handler!='function') return;
+                try{
+                        object[remove?'removeEventListener':'addEventListener'](type,handler,false);
+                }catch(e){
+                        var xc='_'+type;
+                        object[xc]=object[xc]||[];
+                        if(remove){
+                                var l=object[xc].length;
+                                for(var i=0;i<l;i++){
+                                        if(object[xc][i].toString()===handler.toString()) object[xc].splice(i,1);
+                                }
+                        }else{
+                                var l=object[xc].length;
+                                var exists=false;
+                                for(var i=0;i<l;i++){                                                
+                                        if(object[xc][i].toString()===handler.toString()) exists=true;
+                                }
+                                if(!exists) object[xc].push(handler);
+                        }
+                        object['on'+type]=function(){
+                                var l=object[xc].length;
+                                for(var i=0;i<l;i++){
+                                        object[xc][i].apply(object,arguments);
+                                }
+                        }
+                }
+        }
+ 
+  function removeEvent(object,type,handler){
+        addEvent(object,type,handler,true);
+  }
+  
+  */
+/*
+   function handler(){
+       alert("c1");
+	   console.log("c11");
+    }
+  addEvent(window,'onvisibilitychange',handler);
+  */
+ /*
+    function addEvent( obj, type, fn ) {
+        if ( obj.attachEvent ) {
+            obj['e'+type+fn] = fn;
+            obj[type+fn] = function(){obj['e'+type+fn]( window.event );}
+            obj.attachEvent( 'on'+type, obj[type+fn] );
+        } else
+            obj.addEventListener( type, fn, false );
+    }
+    function removeEvent( obj, type, fn ) {
+        if ( obj.detachEvent ) {
+            obj.detachEvent( 'on'+type, obj[type+fn] );
+            obj[type+fn] = null;
+        } else
+            obj.removeEventListener( type, fn, false );
+    }
+ */
+ 
