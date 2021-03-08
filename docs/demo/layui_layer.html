@@ -24,15 +24,10 @@
 <script src="../layui/layui.js"></script>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据,则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>  <!-- 先引用 -->
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>  <!-- 先引用 -->
 <script>
- function AE_txt2code(fn) {
-    return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
- }
  
- 
- 
- var  contentStr =   AE_txt2code(function(){/*
+ var  contentStr =   AE.txt2code(function(){/*
 <div class="container">
             12345
          <div class="Appboxs" >
@@ -57,7 +52,7 @@ var fixedOffsetAuto_callback = function(mutationsList, observer) {
 			 if (targetNode_oldOffset.left!=mutationsList[k].target.offsetLeft || targetNode_oldOffset.top!=mutationsList[k].target.offsetTop) {
 		 		 targetNode_oldOffset.left =mutationsList[k].target.offsetLeft; targetNode_oldOffset.top =mutationsList[k].target.offsetTop;
 			    //修正  fixed=ture  offset: 'auto' F12调试窗口改变时的情况  
-		 			 AE_AppRunEvent("move",{},1,AE_EVENTTYPE["move"]);
+		 			 AE.AppPosEvent("move",{},1,AE.EVENTTYPE["move"]);
             
 			 }
  
@@ -65,8 +60,18 @@ var fixedOffsetAuto_callback = function(mutationsList, observer) {
 	}
 };
 
-/////////////////////////////////
+
+ ///////////////////////////////////	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE.callbackFunc.func
+       var  input_App=function(){
+	        var ReqPar= [{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"}, "par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true    }}
+			    ,{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"} }
+			];
+           AE.OpenApp(ReqPar);
+       }
+	       
+      AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App}   ] ;//连接websocket成功后，执行input_App
  
+ /////////////////////////////////
  
  var  layer_fixed=true;   //true = position: absolute;    false= position:  relative
  
@@ -88,10 +93,10 @@ layui.use(['layer', 'form'], function(){
 	 ,success: function(layero, index){
 	     
 	 if (!layer_fixed) {
-	      AE_absolutePos=$(layero.selector).offset();     //使用了相对位置但是固定不动，需要修正
+	      AE.absolutePos=$(layero.selector).offset();     //使用了相对位置但是固定不动，需要修正
 	 }else{
-		AE_fixedPos_NoPageOffset=true;  // 固定则  不计算PageOffset
-		AE_AppFollow=30;                     // 固定则不响应滚动事件,全部响应默认31
+		AE.fixedPos_NoPageOffset=true;  // 固定则  不计算PageOffset
+		AE.AppFollow=30;                     // 固定则不响应滚动事件,全部响应默认31
 		// fixed=ture  offset: 'auto'  F12出现console的情况以及windowresize更新后layer延迟auto
 		 var MutationObserver = window.MutationObserver || window.webkitMutationObserver || window.MozMutationObserver;
          observer = new MutationObserver(fixedOffsetAuto_callback);
@@ -99,38 +104,30 @@ layui.use(['layer', 'form'], function(){
        observer.observe(targetNode, { attributes: true, childList: false, subtree: false });
     }
  
-         AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);    //启动websocket,成功后AE_callbackFunc执行input_App
+         AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");    //启动websocket 
       }
 	 ,cancel: function(index, layero){ 
-	      AE_CloseApp({});   //关闭当前所有App   ， 指定AppId则关闭对应的
+	      AE.CloseApp({});   //关闭当前所有App   ， 指定AppId则关闭对应的
 		 if (observer) observer.disconnect();  //关闭监控
 	  }
 	 , moveEnd: function(layero){
 	 
-	      if (!layer_fixed) AE_absolutePos=$(layero.selector).offset();     //使用了相对位置但是固定不动，需要修正
-	     AE_AppRunEvent("move",{},1,AE_EVENTTYPE["move"]);    //更新所有App位置,执行move事件
+	      if (!layer_fixed) AE.absolutePos=$(layero.selector).offset();     //使用了相对位置但是固定不动，需要修正
+	     AE.AppPosEvent("move",{},1,AE.EVENTTYPE["move"]);    //更新所有App位置,执行move事件
 	 }
 	 ,resizing: function(layero){
-        if (!layer_fixed) AE_absolutePos=$(layero.selector).offset();     //使用了相对位置但是固定不动，需要修正
+        if (!layer_fixed) AE.absolutePos=$(layero.selector).offset();     //使用了相对位置但是固定不动，需要修正
 	  
-	     AE_AppRunEvent("resize",{},1,AE_EVENTTYPE["resize"]);    //更新所有App位置,执行resize事件
+	     AE.AppPosEvent("resize",{},1,AE.EVENTTYPE["resize"]);    //更新所有App位置,执行resize事件
     }  
 	 
 	}); 
 });
  
- 
-      var  input_App=function(){
-	        var ReqPar= [{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"}, "par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true    }}
-			    ,{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"} }
-			];
-           AE_OpenApp(ReqPar);
-       }
+
+
 	   
-	   
-   	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE_callbackFunc.func
-       var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App}   ] ;//连接websocket成功后，执行input_App
- 
+
     
 </script> 
 </body>

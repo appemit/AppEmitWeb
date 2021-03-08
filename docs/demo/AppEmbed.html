@@ -34,7 +34,7 @@
 
 <div class="container">
 <input type="text" class="form-control" size="50" style="margin-bottom:3px;" id="input_url" value="ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" />
-     <button type="button" id="btn_Flash" onclick="init_App() " >websocket</button> &nbsp;  &nbsp; &nbsp;<a href="index.html" target="_blank">hardware Demo</a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp;  &nbsp; <a href="../login.html" target="_blank">Register</a> 
+     <button type="button" id="btn_Flash" onclick="init_App() " >websocket</button> &nbsp;  &nbsp; &nbsp;<a href="index.html" target="_blank">hardware Demo</a>&nbsp; &nbsp;<a href="web.html" target="_blank">web</a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp;  &nbsp; <a href="../login.html" target="_blank">Register</a> 
       <div >  
 		<div style="font-size:10px">f1. webtype NPAPI:   
  			  <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"flash","AppType":1,"src":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","pos":1,"par0":{"header":null,"userAgent":null,"crossDomain":true,"show_UpdateTool":true}}'/>
@@ -81,7 +81,7 @@
 		</div>  
 </div>
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据,则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
  
 <script>
  
@@ -89,13 +89,13 @@
   
 	var init_App=function(){ 
        
-		AE_initAppWs(document.getElementById('input_url').value);
+		AE.initAppWs(document.getElementById('input_url').value);
 	  //或者采用回调	
-	//  	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE_callbackFunc.func
-    //      var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
+	//  	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE.callbackFunc.func
+    //       AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
     //                                     ] ;
 	//  
-	//  	 AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);   //连接websocket成功后，执行input_App
+	//  	 AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");   //连接websocket成功后，执行input_App
 	//      // setTimeout(  function (  ) { input_App()},500);     //或者采用延迟执行，不够严谨
 	}
 	   
@@ -107,7 +107,8 @@
  
  
 //////////////////////////////////demo 注册ReportX.ocx，再直接打开含有ReportX object的网页//////////////////////////////////////////////
-			var htmlStr=AE_txt2code(function(){/**
+//AE.txt2code功能有限，不能加js代码 
+			var htmlStr=AE.txt2code(function(){/**
 			   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			 <div>
 				 reportX ，需要注册才能使用。
@@ -125,8 +126,8 @@
 								  "objName":"ReportX1"
 									,"admin":0   //1需要管理员权限注册 0不需要
 									,"reg":true    //null 不注册   true 注册 false 卸载注册
-								  //   ,"pid":"ReportX"   //使用公共插件
-								   ,"pid":"292A53CD-DA8F-46A5-808D-B286F2759C37" //使用私有插件,则需要增加下列信息
+								   ,"pid":"ReportX"   //使用公共插件  等ReportX.ocx下载下来可以拷贝到下面的私有目录测试
+								  //   ,"pid":"292A53CD-DA8F-46A5-808D-B286F2759C37" //使用私有插件,则需要增加下列信息
 								   ,"AuthKey":"A1-S0N5E1i-ya9KMYgpVm9eLAKYgLn-BB3t_Ut2ZnhWmiBReUv3u_eKl34oJisqX2TM"  
 									,"dllFile":"/plugins/private/292A53CD-DA8F-46A5-808D-B286F2759C37/ReportX.ocx"  
 								  ,"sha1":"234703F3A90202BF275EA76F0AAE73666644561B"  
@@ -136,8 +137,8 @@
 	////////////////////////////////////////////////////////////////////////////
  
 		  //demo 下面表示打开"AppId":1后完成，再打开"AppId":2
-		  //AE_OpenApp([{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}],null,true);
-		    AE_OpenApp(ReqPar);
+		  //AE.OpenApp([{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}],null,true);
+		    AE.OpenApp(ReqPar);
 	   }
 	   
 	   

@@ -31,7 +31,7 @@
 
 <body >
 
-<a href="index.html" target="_blank">hardware Demo</a> &nbsp; &nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed</a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a>&nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a>
+<a href="index.html" target="_blank">hardware Demo</a> &nbsp; &nbsp;<a href="web.html" target="_blank">web</a>&nbsp; &nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed</a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a>&nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a>
 <div class="container">
  
 	 
@@ -45,7 +45,7 @@
  
 </div>
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据,则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
  
 <script>
 	//转为webRTC ，支持原生浏览器,格式要求严格。H264_AAC H264_PCMALAW MICRO PCM 摄像头设置 audio codec   ALAW or MULAW
@@ -100,7 +100,7 @@
 	  //force 1强力重开程序 0默认已经开启的程序 不处理 rtsp2webRTC.exe
        var  ReqPar= {"emit":"open","Obj":"rtsp2webRTC","AppShow":0,"AppFollow":0,"AppRuntime":1,"par":{"webRTC_cfg":webRTC_cfg,"pid":pid,"webRTC_dos":0,"AuthKey":pidAuthKey},"par0":{"force":1}};
  		   
-	     AE_OpenApp(ReqPar );    
+	     AE.OpenApp(ReqPar );    
  
 	   }
 	   
@@ -122,19 +122,19 @@
  
 	var init_App=function(){   
  
-	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开,转码成功, ,任务管理器会出现vlc.exe，再执行AE_callbackFunc.func
-        var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App    
+	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开,转码成功, ,任务管理器会出现vlc.exe，再执行AE.callbackFunc.func
+         AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App    
 		                                     ,{"equ": { "Obj":"rtsp2webRTC", "rid": 1,"AppStatus":1,"rep": 0},"func":link_player} //连接websocket成功后，执行input_App    
                                  ] ;
  
-		 AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);   //连接websocket成功后，执行input_App
+		 AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" );   //连接websocket成功后，执行input_App
 	    // setTimeout(  function (  ) { input_App()},500);     //或者采用延迟执行，不够严谨
 	}
 
  
  
 	//根据参数	 runtime 判断是否打开关闭rtsp2WebRTC后台服务
-	 var runtime_flag=AE_getUrlPar(window.location.href,"runtime");
+	 var runtime_flag=AE.getUrlPar(window.location.href,"runtime");
      if  (runtime_flag==1 ) { 
 	         init_App();          //载入页面运行 
 	 }else if(runtime_flag ==2){
@@ -142,14 +142,14 @@
 	         var  AE_callbackFunc_close= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0}
 			                                        ,"func":function(){
 															     ReqPar= {"emit":"closeAll","Obj":"rtsp2webRTC","AppRuntime":1};					   
-																 AE_OpenApp(ReqPar );    
+																 AE.OpenApp(ReqPar );    
  																 
 																 setTimeout(function(){window.location.href=window.location.href.replace(/\?runtime=2/,"");},1500)  //回到初始页面
 																 }
 			                   }   ] ;
 		                                   
  
-		      AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc_close);   //连接websocket成功后，执行AE_callbackFunc_close
+		      AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc_close);   //连接websocket成功后，执行AE_callbackFunc_close
 	 
 	 }
 	 

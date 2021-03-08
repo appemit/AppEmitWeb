@@ -28,17 +28,17 @@
 		</div>
 </div>
  <!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>   如果使用Gzip压缩解压数据，则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
 <script>
        //主网页打开时，连接好ws，整过过程只要连接一次。F5刷新自动断开在连接
-		AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");
+		AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");
 	   
 	      // ReqPar=JSON.parse(document.getElementById("input_par").value);
 	/*
    	//用户点击连接打开app
 		setTimeout(function(){
 		  $(AppEmitDom).append('<textarea readonly id="AppEmbed1"  style="border: solid 1px #F0F0F0;min-width:30px;min-height:20px;width:300px;height:300px" ></textarea>')
-		AE_OpenApp(ReqPar); 
+		AE.OpenApp(ReqPar); 
 		}, 2000);  //实际运用，使用按钮来调用
 	 */
 	  function OpenApp(){
@@ -47,7 +47,7 @@
         var ReqPar={}; 	     
 		 ReqPar= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}};
 		   
-		   AE_OpenApp(ReqPar); 
+		   AE.OpenApp(ReqPar); 
 	  
 	  }
   

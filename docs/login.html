@@ -27,7 +27,7 @@
 
 
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
-  <script type="text/javascript" src="demo/AppEmit_1.1_min.js"></script>  
+  <script type="text/javascript" src="demo/AppEmit_1.2_min.js"></script>  
 <script>
  
   
@@ -36,7 +36,7 @@
 	                                        } //连接websocket成功后，执行input_App
                                    ] ;
  
- 	 AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=0",AE_callbackFunc);   //连接websocket成功后，执行input_App
+ 	 AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=0",AE_callbackFunc);   //连接websocket成功后，执行input_App
     
  
 </script>

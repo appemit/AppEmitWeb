@@ -23,7 +23,7 @@
 
      <div style="font-size:10px">(?file=1 -> pdf )&nbsp; 2.local word  
 				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"office","AppType":1,"AppFollow":31,"src":"/demo/htmlDemo/file/d1.docx","pos":1,"par0":{"attach":1, "HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"s1.docx"},"show_UpdateTool":true}}'/>
-		   	<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>&nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed  </a> &nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> 
+		   	<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>&nbsp; &nbsp;<a href="web.html" target="_blank">web</a>&nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed  </a> &nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> 
 		   </div>
                                                                                                          
 	<div style="font-size:10px">  3.web xlsx &nbsp;  {"emit":"open","Obj":"office","AppType":2,"src":[["https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/file/x1.tmp","a1.xlsx"]],"pos":1,"par0":{"attach":1, "Titlebar":0,"Menubar":1,"Toolbars":1,"btnFile":0,"HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0},"MNU_NEWBLANK":0,"MNU_NEW":0,"MNU_OPEN":0,"MNU_CLOSE":0,"MNU_SAVE":0,"MNU_SAVEAS":0,"MNU_PGSETUP":0,"MNU_PRINT":0,"MNU_PROPS":0,"show_UpdateTool":true}}</div>
@@ -40,7 +40,7 @@
 	 
  
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>  
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>  
 <script>
 	 function getQueryString(name) {
 	var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
@@ -51,13 +51,13 @@
 	return null;
 	}
  
- 	   	function AE_txt2code(fn) {
+ 	   	function AE.txt2code(fn) {
 				return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
 	  }
 	  
  var file=getQueryString("file") ;     //office.html?file=pdf
  
-  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&flag=1");
+  var init_mark=  AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&flag=1");
  
  	//office
  	var input_App=   function(){
@@ -67,7 +67,7 @@
 		  
  		//   ReqPar={"emit":"open","Obj":"flash","src":"D:/work/temp/m1.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0}}
 	
-	   	   AE_OpenApp(ReqPar);
+	   	   AE.OpenApp(ReqPar);
 	   }
 	   
 
@@ -78,7 +78,7 @@
 				  ReqPar={"emit":"open","Obj":"web","AppType":4,"pos":1,"par":{"URL":"https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/AppEmit_help.pdf"},"par0":{"rightMenu":1,"show_UpdateTool":true}}
  
 			} 
-			if  (ReqPar)  setTimeout(  function(){ AE_OpenApp( ReqPar)   
+			if  (ReqPar)  setTimeout(  function(){ AE.OpenApp( ReqPar)   
 										   },800);
 	}	
 
@@ -90,17 +90,17 @@ runCmd=function(cmdId){         //  或者在嵌入网页officeJs.html 中 js   
       
 	 if(cmdId=="word1"  ){
  //  在officeJs里面定义了   Selection=AppJsObject.word.Selection,直接调用Selection
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
 Selection.TypeParagraph();                          
 Selection.TypeText("控制插入一句话-runCmd"); 
 */});
-			  codeStr2 =   AE_txt2code(function(){/*
+			  codeStr2 =   AE.txt2code(function(){/*
 Selection.TypeParagraph();                          
 Selection.TypeText("多个命令插入"); 
 */});
 		}else if(cmdId=="excel1"  ){
  //  在officeJs里面定义了   Selection=AppJsObject.excel.Selection,直接调用Selection
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
  Application.ActiveCell.FormulaR1C1 = "动态插入数据123";
 */});
 		}
@@ -108,9 +108,9 @@ Selection.TypeText("多个命令插入");
 	  var Req={"emit":"runCmd","Obj":"office","AppId":1,"codeStr":codeStr }   
       var Req2={"emit":"runCmd","Obj":"office","AppId":1,"codeStr":codeStr2 }  
 	 if(cmdId=="word1"  )  { 
-	     AE_EmitReq_PIP([Req,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2],null,null,200); //间隔时间应该长一些防止office反应不过来
+	     AE.OpenApp([Req,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2,Req2],null,null,200); //间隔时间应该长一些防止office反应不过来
      }else{
-      AE_EmitReq_PIP( Req );
+      AE.OpenApp( Req );
    
    }
 

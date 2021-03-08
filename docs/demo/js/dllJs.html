@@ -10,7 +10,7 @@
  
 <script type="text/javascript">
  /////////////////////////////////////////////////////////////////////////////
- //  此文件代码都可以放入在dll.html的websocket的js里面使用runcmd ，AE_OpenApp 中参数webJs=0 。
+ //  此文件代码都可以放入在dll.html的websocket的js里面使用runcmd ，AE.OpenApp 中参数webJs=0 。
    //AppJs 开头的变量和函数 名称不要修改
   // external  为直接访问Appemit函数
   //// appemit@appemit.com 问题反馈
@@ -19,12 +19,17 @@
    //全局变量 com库 AppJsLibrary   AppJsLibrary.objName 访问调用的库的处理  AppJsLibrary.objName.dll 引用dll 只有private可以访问
    // 全局变量 对象  AppJsObject     AppJsObject.objName 访问实例对象 
    //   dll :  AppJsLibrary[objName].dll = ..loadDll(v["dllFile"] );   组件: AppJsObject.objName =AppJsLibrary.objName.dll.createEmbed._object 
-   //
  ///////////////////////////////////////////////////////////////////////////////////////  
-   
-   
-   
-	/////////////////一、js被 AppEmit调用/////////////////////////////////////////// 
+
+//主要调用过程, 按事件顺序自动执行/////////////////////
+//AppJs_init  生成AppJsObject前执行
+//AppJs_loaded 系统启动APP ,产生AppJsObject对象后执行
+//AppJs_destroy AppJsObject销毁前执行。 No_Quit_FreeLibrary  不释放dll, FreeLibrary(dll)
+//AppJs_closed AppJsObject关闭后执行。已经没有AppJsObject对象了
+////////////////////////////
+
+ 
+	/////////////////一、js被 AppEmit调用示例/////////////////////////////////////////// 
    // 1     flash.ocx 可视化示例
    //  2    reportX.ocx     可视化OCX
    // 3       dll  个人开发 dll ,交互信息
@@ -237,9 +242,6 @@ AppJsObject.dll_demo1.AppDll_destroy(AppDll_hwnd,'','{"msg":"destroy from JS","i
 		
 		return codeStr; // // 必须string /null
 	}	
-
- 
-
  
   getOut=function(){
      slog(external.out)       //获得上一次命令的结果 为json
@@ -254,8 +256,7 @@ AppJsObject.dll_demo1.AppDll_destroy(AppDll_hwnd,'','{"msg":"destroy from JS","i
 	 // cmd_str="1+233";
 	 // console.log(cmd_str);
 	  	       //调用Appemit webJS接口
-
-	 
+ 
 	 ///////1.1 获取变量////// 
   /*
 	$enum(

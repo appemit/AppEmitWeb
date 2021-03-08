@@ -22,13 +22,14 @@
 
      <div style="font-size:10px"> 2.可视化com组件 
 				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"dll","AppType":2,"src":[],"pos":1,"par":{"plugins":["ReportX"],"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}'/>
-		   	<button type="button" id="btn_Flash" onclick="start_App() " >do it</button> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> <a href="AppEmbed.html" target="_blank">AppEmbed </a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;
+		   	<button type="button" id="btn_Flash" onclick="start_App() " >do it</button> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> &nbsp; &nbsp;<a href="web.html" target="_blank">web</a><a href="AppEmbed.html" target="_blank">AppEmbed </a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;
 		   </div>  
   	
 	<div style="font-size:10px"> 1. 要安装flash ocx&nbsp;   {"emit":"open","Obj":"dll","AppType":1,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1}}</div>
  	 	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":3,"src":[],"AppShow":false,"AppFollow":0,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
  	 	<div style="font-size:10px"> 4.第3方dll调用无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":4,"src":[],"AppShow":false,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1 },"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
-	 	 
+	 		<div style="font-size:10px"> 5.自行调用方式 &nbsp;   	<button type="button" id="btn_Flash" onclick="callFunByself() " >手动</button> </div>
+	 
 	 
 	 <div >	   reportX_OCX
      <button type="button" id="btn_runCmd" onclick="runCmd('reportX_open') " >2open</button>  
@@ -50,25 +51,21 @@
   
 
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
-  <script type="text/javascript" src="AppEmit_1.1_min.js"></script>  
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>  
 <script>
 /**步骤
- // 1. AE_initAppWs  连接ws
- // 2.AE_OpenApp  打开app dll
-  //3. AE_EmitReq_PIP  调用发送命令
-  //4. 结束时一定需要正常退出调用AE_EmitReq_PIP的dll, stop或者null或者销毁
+ // 1. AE.initAppWs  连接ws
+ // 2.AE.OpenApp  打开app dll
+  //3. AE.OpenApp  调用发送命令
+  //4. 结束时一定需要正常退出,调用 的dll需要 stop或者null或者销毁
 **/
-
  
- 
-//console.log(Base64.encodeURI("string")   ) // 编码
- 
-//console.log( Base64.decode(Base64.encodeURI( "string") ) ) // 解码
- 
- 
+ /////////////////////  方法1 设置"webJs":1调用"URL":"/demo/htmlDemo/js/dllJs.html" 的4个过程代码，自动运行
+  /////////////////////  方法2 设置"webJs":0 或者null，可收到按照业务需要调用 {"emit":"runCmd","Obj":"**","AppId":1,"codeStr":codeStr } 接口
+  
 	  var  reportXPath;
 	  
-	  var init_mark=  AE_initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	  var init_mark=  AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
 	 
  	//office
 	var start_App=   function(){
@@ -78,7 +75,7 @@
 		  
  		//   ReqPar={"emit":"open","Obj":"flash","src":"D:/work/temp/m1.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0}}
 	
-	   	   AE_OpenApp(ReqPar);
+	   	   AE.OpenApp(ReqPar);
 		    
 	    
 	   }
@@ -90,23 +87,23 @@
 		var codeStr;
       
 	 if(cmdId=="openDlg"	){
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
  var path=fsys.dlg.open('docx|*.docx|所有文件|*.*||',,fsys.getSpecial(0x8))
 return {path=path}
 */});
 		}else if (cmdId=="stop"	){
-				  codeStr =   AE_txt2code(function(){/*
+				  codeStr =   AE.txt2code(function(){/*
 AppJsObject.shockwave.stop(); 
 return {status="stop"}
 */});
 		} else if(cmdId=="play"	){
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
  AppJs.msgbox(AppJsObject.shockwave.Movie)			  
 AppJsObject.shockwave.play(); 
 return {status="play"}
 */});
 		} else if(cmdId=="reportX_open"	){
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
 //AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
 var  reportXPath=AppJs.dlgOpen('rpxe|*.rpxe|所有文件|*.*||')	  
  AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var
@@ -135,7 +132,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 	 //    codeStr = "var savePath=AppJs.dlgSave('rpxe|*.rpxe|所有文件|*.*||','另存为')  if (savePath) AppJsObject.reportX.SaveReport(savePath);"
 	 
 		}else if(cmdId=="file_upload"	){
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
  var upPar={
 				URL= "http://eu.httpbin.org/post"
 				;filePath=AppJsVar_reportXPath
@@ -152,7 +149,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
   return {upload_status=upload_status}
 */});
 		}else if(cmdId=="file_download"	){
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
  var upPar={
 				URL= "https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb/docs/img/logo.png"
 				;savePath=AppJs.dlgSave('png|*.png|所有文件|*.*||')                  //需要手动指定路径，或者默认相对路径  "/download"
@@ -169,13 +166,12 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 */});
  
 		}else if(cmdId=="RevMsg"	){   //执行AppDll_RevMsg方法
-			  codeStr =   AE_txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*
  AppJsObject.dll_demo1.AppDll_RevMsg(AppDll_hwnd,'','{"data":"send from bowser JS ","info":555}'); 
 */});
  
 		}else if(cmdId=="myadd"	){   
-			  codeStr =   AE_txt2code(function(){/*
-
+			  codeStr =   AE.txt2code(function(){/*
  var sum=AppJsObject.dll_demo1.myAdd(1,5);
 return  sum; 
 */});
@@ -186,17 +182,63 @@ return  sum;
  	//  var Req={"emit":"runCmd","Obj":"dll","codeStr":Base64.encode(codeStr),Base64:1 }    //都支持
       var Req={"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr }    //都支持
 
-	   AE_OpenApp(Req);
+	   AE.OpenApp(Req);
  
   
 	
 }	
  
- 
- 
+ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   /////////////////////  方法2 设置"webJs":0 或者null，可手动或者配置，按照业务需要调用 {"emit":"runCmd","Obj":"**","AppId":1,"codeStr":codeStr } 接口
+   //不执行"webJs":1文档里面的AppJs_init  AppJsObject AppJs_loaded  AppJs_destroy  AppJs_closed  四个过程
+   
+  function callFunByself(){
+  //生成了reportX对象
+		Req2={"emit":"open","Obj":"dll","AppType":2,AppShow:true ,"pos":1
+								,"src":[  {
+											createType:"createEmbed"       //可视化的控件createEmbed(comCarrier,clsId,iid)  , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+											,objName:"reportX"            //AppJsObject.reportX 来访问此控件
+											// ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
+											,pid:"ReportX"
+											,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
+											,clsId :"A5DA6E97-1D4C-4708-B705-84A45716B4DD"  //guid
+											,iid:null 
+											,itface:null
+											,embedObject:null
+										   }   //暂时支持一个控件
+									]
+					,"par":{"plugins":["ReportX"],"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":0}
+					,"par0":{"AppMethod":"msg Synchronization component need set: POST" 						
+								//,cookies:                                      
+								//,userAgent:                                   
+								//,proxy:                                         
+							   //,proxyBypass:                              
+							  //,flags:  
+							  }
+				 };
+				 		   codeStr21 =   AE.txt2code(function(){/*
+//AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
+var  reportXPath=AppJs.dlgOpen('rpxe|*.rpxe|所有文件|*.*||',,"/demo/htmlDemo/file")	  
+ AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var
+if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
+     return {status="open reportX"; path=reportXPath}
+}else {
+   return null;
+}
+*/});
 
- 
- 
+		  
+		  
+		  AE.callbackFunc= [{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0},"func":function(){AE.OpenApp({"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr21 })}} // reportX生成执行打开命令
+                                       , {"equ": { "Obj":"dll" ,"rid":2},"func":function(){AE.callbackFun_cancel=true;}} // 可以取消回调
+										] ;
+		 
+		 AE.OpenApp(Req2);
+        
+		 
+ }
+
+
 </script>
 </body>
 </html>

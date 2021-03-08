@@ -21,7 +21,7 @@
 <div class="container">
     
 
-             <div style="font-size:10px">0. install/open Appemit.exe (F12 see console info)   &nbsp; &nbsp; &nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed </a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp; &nbsp;<a href="../login.html" target="_blank">Register</a> </div>
+             <div style="font-size:10px">0. install/open Appemit.exe (F12 see console info)   &nbsp; &nbsp; &nbsp; &nbsp;<a href="web.html" target="_blank">web</a>&nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed </a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a>&nbsp; &nbsp;<a href="http://www.appemit.com" target="_blank">Homepage</a> &nbsp; &nbsp;<a href="../login.html" target="_blank">Register</a> </div>
 			<div style="font-size:10px"> 1. connet websocket,support wss
 			<input type="text" class="form-control" size="80" style="margin-bottom:3px;" id="input_url" value="ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" />
 			 <button type="button" id="btn_Flash" onclick="init_App() " >websocket</button>
@@ -57,7 +57,7 @@
 </div>
  
 <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据，则需要引入-->
-<script type="text/javascript" src="AppEmit_1.1_min.js"></script>
+<script type="text/javascript" src="AppEmit_1.2_min.js"></script>
 
 <script type="text/javascript">
    
@@ -65,7 +65,7 @@
 		 //可调整的参数                                       //$(function () { window.οnlοad=	 function () {
  
 	var init_App=function(){   
-		AE_initAppWs(document.getElementById('input_url').value);
+		AE.initAppWs(document.getElementById('input_url').value);
 	}
 	   
 	var input_App=   function(){
@@ -73,8 +73,8 @@
 	      var ReqPar={};
 	       ReqPar=JSON.parse(document.getElementById("input_par").value);
  
-	   	  AE_OpenApp(ReqPar);            //数组内多条消息异步打开APP
-		   // AE_OpenApp_sync(ReqPar);     //数组内多条消息同步打开 
+	   	  AE.OpenApp(ReqPar);            //数组内多条消息异步打开APP
+		   // AE.OpenApp_sync(ReqPar);     //数组内多条消息同步打开 
  
 	   }
 	   
