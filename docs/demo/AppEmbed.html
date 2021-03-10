@@ -106,36 +106,6 @@
 	       ReqPar=JSON.parse(document.getElementById("input_par").value);
  
  
-//////////////////////////////////demo 注册ReportX.ocx，再直接打开含有ReportX object的网页//////////////////////////////////////////////
-//AE.txt2code功能有限，不能加js代码 
-			var htmlStr=AE.txt2code(function(){/**
-			   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			 <div>
-				 reportX ，需要注册才能使用。
-				  <OBJECT ID='ReportX1' CLASSID='CLSID:A5DA6E97-1D4C-4708-B705-84A45716B4DD' >
-					<PARAM NAME="Visible" VALUE="1">
-				  <PARAM NAME="AutoScroll" VALUE="1">
-				  <PARAM NAME="AutoSize" VALUE="1">
-				  </OBJECT>
-				</div>
-			**/});
- 
-
-		 	 ReqPar3= {"emit":"open","Obj":"web","AppType":1,"pos":1,"AppId":1,"par":{"URL":null,"htmlStr":htmlStr,"HttpServer_startUrl":null
-			   ,"embed_object" : {
-								  "objName":"ReportX1"
-									,"admin":0   //1需要管理员权限注册 0不需要
-									,"reg":true    //null 不注册   true 注册 false 卸载注册
-								   ,"pid":"ReportX"   //使用公共插件  等ReportX.ocx下载下来可以拷贝到下面的私有目录测试
-								  //   ,"pid":"292A53CD-DA8F-46A5-808D-B286F2759C37" //使用私有插件,则需要增加下列信息
-								   ,"AuthKey":"A1-S0N5E1i-ya9KMYgpVm9eLAKYgLn-BB3t_Ut2ZnhWmiBReUv3u_eKl34oJisqX2TM"  
-									,"dllFile":"/plugins/private/292A53CD-DA8F-46A5-808D-B286F2759C37/ReportX.ocx"  
-								  ,"sha1":"234703F3A90202BF275EA76F0AAE73666644561B"  
-								 } 
-				   }
-			   } ;  
-	////////////////////////////////////////////////////////////////////////////
- 
 		  //demo 下面表示打开"AppId":1后完成，再打开"AppId":2
 		  //AE.OpenApp([{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}],null,true);
 		    AE.OpenApp(ReqPar);

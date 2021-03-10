@@ -37,11 +37,13 @@
           <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}}'/>
 	   
 		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button> &nbsp;  &nbsp; &nbsp;  &nbsp; <button type="button" id="btn_Flash" onclick="AE.OpenApp(ReqPar2)" >注册ocx网页打开</button>
-		   </div>
- 
+		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar3)" >单独注册ocx</button>
+		 </div>
+ <div style="font-size:10px">flashOcx  IE    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":"flash32_ocx"}}</div>      
+	<div style="font-size:10px">flashNP webkit    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":["flash_NP"]}}</div>      
  
 	 <div style="font-size:10px">close  :  {"emit":"close","Obj":"web","AppId":1}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"web"}</div>      
-	    <div style="font-size:10px">w1. Embed IE :   &nbsp; &nbsp;[{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}]</div>      
+	    <div style="font-size:10px">w1.  多个&nbsp; &nbsp;[{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}]</div>      
  
 
 <!--  .Appboxs {
@@ -74,9 +76,7 @@
 <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
 <script>
   
-  
-  
-   
+ 
 	var init_App=function(){ 
        
 		 AE.initAppWs(document.getElementById('input_url').value);
@@ -99,9 +99,10 @@
 		    AE.OpenApp(ReqPar);
 			
 	   }
-	   
- //////////////////////////////////demo 注册ReportX.ocx，再直接打开含有ReportX object的网页//////////////////////////////////////////////
+/**   
+* //////////////////////////////////demo 注册ReportX.ocx，再直接打开含有ReportX object的网页//////////////////////////////////////////////
 //使用"AppType":1IE内核打开ocx对象    "AppType":2 3webkit打开NPAPI对象
+*/
 //AE.txt2code功能有限，不能加js代码  还可以使用URL或者HttpServer_startUrl输入
 			var htmlStr=AE.txt2code(function(){/**
 			   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -115,24 +116,47 @@
 				</div>
 			**/});
  
-         
+            //未提交注册的文件，为了安全，限制为AppEmit文件夹，不能注册或者注销其它文件夹下面的ocx dll,其中 pid唯一
 		 	 ReqPar2= {"emit":"open","Obj":"web","AppType":1,"pos":1,"AppId":1
 			  ,"par":{"URL":null,"htmlStr":htmlStr,"HttpServer_startUrl":null                                         //"HttpServer_startUrl":"/demo/htmlDemo/ocx.html"   //使用本地html
-			   ,"embed_object" : {                                     //多个object可以设置embed_object为数组
-								  "objName":"ReportX1"
-									,"admin":0   //1需要管理员权限注册 0不需要
-									,"reg":true    //null 不注册   true 注册 false 卸载注册
-								   ,"pid":"ReportX"   //使用公共插件  等ReportX.ocx下载下来可以拷贝到下面的私有目录测试
-								  //   ,"pid":"292A53CD-DA8F-46A5-808D-B286F2759C37" //使用私有插件,则需要增加下列信息
-								   ,"AuthKey":"A1-S0N5E1i-ya9KMYgpVm9eLAKYgLn-BB3t_Ut2ZnhWmiBReUv3u_eKl34oJisqX2TM"  
-									,"dllFile":"/plugins/private/292A53CD-DA8F-46A5-808D-B286F2759C37/ReportX.ocx"  
-								  ,"sha1":"234703F3A90202BF275EA76F0AAE73666644561B"  
+			   ,"embed_object" : {                                     //多个object可以设置embed_object为数组 
+								   "objName":"ReportX1"    
+								  ,"pid":"ReportX"   //使用公共插件  pid 名称，  pid 名称是AE共有的，则调用共有的插件                       
+								    ,"reg":true    //null 不执行注册   1强制操作 true 未注册则注册  false 卸载注册 (重启AppEmit后，就不能加载dll了)  
+									,"asAdmin":0   //1需要管理员权限注册 0不需要 ,win7管理员身份会有提示确认窗口
+								                   //等ReportX.ocx下载下来可以拷贝到下面的私有目录测试
+								    //  ,"pid":"292A53CD-DA8F-46A5-808D-B286F2759C37" //使用私有插件,则需要增加下列信息 如果dll/ocx文件改变了，需要更新appemit登陆窗口中我的应用里面的sha1值
+								 	,"dllFile":"/plugins/private/292A53CD-DA8F-46A5-808D-B286F2759C37/ReportX.ocx"      //为了安全，限制为AppEmit文件夹，不能注册或者注销其它文件夹下面的ocx
+								   ,"CLASSES_ROOT":"HKEY_CLASSES_ROOT\\ReportProj1.ReportX\\CLSID"   //可选，reg= true检查是否已经注册,一定要是\\分隔
+								   ,"clsId":"A5DA6E97-1D4C-4708-B705-84A45716B4DD"                           // 可选，reg= true检查是否已经注册
+								   ,"AuthKey":"A1-ZneY-2qGoXRfc7h6GZZxBB2gceORBwyhoxsA6GK5agLtIAwLhh6BnK61W8fORVNv"  								  
 								 } 
 				   }
 			   } ;  
 	////////////////////////////////////////////////////////////////////////////
-
  
+	
+	
+/**	
+//"emit":"func" 单独的注册操作 ,未提交注册的文件，为了安全，限制为AppEmit文件夹下，不能注册或者注销其它文件夹下面的ocx dll
+*/
+ //[pid,reg,asAdmin,dllFile,CLASSES_ROOT,clsId,AuthKey]
+   //共有的库 pid唯一
+ var  regPar0={"pid":"ReportX","reg":true, "asAdmin":0,"dllFile":null 
+ ,"CLASSES_ROOT":"HKEY_CLASSES_ROOT\\ReportProj1.ReportX\\CLSID" ,"clsId":"A5DA6E97-1D4C-4708-B705-84A45716B4DD" ,"AuthKey":null};
+//私有的库 pid唯一,如果dll/ocx文件改变了，需要更新appemit登陆窗口中我的应用里面的sha1值
+var  regPar={"pid": "292A53CD-DA8F-46A5-808D-B286F2759C37"       //pid 名称，如果  pid 名称是AE共有的，则调用共有的插件
+ 				  ,"reg":true   // "reg" null 不执行注册   1强制操作 true 未注册则注册  false 卸载注册 (重启AppEmit后，就不能加载dll了)  
+ 			      ,"asAdmin":0  //"asAdmin"    //1需要管理员权限注册 0不需要 win7管理员身份会有提示确认窗口
+	              ,"dllFile":"/plugins/private/292A53CD-DA8F-46A5-808D-B286F2759C37/ReportX.ocx"  //"dllFile"  // ,"d:/report/ReportX.ocx"   //"dllFile
+ 				  ,"CLASSES_ROOT":"HKEY_CLASSES_ROOT\\ReportProj1.ReportX\\CLSID"    //"CLASSES_ROOT"  可选，reg= true检查是否已经注册,一定要是\\分隔
+ 				  ,"clsId":"A5DA6E97-1D4C-4708-B705-84A45716B4DD"                           // "clsId"  可选，reg= true检查是否已经注册
+				 ,"AuthKey":"A1-ZneY-2qGoXRfc7h6GZZxBB2gceORBwyhoxsA6GK5agLtIAwLhh6BnK61W8fORVNv"   // private目录则需要校验,若网站设置了sha1则还会校验sha1
+                 };
+  ReqPar3= {"emit":"func","Obj":"regsvr32","par":regPar};
+  
+	
+	 
 	 
 </script>
 </body>
