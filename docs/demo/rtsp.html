@@ -87,10 +87,18 @@
 				"--rtsp-tcp",                                                //RTSP采用TCP传输方式
 				"--vout=direct2d"              //不支持3D改为2D
 				 
- v2  NPAPI网页播放,500ms左右延迟
+ v2  NPAPI网页播放,500ms左右延迟  ,或者IE ActiveX网页播放         https://wiki.videolan.org/Documentation%3aWebPlugin#Input_object
  v3 转为ogg ，支持原生浏览器,1-2s左右延迟
  v4 转为webRTC ，800ms左右延迟,支持原生浏览器,格式要求严格。H264_AAC H264_PCMALAW MICRO PCM 摄像头设置 audio codec   ALAW or MULAW
  
+  <select>
+  <option value ="volvo">Volvo</option>
+  <option value ="saab">Saab</option>
+  <option value="opel">Opel</option>
+  <option value="audi">Audi</option>
+</select>
+
+
  */
  
   //init_App();    //载入页面运行 
@@ -105,7 +113,7 @@
  
 	      var ReqPar={};
 	       ReqPar=JSON.parse(document.getElementById("input_par").value);
-		 	   AE.OpenApp(ReqPar);
+		 //  AE.OpenApp(ReqPar);
 			   
  //v1 libvlc
 
@@ -113,16 +121,19 @@
  
 //v2. NPAPI网页 可以设置mrl和其它参数，其等效实现htmlStr0相同的代码。
 //更多 https://wiki.videolan.org/Documentation:WebPlugin/#Embed_tag_attributes 
-//或者设置mrl 等效 实现html
+//或者设置mrl 等效 实现html   
+ 
 //AE.txt2code 函数不能包含script, chrome会报消息 
 var   htmlStr=AE.txt2code(function(){/*
-<object type='application/x-vlc-plugin' id='vlc' events='True' width="100%" height="100%">
+ 
+<object type='application/x-vlc-plugin' id='vlc' events='True' width="98%" height="96%">
     <param name='mrl' value='rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov' />
+ 
     <param name='volume' value='50' />
     <param name='autoplay' value='true' />
     <param name='loop' value='false' />
     <param name='fullscreen' value='false' />
-</object>
+ 
 */});
 //或者将htmlStr保存到本地文件，定义  "HttpServer_startUrl":"demo/htmlDemo/rtsp_HttpServer_startUrl.html"
 // 优先级 htmlStr > HttpServer_startUrl>mrl
@@ -146,7 +157,34 @@ var   htmlStr2=AE.txt2code(function(){/*
 </object>
 */});	
 // ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr2 }  } 
-	
+//  
+	var   htmlStr3=AE.txt2code(function(){/*
+ <div>
+	<div><object type='application/x-vlc-plugin' id='vlc1' events='True' width="80%" height="80%">
+    <param name='mrl' value='rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov' />
+    <param name='volume' value='50' />
+    <param name='autoplay' value='true' />
+    <param name='loop' value='false' />
+    <param name='fullscreen' value='false' />
+</object>
+</div>
+ 
+ <div class="contText">
+  <select>
+  <option value ="volvo">Volvo</option>
+  <option value ="saab">Saab</option>
+  <option value="opel">Opel</option>
+  <option value="audi">Audi</option>
+</select>
+<iframe width='100%' height='100%' frameborder='0' filter="progid:DxImageTransform.Microsoft.Alpha(style=0,opacity=1)" style='visibility: inherit;position: absolute; top: 0px; left: 0px;z-index: -1; border-style: none; background-color: red;'>
+ 
+</iframe>.
+ 
+</div>
+ </div>
+*/});
+
+
 	var   htmlStr_del=AE.txt2code(function(){/*
 <div>
 <select>
@@ -155,6 +193,16 @@ var   htmlStr2=AE.txt2code(function(){/*
   <option value="opel">Opel</option>
   <option value="audi">Audi</option>
 </select>
+
+ <div>按钮用来点击切换两个div的样式</div>
+<div :class="[isShow ? 'video' : 'videoSmall']">
+	<iframe style="z-index=-1" v-if='!isShow'>
+	<object style="width=100%;height=100%">
+</div>
+<div :class="[isShow ? 'video' : 'videoSmall']">
+	<iframe style="z-index=-1" v-if='isShow'>
+	<object style="width=100%;height=100%">
+</div>
  
  
 <embed type='application/x-vlc-plugin' id='vlc'  width="100%" height="320"/>
@@ -163,7 +211,7 @@ var   htmlStr2=AE.txt2code(function(){/*
     <param name='autoplay' value='true' />
     <param name='loop' value='false' />
     <param name='fullscreen' value='false' />
-
+   <param name="windowless" value="true"/>
 <div id="scrollDiv">
 <object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab" id='vlc-parent'>
 <embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" version="VideoLAN.VLCPlugin.2"
@@ -199,15 +247,49 @@ id="vlc" name="vlc" target="upload/<s:property value="storePath"/>">
      您的代码 
 </div>
 */
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ //IE 内核打开vlc的axvlc.dll，播放视频   //可以嵌入到web中，能叠加div到object前面
  
-  ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr2,"HttpServer_startUrl":null,"kernel":2}  } 
+ var   htmlStr6=AE.txt2code(function(){/*
+ <div>
+<select>
+  <option value ="volvo">Volvo</option>
+  <option value ="saab">Saab</option>
+  <option value="opel">Opel</option>
+  <option value="audi">Audi</option>
+</select>
+<object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" width="340" height="300">
+<embed type="application/x-vlc-plugin" width="340" height="300" />
+    <param name="autostart" value="true" />
+    <param name="allowfullscreen" value="true" />
+	<param name="MRL" ref value="rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov">
+</object>
+</div>
+*/});	
+
+
+
+var embed_object_vlc={
+								   "objName":"axvlc"    
+								   ,"pid":"axvlc"   //使用公共插件  pid 名称，  pid 名称是AE共有的，则调用共有的插件                       
+								    ,"reg":true    //null 不执行注册   1强制操作 true 未注册则注册  false 卸载注册 (重启AppEmit后，就不能加载dll了)  
+									,"asAdmin":0   //1需要管理员权限注册 0不需要 ,win7管理员身份会有提示确认窗口
+								                   //等ReportX.ocx下载下来可以拷贝到下面的私有目录测试
+								   ,"CLASSES_ROOT":"HKEY_CLASSES_ROOT\\VideoLAN.VLCPlugin.2\\CLSID"   
+								   ,"clsId":"9BE31822-FDAD-461B-AD51-BE1D1C159921"                      
+ 								 }  ;
+ 
+
+ ReqPar6= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr6,"HttpServer_startUrl":null,"kernel":1,"embed_object" :[embed_object_vlc] }  } 
 	
-   ////////////////////////////////////////////////////
-   
- 
-	 
-		// console.log(ReqPar)
-	   	 //  AE.OpenApp(ReqPar);
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+    ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr,"HttpServer_startUrl":null,"kernel":2  }  } 
+
+  
+	   	 AE.OpenApp(ReqPar);
 		 
 		 
 	   }
