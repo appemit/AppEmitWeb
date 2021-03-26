@@ -55,9 +55,9 @@
   <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
  
 <script>
-	//转为webRTC ，支持原生浏览器,格式要求严格。H264_AAC H264_PCMALAW MICRO PCM 摄像头设置 audio codec   ALAW or MULAW
+	//转为webRTC ，支持原生浏览器,格式要求严格。H264_AAC H264_PCMALAW MICRO PCM 摄像头设置 audio codec   ALAW or MULAW //要求设置为H264 HIGH Profile 不然报SPS PPS错误
  //最好是使用域名的摄像头地址，本地测试IP类的RTSP地址，会导致二次连接服务端口重定向到原始首页，而无法播放新的视频
-	
+ 
        var pid="BED083E6-AB12-4B63-B953-38650097445A";       //需要修改为开发者自己申请的
 	  var pidAuthKey="A1-XOuxNq7qKSv5Ha1Nt6ebC6-rRd_9KLx_wkVBXD_hFH1au7DRdFK9KkYEC5QZzk_6";   //需要修改为开发者自己申请的
 	  var http_port=":8083";
@@ -66,13 +66,13 @@
        var webRTC_cfg=  {
 							  "server": {
 								"http_port": http_port,
-								"ice_servers": ["stun:stun.l.google.com:19302"]
+								"ice_servers": ["stun:stun.l.google.com:19302",'stun:stun.ekiga.net','stun:stunserver.org','stun:stun.voipstunt.com','stun:stun.services.mozilla.com']
 							  },
 							  "para":{
-								"web": "/demo/htmlDemo/web/templates/*",    //正式环境 web文件夹拷贝到plugins/privete/[:pid]/web 下面  ，修改赋值为 "web/templates/*"
-								"url_static":"/demo/htmlDemo/web/static",     //正式环境 web文件夹拷贝到plugins/privete/[:pid]/web 下面  ，修改赋值为  "web/static"
-								//"web": "web/templates/*",
-								//"url_static":"web/static",
+								"webTemplate": "/demo/htmlDemo/web/templates/*",    //正式环境 web文件夹拷贝到plugins/privete/[:pid]/web 下面  ，修改赋值为 "web/templates/*"
+								"webStatic":"/demo/htmlDemo/web/static",     //正式环境 web文件夹拷贝到plugins/privete/[:pid]/web 下面  ，修改赋值为  "web/static"
+								//"webTemplate": "web/templates/*",
+								//"webStatic":"web/static",
 								"url_player":  "/stream/player",
 								"url_receiver":"/stream/receiver",
 								"url_codec":"/stream/codec",
@@ -84,7 +84,7 @@
 							  "streams": {
 								"H264_AAC": {
 								  "on_demand": true,
-								"url": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov"
+								"url": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov" //  "url": "rtsp://192.168.3.118:8554/vlc"
 								  //  "url": "rtsp://192.168.3.118:8554/vlc"         //no 需要域名地址
 								},
 								"MICRO": {
@@ -106,7 +106,7 @@
       //"webRTC_dos"  //1 显示调试dos窗口 0正式环境不显示，默认路径限制在plugins/privete/[:pid]/web 下面
 	  //调试的时候关闭dos会同时关闭appemit.exe，则重启即可
 	  //force 1强力重开程序 0默认已经开启的程序 不处理 rtsp2webRTC.exe
-       var  ReqPar= {"emit":"open","Obj":"rtsp2webRTC","AppShow":0,"AppFollow":0,"AppRuntime":1,"par":{"webRTC_cfg":webRTC_cfg,"pid":pid,"webRTC_dos":0,"AuthKey":pidAuthKey},"par0":{"force":1}};
+       var  ReqPar= {"emit":"open","Obj":"rtsp2webRTC","AppShow":0,"AppFollow":0,"AppRuntime":1,"par":{"webRTC_cfg":webRTC_cfg,"pid":pid,"webRTC_dos":0,"AuthKey":pidAuthKey},"par0":{"force":0}};
  		   
 	     AE.OpenApp(ReqPar );    
  
