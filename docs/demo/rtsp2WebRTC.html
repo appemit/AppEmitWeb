@@ -135,7 +135,7 @@
 		                                     ,{"equ": { "Obj":"rtsp2webRTC", "rid": 1,"AppStatus":1,"rep": 0},"func":link_player} //连接websocket成功后，执行input_App    
                                  ] ;
  
-		 AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" );   //连接websocket成功后，执行input_App
+		 AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" );   //连接websocket成功后，执行input_App
 	    // setTimeout(  function (  ) { input_App()},500);     //或者采用延迟执行，不够严谨
 	}
 
@@ -157,7 +157,7 @@
 			                   }   ] ;
 		                                   
  
-		      AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc_close);   //连接websocket成功后，执行AE_callbackFunc_close
+		      AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc_close);   //连接websocket成功后，执行AE_callbackFunc_close
 	 
 	 }
 	 

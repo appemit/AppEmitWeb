@@ -48,7 +48,7 @@
 		  window.location.href=targetURL;
 	   }else{     //webkit FF opera edge等浏览器，使用本页直接 嵌入目标网页
 		   AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":EmbedWholePage} ] ;     //连接websocket成功后，执行EmbedWholePage
-		  AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  
+		  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  
 	 
 	   }
   }
@@ -70,7 +70,7 @@
 	   if ( ["360SE","360EE","QQBrowser","Sogou"].indexOf(AE.clientInfo.browser) <0   ) {  //webkit FF opera edge等浏览器， 局部填充嵌入
     
 		  AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":EmbedPartialPage} ] ;     //连接websocket成功后，执行EmbedWholePage
-		  AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  
+		  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  
 	 
 	   }
   }

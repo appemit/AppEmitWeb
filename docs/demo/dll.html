@@ -54,7 +54,7 @@
   <script type="text/javascript" src="AppEmit_1.2_min.js"></script>  
 <script>
 /**步骤
- // 1. AE.initAppWs  连接ws
+ // 1. AE.InitApp  连接ws
  // 2.AE.OpenApp  打开app dll
   //3. AE.OpenApp  调用发送命令
   //4. 结束时一定需要正常退出,调用 的dll需要 stop或者null或者销毁
@@ -65,7 +65,7 @@
   
 	  var  reportXPath;
 	  
-	  var init_mark=  AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	  var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
 	 
  	//office
 	var start_App=   function(){

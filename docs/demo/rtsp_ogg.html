@@ -145,7 +145,7 @@ https://blog.csdn.net/langal1212/article/details/77676592
 									,{"equ": { "Obj":"appemit" ,"rid": 2,"rep": 0},"func":callPlayFunc}     // 获取本地的内网IP后，调用callPlayFunc  
                                  ] 
  
-		 AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE.callbackFunc);   //连接websocket成功后，执行input_App
+		 AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE.callbackFunc);   //连接websocket成功后，执行input_App
 	    // setTimeout(  function (  ) { input_App()},500);     //或者采用延迟执行，不够严谨
 	}
 
@@ -164,7 +164,7 @@ https://blog.csdn.net/langal1212/article/details/77676592
 			                   }   ] ;
 		                                   
  
-		      AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc_close);   //连接websocket成功后，执行AE_callbackFunc_close
+		      AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc_close);   //连接websocket成功后，执行AE_callbackFunc_close
 	 
 	 }
 

@@ -78,16 +78,14 @@
   
  
 	var init_App=function(){ 
-       
-		 AE.initAppWs(document.getElementById('input_url').value);
+        //步骤一 初始化
+		 AE.InitApp(document.getElementById('input_url').value);
  
 	  //或者采用回调	
 	//  	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE_callbackFunc.func
     //      var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
     //                                     ] ;
-	//  
-	//  	 AE.initAppWs("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc);   //连接websocket成功后，执行input_App
-	//      // setTimeout(  function (  ) { input_App()},500);     //或者采用延迟执行，不够严谨
+     //       AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc)
 	}
 	   
    
@@ -95,7 +93,7 @@
  
 	      var ReqPar={};
 	       ReqPar=JSON.parse(document.getElementById("input_par").value);
- 
+        //步骤二 执行
 		    AE.OpenApp(ReqPar);
 			
 	   }
