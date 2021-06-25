@@ -71,7 +71,7 @@
 			     测试滚动 
 		</div>  
 </div>
-<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据,则需要引入-->
+<!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    如果使用Gzip压缩解压数据，则需要引入-->
   <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
  
 <script>
@@ -268,11 +268,12 @@ id="vlc" name="vlc" target="upload/<s:property value="storePath"/>">
 */
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////select能在VLC前面///////////////////////////////////////////////////////////////////////////////////////////////////////////
  //IE 内核打开vlc的axvlc.dll，播放视频   //可以嵌入到web中，能叠加div到object前面
  
  var   htmlStr6=AE.txt2code(function(){/*
  <div>
+ 
 <select>
   <option value ="volvo">Volvo</option>
   <option value ="saab">Saab</option>
@@ -286,9 +287,10 @@ id="vlc" name="vlc" target="upload/<s:property value="storePath"/>">
 	<param name="MRL" ref value="rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov">
 </object>
 </div>
+ 
 */});	
 
-
+//IE控件调用
 
 var embed_object_vlc={
 								   "objName":"axvlc"    
@@ -301,11 +303,11 @@ var embed_object_vlc={
  								 }  ;
  
 
- ReqPar6= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr6,"HttpServer_startUrl":null,"kernel":1,"embed_object" :[embed_object_vlc] }  } 
+  ReqPar6= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr6,"HttpServer_startUrl":null,"kernel":1,"embed_object" :[embed_object_vlc] }  } 
 	
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  //  ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr,"HttpServer_startUrl":null,"kernel":2  }  } 
+//  ReqPar6= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr6,"HttpServer_startUrl":null,"kernel":2  }  } 
 
   
   //测试
@@ -319,8 +321,8 @@ var embed_object_vlc={
 
   ]	;
   */
-  	// AE.OpenApp(ReqPar);
-	 AE.OpenApp(ReqPar0);
+  // AE.OpenApp(ReqPar6);
+		   AE.OpenApp(ReqPar0);
 		 
 		 
 	   }

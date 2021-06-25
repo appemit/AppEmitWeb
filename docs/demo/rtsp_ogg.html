@@ -72,7 +72,7 @@ https://blog.csdn.net/langal1212/article/details/77676592
 		</div>
  
 </div>
-<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据,则需要引入-->
+<!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    如果使用Gzip压缩解压数据，则需要引入-->
   <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
  
 <script>
@@ -92,10 +92,10 @@ https://blog.csdn.net/langal1212/article/details/77676592
 	 
 	 //设置正确的RTSP再运行
 	 
-	    var ReqPar  =[{"emit":"open","Obj":"media","AppRuntime":1,"AppType":1,"AppId":"AppId_lvcSvr1","AppShow":0,"par0":{"force":0},"par":{"gui":0,"cmds":[ "-vvv  \"rtsp://:8554/vlc\"  --loop  :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-all :sout-keep\" "]}} 
-                          ];
+	   var ReqPar  =[{"emit":"open","Obj":"media","AppRuntime":1,"AppType":1,"AppId":"AppId_lvcSvr1","AppShow":0,"par0":{"force":0},"par":{"gui":0,"cmds":[ "-vvv  \"rtsp://:8554/vlc\"  --loop  :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-all :sout-keep\" "]}}  ];
+                         
  		 //下面的命令执行本地的mp4转为rtsp  ，rtsp转为 ogg  增加 h1.mp4
- 	 // var ReqPar  =[{"emit":"open","Obj":"media","AppRuntime":1,"AppType":1,"AppId":"AppId_lvcSvr1","AppShow":0,"par0":{"force":0},"par":{"gui":0,"cmds":["-vvv  \"file:///${dir_Cur}/demo/htmlDemo/file/h1.mp4\"  --loop --sout \"#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:8554/vlc}\" ","-vvv  \"rtsp://:8554/vlc\"  --loop  :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-all :sout-keep\" "]}} ];						   
+  // 	 var ReqPar  =[{"emit":"open","Obj":"media","AppRuntime":1,"AppType":1,"AppId":"AppId_lvcSvr1","AppShow":0,"par0":{"force":0},"par":{"gui":0,"cmds":["-vvv  \"file:///${dir_Cur}/demo/htmlDemo/file/h1.mp4\"  --loop --sout \"#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:8554/vlc}\" ","-vvv  \"rtsp://:8554/vlc\"  --loop  :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-all :sout-keep\" "]}} ];						   
 						   
 	     AE.OpenApp(ReqPar,null,1 );   
 	   }
@@ -141,8 +141,8 @@ https://blog.csdn.net/langal1212/article/details/77676592
  
 	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开,转码成功, ,任务管理器会出现vlc.exe，再执行AE.callbackFunc.func
           AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
-                                   ,{"equ": { "Obj":"media", "rid": 1,"rep": 0},"func":function(){AE.OpenApp({"emit":"getPar","Obj":"appemit","par":["intranetIP"]} )} } //input_App成功后，获取本地的内网IP
-									,{"equ": { "Obj":"appemit" ,"rid": 2,"rep": 0},"func":callPlayFunc}     // 获取本地的内网IP后，调用callPlayFunc  
+                                   ,{"equ": { "Obj":"media", "rid": 1,"rep": 0},"func":function(){AE.OpenApp({"emit":"getPar","Obj":"app","par":["intranetIP"]} )} } //input_App成功后，获取本地的内网IP
+									,{"equ": { "Obj":"app" ,"rid": 2,"rep": 0},"func":callPlayFunc}     // 获取本地的内网IP后，调用callPlayFunc  
                                  ] 
  
 		 AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE.callbackFunc);   //连接websocket成功后，执行input_App

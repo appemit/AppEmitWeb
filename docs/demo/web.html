@@ -37,7 +37,8 @@
           <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}}'/>
 	   
 		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button> &nbsp;  &nbsp; &nbsp;  &nbsp; <button type="button" id="btn_Flash" onclick="AE.OpenApp(ReqPar2)" >注册ocx网页打开</button>
-		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar3)" >单独注册ocx</button>
+		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar3)" >单独注册ocx</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar4)" >执行追加函数</button>
+		 <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar5)" >支持操作网页内核控件</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar6)" >接口</button>
 		 </div>
  <div style="font-size:10px">flashOcx  IE    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":"flash_ocx"}}</div>      
 	<div style="font-size:10px">flashNP webkit    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":["flash_NP"]}}</div>      
@@ -72,7 +73,7 @@
 			     测试滚动 
 		</div>  
 </div>
-<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    <!--如果使用Gzip压缩解压数据,则需要引入-->
+<!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    如果使用Gzip压缩解压数据，则需要引入-->
 <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
 <script>
   
@@ -153,9 +154,75 @@ var  regPar={"pid": "292A53CD-DA8F-46A5-808D-B286F2759C37"       //pid 名称，
                  };
   ReqPar3= {"emit":"func","Obj":"regsvr32","par":regPar};
   
+//定节点执行命令	,举例设置获取header  "header":"c:5\r\nb:7"
+ReqPar4= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com","header":{"c":5,"b":7}},"par0":{"AppStep":{"init":`var inet_whttp=AppJsFun.inet_whttp();inet_whttp.addHeaders="a:1\r\nb:4";/*{a=1;b=4};*/ ; inet_whttp.beginRequest("http://www.qq.com/","GET"  );  inet_whttp.send(); 	var new_header = inet_whttp.readHeader() ; inet_whttp.endRequest();return {new_header};`, "destroy":null, "closed":null,"loaded":`AppJsFun.Sleep(8000);AppJsObject.web.go("http://news.baidu.com/");`}}}
+
+//直接操作IE内核对象,首先打开网页生成对象AppJsObject.web，再使用AppJsObject.web直接调用
+ReqPar5= { "emit": "runCmd", "Obj": "web", "AppId": 1, "codeStr": 'AppJsObject.web.go("http://www.163.com")' };
+ 
+
+ /**
+* //Js直接调用AppEmit对象
+*下面的注释为执行代码
+*
+**/
+ 
+ function AE_txt2code(fn) {
+	 return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
+ }
+ //!@preserve 避免压缩代码时注释被取消，请验证  。script前修改为\ /
+var embedHtmlStr = function() { /*!@preserve
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <div onmousedown='javascript:  
+        external.hitCaption();
+        return false;
+    ' style="-webkit-user-select: none;cursor:default;background:#cce;padding:25px;margin:10px;">拖动窗口</div>
+	<a href='javascript:   external.go("http://www.baidu.com"); '>1.1  js调用appemit的网页控件接口external打开baidu</a></p>
+	<a href='javascript: myAppJsFun.msgbox("33","title");   '>1.2  js调用appemit的通用函数库AppJsFun的msgbox窗口</a></p>
+	<a href='javascript: external.script().jsFun_a(322) '>2 appemit 通过 external.script调用导入的js文件中的函数,只能实时</a></p>
+ 	<a href='javascript: AppJsFun.msgbox("webkit blink可以全局函数","title"); (322) '>2 全局函数  </a></p>
+ 
 	
-	 
-	 
+    <script>
+	 //高频次使用且不变的变量最好定义，避免一直实时访问appemit导出external.AppJsFun  
+     var  myAppJsFun=external.AppJsFun;  //wekit或者blink可以不要"external."
+	 var jsFun_a=function(a){ alert(a+123); }
+	 //这样注释转多行字符串的形式不支持script，需要修改。 即在运行代码前所有的script前的< \ /被替换为< /
+    <\/script>
+*/}
+
+// console.log(AE_txt2code(embedHtmlStr))
+ 
+ReqPar6= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":AE_txt2code(embedHtmlStr)},"par0":{}} 
+
+ 
+
+
+// //高频次使用且不变的变量最好定义，避免一直实时访问appemit导出external.函数
+//非IE可以使用 "AppJsWeb":1  "AppJsObject":1 
+//"AppType":1 IE  2 webkit 3 blink   
+ /*
+网页内核的方法  ,通过external 调用
+ go(url);//  headers为追加  IE url,headers,target,flags ， kit bkink(url)
+ goBack()
+ goForward()
+ doScript(code,frame)  //IE(jscode,frame)   kit bkink(jscode)
+ post(url,postdata,headers,target,flags)  IE (url,postdata,headers,target,flags) ， kit blink(url,postdata)
+ refresh()   仅IE 刷新页面\n如果服务器未更新则不会重新下载,类似在浏览器中按F5的效果
+ refresh2(lev=0)     仅IE  重新下载页面\n可在参数中指定级别  Refresh20
+ refresh3(lev=3)   仅IE 重新下载最新页面\n添加Pragma:no-cache请求头,强制服务端刷新\n类似在浏览器中按下Ctrl+F5的效果    Refresh23
+ reload()   重新下载最新页面= refresh3
+ stop() 
+ document() 
+ script()
+ getDoc()  可以包含document以及iframe
+ click()
+
+ */
+ 
+ 
+ 
+ 
 </script>
 </body>
 
