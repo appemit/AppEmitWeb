@@ -1,0 +1,83 @@
+<!DOCTYPE html>  <!--  manifest="/websocket.appcache"-->
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title> AppEmit 嵌入APP,支持播放flash的flv swf 以及RTSP等视频播放，可以嵌入各类程序</title>  
+	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+
+ 
+ 
+ 	<!-- json2 is included because some browsers doesnt have it (e.g. ie8)	
+	<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+ -->
+  
+</head>
+
+<body >
+
+
+<div class="container">
+<input type="text" class="form-control" size="50" style="margin-bottom:3px;" id="input_url" value="ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1" />
+     <button type="button" id="btn_Flash" onclick="init_App(1) " >单页</button> &nbsp;  &nbsp; &nbsp; 
+	   <button type="button" id="btn_Flash" onclick="init_App(2) " >tab页</button> &nbsp;  &nbsp; &nbsp; 
+	   	   <button type="button" id="btn_Flash" onclick="init_App(3) " >独立EXE</button> 
+      <div >  
+ 
+ 	 
+		   </div>
+             <div class="Appboxs" >
+	 			 <!--    textarea或者改为div  都可以,绑定嵌入APP的位置, AppEmbed 要一致。如果要跟随浏览器变化大小，设置相对%比例即可-->
+ 		     <div id="AppEmbed1"  style="	border: solid 1px #F0F0F0; min-width:30px;min-height:20px;width:100%;height:600px" ></div>
+         
+		</div>
+ 
+</div>
+<!-- <script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    如果使用Gzip压缩解压数据,则需要引入-->
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
+ 
+<script>
+  
+   
+	var input_App=   function(Jdata_inPar){
+            var   ReqPar;
+		
+           var  lx= Jdata_inPar.lx ||1;
+	 
+			 if  ( lx==1) {
+			  
+			 	     //默认为多页tab模式，如果只要单页,Obj设置为yeyouWeb
+	          ReqPar ={"emit":"open","Obj":"yeyouWeb","AppType": 1,"AppId":1,"AppFollow":31,"pos":1,"par":{"URL":"https://www.37.com/cyhj/" }};
+  		  }else if(lx==2){ //tab模式
+		 
+		          //    ReqPar={"emit":"open","Obj":"yeyou","AppType":-1,"AppId":1,"AppFollow":0,"pos":1,"par":{"URL":"http://www.qq.com" }};
+ 
+		       ReqPar={"emit":"open","Obj":"yeyou","AppType":1,"AppId":1,"AppFollow":31,"pos":1,"par":{"URL":null}};
+ 
+		  }else if(lx==3){  //启动独立的EXE文件
+ 
+		            ReqPar={"emit":"open","Obj":"yeyou","AppType":-1,"AppId":1,"AppFollow":0,"pos":0,"par":{"AppExe":1,"URL":"http://www.baidu.com" }};
+ 
+		      //   ReqPar={"emit":"open","Obj":"yeyou","AppType":1,"AppId":1,"AppFollow":31,"pos":1,"par":{"URL":null}};
+ 
+		  }
+		  
+		  AE.OpenApp(ReqPar);
+	   }
+	   
+	 	var init_App=function(lx){ 
+       	
+	  	  //采用回调 反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE.callbackFunc.func
+           AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App,"inPar":{lx:lx}}  ] ; //连接websocket成功后，执行input_App,输入参数为inPar和Jdata  Object.assign({},Jdata,inPar),重名以inPar为准
+ 
+	  	   AE.InitApp(document.getElementById('input_url').value);   //连接websocket成功后，执行input_App
+	 
+	}
+
+
+</script>
+</body>
+
+</html>

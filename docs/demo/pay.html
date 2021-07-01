@@ -1,0 +1,133 @@
+<!DOCTYPE html>  <!--  manifest="/websocket.appcache"-->
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title> AppEmit dll ocx ActiveX</title>  
+	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+ <!--  <script src="https://cdn.jsdelivr.net/npm/js-base64@3.2.4/base64.min.js"></script>  -->
+ 
+      <style type="text/css">
+        html,body{
+            height: 100%;
+	      width:100%
+        }
+    body{
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+     <div style="font-size:10px"> 
+			 		 
+						<button type="button" id="btn_Flash" onclick="link_App() " >连接银行付款</button>  
+		   </div>  
+     
+    </div >     
+ <div readonly id="AppEmbed1"  style="border:none; 	width:100%;height:100%" ></textarea>
+	 
+  
+
+ <!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>   如果使用Gzip压缩解压数据，则需要引入-->
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>  
+<script>
+/**步骤
+ // 1. AE.InitApp  连接ws
+ // 2.AE.OpenApp  打开app dll
+  //3. AE.OpenApp  调用发送命令
+  //4. 结束时一定需要正常退出,调用 的dll需要 stop或者null或者销毁
+**/
+ 
+		 
+ 	//office
+	var init_App=   function(){
+ 
+	   var ReqPar = { "emit": "open",
+        "Obj": "dll",
+		"AppId": 1,
+        "AppType": 1,
+        "src": [ { //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
+          //   "asAdmin":0   //1需要管理员权限注册 0不需要
+          //	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册
+								     createType: "callDll", //  dll开发
+								     objName: "jspaypos", // 自行定义  //AppJsObject.jspaypos 来访问此dll
+ 									 dllFile: "/plugins/private/9E8FD996-7D60-430A-8CE1-6796416E3FE0/jspaypos.dll", //  必须 \\   / 分隔, 个人的插件放在ugins/private/clsId/文件夹下面
+                                   // stdcall_cdecl:"stdcall",
+								   pid: "9E8FD996-7D60-430A-8CE1-6796416E3FE0",
+									 AuthKey: "A1-coHyj1YZZzOlYdT0cRbr3tri2b5GrCAIN_HFirBIqEBb6DcbyMzC5NpDjgQd40lM", // pid的授权，appemit网站获取
+									 // clsId: "9E8FD996-7D60-430A-8CE1-6796416E3FE0", // guid  自己自行生成的， 最好和pid不同。 dll  里面设置的一致
+                                  CLASSES_ROOT: null, // 自行开发dll不用注册，则不用设置
+								  // ,clsIdAuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                /l文件访问的授权 自行设置
+								     ver: "1.0.0",
+                                       iid: null
+          //, data:'{"msg":"init from JS","info":1}'               //发送给dll  数据
+
+								   } // 暂时支持一个控件
+						    ],
+
+		   "AppShow": false,
+        "par": { "webJs": 0 },
+        "par0": { "AppMethod": "msg Synchronization component need set: POST" } }
+
+         AE.OpenApp(ReqPar); // 连接好了    jspaypos，生成了AppJsObject.jspaypos  对象
+ 
+  
+		 
+ }
+   var codeStr0 = AE.txt2code(function() { /*
+ AppJsObject.jspaypos.CreditTransJson=AppJsLibrary.jspaypos.dll.api( "CreditTransJson","int(string strIn,string & strOut)", "stdcall" );  //cdecl
+ */ });
+  var codeStr = AE.txt2code(function() { /*
+ 
+var strOut = raw.buffer(4096);
+var strIn=`{"channelNo":"m",
+"clientInfo":"jspaypos",
+"mchIp":"192.168.46.1",
+"msgID":"20200821171147000059",
+"partnerId":"3b157fb3583a45fc9fd96ac9205f070e",
+"publicKeyCode":"00",
+"shopId":"123324232131231234",
+"svrCode":"",
+"version":"v1.0.0",
+"deviceNo":"L1A1001",
+"operatorid":"s0000001",
+"createDate":"20200809",
+"createTime":"180101",
+"bizDate":"20200809",
+"service":"ePay",
+"totalFee":"200.00",
+"authCode":"12812123434355353434534",
+"outTradeNo":"3202312312412323",
+"proInfo ":"A1001",
+"attach":"testData"}`;
+ 
+ var outInt=AppJsObject.jspaypos.CreditTransJson(strIn,strOut );
+//AppJsFun.msgbox(outInt);
+ 
+return  {outInt=outInt;strOut= web.json.tryParse( raw.str( strOut),false,936 )};  //false 没有转义符 ,936 GBK   raw.str纯粹字符串 raw.string /0标识的字符串
+*/ });
+ 
+var link_App=   function(){
+      // 调用 CreditTransJson
+	 
+      AE.OpenApp({ "emit": "runCmd", "Obj": "dll", "AppId": 1, "codeStr": codeStr })
+	  
+}
+ 
+ // 初始化回调执行init_App,再生成全局对象AppJsObject.jspaypos的方法CreditTransJson
+  AE.callbackFunc= [    {"equ": {  "clientAuth":1,"rep": 0,"rid":0},"func":init_App }             
+                                ,{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0,"rid":1},"func":function(){AE.OpenApp({"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr0 })}} // 
+                               , {"equ": { "Obj":"dll" ,"rid":2},"func":function(){AE.callbackFun_cancel=true;}} // 后面可以取消回调，不再判断执行
+							 	] ;
+	 						
+  var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	  
+	  
+	  
+
+</script>
+</body>
+</html>
