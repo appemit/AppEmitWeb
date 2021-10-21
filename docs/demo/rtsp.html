@@ -33,7 +33,7 @@
  -->		 	
  <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value=' {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }}'/>
 	 
-		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button>
+		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button><button type="button" id="btn_Flash" onclick="libvlc_snap() " >libvlc_snap</button>
 		   </div>
 	  
 		 	    <div style="font-size:10px">v2. NPAPI网页 支持多开:   &nbsp; &nbsp;  {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","htmlStr":null,"HttpServer_start":null,"kernel":2},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"height":"95%" }}</div>      
@@ -99,6 +99,7 @@
   <option value="audi">Audi</option>
 </select>
 
+  
 
  */
  
@@ -115,17 +116,24 @@
 	      var ReqPar0={};
 	       ReqPar0=JSON.parse(document.getElementById("input_par").value);
 		 //  AE.OpenApp(ReqPar);
-			   
- //v1 libvlc
-
-	     // ReqPar=[{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030", "--freetype-font=宋体","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapWidth":0,"snapHeight":0}}]	;
+		 
+//////////////////v1 libvlc ///////////////////////////////////////////			   
+ // v1 libvlc 
+// "par0" 设置
+//   "trackbar":0,"bgcolor":8150110 隐藏进度条 设置控制栏的颜色
+//   "event":["click","Rclick"] 监控左右单击事件，右键双击截图 左键双击全屏
+///////////////////////////////////////////////////
+	 // ReqPar=[{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030", "--freetype-font=宋体","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapWidth":0,"snapHeight":0}}]	;
  
+ 
+ 
+ ///////////v2. NPAPI网页////////v1 libvlc ///////////////////
 //v2. NPAPI网页 可以设置mrl和其它参数，其等效实现htmlStr0相同的代码。
 //更多 https://wiki.videolan.org/Documentation:WebPlugin/#Embed_tag_attributes 
 //或者设置mrl 等效 实现html   
  
-//AE.txt2code 函数不能包含script, chrome会报消息 
-var   htmlStr=AE.txt2code(function(){/*
+//AE.txt2code 函数不能包含script, chrome会报错，另外vue使用AE.txt2code_Vue
+var   htmlStr=AE.txt2code(function(){/*!@preserve
  
 <object type='application/x-vlc-plugin' id='vlc' events='True' width="98%" height="96%">
     <param name='mrl' value='rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov' />
@@ -141,7 +149,7 @@ var   htmlStr=AE.txt2code(function(){/*
 //  ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr,"HttpServer_startUrl":null}  } 
 	
 //实现多开
-var   htmlStr2=AE.txt2code(function(){/*
+var   htmlStr2=AE.txt2code(function(){/*!@preserve
 <object type='application/x-vlc-plugin' id='vlc1' events='True' width="20%" height="100%">
     <param name='mrl' value='rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov' />
     <param name='volume' value='50' />
@@ -177,7 +185,7 @@ var   htmlStr2=AE.txt2code(function(){/*
 */});	
  ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr2 }  } 
 //  
-	var   htmlStr3=AE.txt2code(function(){/*
+	var   htmlStr3=AE.txt2code(function(){/*!@preserve
  <div>
 	<div><object type='application/x-vlc-plugin' id='vlc1' events='True' width="80%" height="80%">
     <param name='mrl' value='rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov' />
@@ -204,7 +212,7 @@ var   htmlStr2=AE.txt2code(function(){/*
 */});
 
 
-	var   htmlStr_del=AE.txt2code(function(){/*
+	var   htmlStr_del=AE.txt2code(function(){/*!@preserve
 <div>
 <select>
   <option value ="volvo">Volvo</option>
@@ -271,7 +279,7 @@ id="vlc" name="vlc" target="upload/<s:property value="storePath"/>">
 ////////////////////////select能在VLC前面///////////////////////////////////////////////////////////////////////////////////////////////////////////
  //IE 内核打开vlc的axvlc.dll，播放视频   //可以嵌入到web中，能叠加div到object前面
  
- var   htmlStr6=AE.txt2code(function(){/*
+ var   htmlStr6=AE.txt2code(function(){/*!@preserve
  <div>
  
 <select>
@@ -326,8 +334,14 @@ var embed_object_vlc={
 		 
 		 
 	   }
- 
-
+  //拍照
+		libvlc_snap=function(){
+		//    默认 inPar["ObjName"]:="vlcPlayer"，如果修改可以在  {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par"里面设置ObjName
+		//AppJsObject[inPar["ObjName"]].takeSnap(snapPath,snapWidth,snapHeight,snapNum)
+            var snapPath="/file/snap/a_"+Date.now()+".bmp"
+             var  ReqPar8={"emit":"runCall","Obj":"libvlc","AppId":1,"src":[],"par":{"objName":"vlcPlayer"},"par0":{"callFun":{"takeSnap":[snapPath,0,0,0]}  }}	   
+           AE.OpenApp(ReqPar8);
+		}
  
 </script>
 </body>

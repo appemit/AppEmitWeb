@@ -23,6 +23,7 @@
 
 }
 </style>  
+ 
 </head>
 
 <body >
@@ -34,9 +35,9 @@
       <div >  
 		<div style="font-size:10px">w1. webtype:   
  		 
-          <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com"}}'/>
+          <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com","htmlStr":null,"HttpServer_startUrl":null  }}'/>
 	   
-		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button> &nbsp;  &nbsp; &nbsp;  &nbsp; <button type="button" id="btn_Flash" onclick="AE.OpenApp(ReqPar2)" >注册ocx网页打开</button>
+		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button> &nbsp;  &nbsp; <button type="button" onclick="close_App() " >close</button> &nbsp;  &nbsp; <button type="button" id="btn_Flash" onclick="AE.OpenApp(ReqPar2)" >注册ocx网页打开</button>
 		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar3)" >单独注册ocx</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar4)" >执行追加函数</button>
 		 <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar5)" >支持操作网页内核控件</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar6)" >接口</button>
 		 </div>
@@ -47,25 +48,15 @@
 	    <div style="font-size:10px">w1.  多个&nbsp; &nbsp;[{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}]</div>      
  
 
-<!--  .Appboxs {
-                margin: 0 30px 0 260px;
-                padding: 40px 0 0 0;
-                position:absolute;绝对
-                top: 30px; 固定上部
-                left: 3%; 左边留成百分比
-                width:1200px;宽度固定
-                }
- 
-当左右拉动放大缩小浏览器时，不会变化。
- -->
+
  
  	 
 		   </div>
              <div class="Appboxs" >
 			 
 			 <!--    textarea或者改为div  都可以,绑定嵌入APP的位置, AppEmbed 要一致。如果要跟随浏览器变化大小，设置相对%比例即可-->
- 		     <div id="AppEmbed1"  style="	border: solid 1px #F0F0F0; min-width:30px;min-height:20px;width:600px;height:400px" ></div>
-			  <div id="AppEmbed2"  style="	border: solid 1px #F0F0F0; min-width:30px;min-height:20px;width:300px;height:300px" ></div>
+ 		     <div id="AppEmbed1"  style="	border: solid 2px #F0F0F0; min-width:30px;min-height:20px;width:600px;height:400px" ></div>
+			  <div id="AppEmbed2"  style="	border: solid 2px #F0F0F0; min-width:30px;min-height:20px;width:300px;height:300px" ></div>
 			 
 			                
 		</div>
@@ -76,7 +67,19 @@
 <!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    如果使用Gzip压缩解压数据，则需要引入-->
 <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
 <script>
-  
+/*
+/////////////////////////////////////////////////////
+//步骤 
+1 在主页index.htmll load页面时加载AppEmit_1.2_min.js一次
+2 执行AE.InitApp一次
+3 使用vue或者直接多次使用AE.OpenApp来调用函数
+4 默认关闭网页自动 AE.OpenApp("emit":"close","AppId":1...) 【等效AE.CloseApp("AppId":1...)】
+////////////////////////////////////////////////
+*/
+   var close_App=function(){
+   
+      AE.OpenApp( {"emit":"open","Obj":"web","AppId":1});   //关闭Obj":"web","AppId":1的应用
+   }
  
 	var init_App=function(){ 
         //步骤一 初始化
@@ -101,9 +104,10 @@
 /**   
 * //////////////////////////////////demo 注册ReportX.ocx，再直接打开含有ReportX object的网页//////////////////////////////////////////////
 //使用"AppType":1IE内核打开ocx对象    "AppType":2 3webkit打开NPAPI对象
+优先级  html>inPar["HttpServer_startUrl"]>inPar["URL"]
 */
 //AE.txt2code功能有限，不能加js代码  还可以使用URL或者HttpServer_startUrl输入
-			var htmlStr=AE.txt2code(function(){/**
+			var htmlStr=AE.txt2code(function(){/*!@preserve
 			   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			 <div>
 				 reportX ，需要注册才能使用。<input type="button" id="btn1" name="btn1" value="调用ocx"  onclick="ReportX1.OpenReport('demo/htmlDemo/file/rep1.rpxe')"></input>
@@ -113,7 +117,7 @@
 				  <PARAM NAME="AutoSize" VALUE="1">
 				  </OBJECT>
 				</div>
-			**/});
+			*/});
  
             //未提交注册的文件，为了安全，限制为AppEmit文件夹，不能注册或者注销其它文件夹下面的ocx dll,其中 pid唯一
 		 	 ReqPar2= {"emit":"open","Obj":"web","AppType":1,"pos":1,"AppId":1
@@ -155,14 +159,14 @@ var  regPar={"pid": "292A53CD-DA8F-46A5-808D-B286F2759C37"       //pid 名称，
   ReqPar3= {"emit":"func","Obj":"regsvr32","par":regPar};
   
 //定节点执行命令	,举例设置获取header  "header":"c:5\r\nb:7"
-ReqPar4= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com","header":{"c":5,"b":7}},"par0":{"AppStep":{"init":`var inet_whttp=AppJsFun.inet_whttp();inet_whttp.addHeaders="a:1\r\nb:4";/*{a=1;b=4};*/ ; inet_whttp.beginRequest("http://www.qq.com/","GET"  );  inet_whttp.send(); 	var new_header = inet_whttp.readHeader() ; inet_whttp.endRequest();return {new_header};`, "destroy":null, "closed":null,"loaded":`AppJsFun.Sleep(8000);AppJsObject.web.go("http://news.baidu.com/");`}}}
+ReqPar4= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com","header":{"c":5,"b":7}},"par0":{"AppStep":{"init":'var inet_whttp=AppJsFun.inet_whttp();inet_whttp.addHeaders="a:1\r\nb:4";/*{a=1;b=4};*/ ; inet_whttp.beginRequest("http://www.qq.com/","GET"  );  inet_whttp.send(); 	var new_header = inet_whttp.readHeader() ; inet_whttp.endRequest();return {new_header};', "destroy":null, "closed":null,"loaded":'AppJsFun.Sleep(8000);AppJsObject.web.go("http://news.baidu.com/");'}}}
 
 //直接操作IE内核对象,首先打开网页生成对象AppJsObject.web，再使用AppJsObject.web直接调用
 ReqPar5= { "emit": "runCmd", "Obj": "web", "AppId": 1, "codeStr": 'AppJsObject.web.go("http://www.163.com")' };
  
 
  /**
-* //Js直接调用AppEmit对象
+* //Js直接调用AppEmit 网页控件对象 变量external， 函数AppJsFun,或者其它设定的导出变量
 *下面的注释为执行代码
 *
 **/
@@ -170,7 +174,7 @@ ReqPar5= { "emit": "runCmd", "Obj": "web", "AppId": 1, "codeStr": 'AppJsObject.w
  function AE_txt2code(fn) {
 	 return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
  }
- //!@preserve 避免压缩代码时注释被取消，请验证  。script前修改为\ /
+ //!@preserve 避免压缩代码时注释被取消，请验证  。script前修改为\ / 。  如果无法转为字符串代码，可用 `` 或者html文件引入，IE不支持·
 var embedHtmlStr = function() { /*!@preserve
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <div onmousedown='javascript:  
@@ -180,7 +184,7 @@ var embedHtmlStr = function() { /*!@preserve
 	<a href='javascript:   external.go("http://www.baidu.com"); '>1.1  js调用appemit的网页控件接口external打开baidu</a></p>
 	<a href='javascript: myAppJsFun.msgbox("33","title");   '>1.2  js调用appemit的通用函数库AppJsFun的msgbox窗口</a></p>
 	<a href='javascript: external.script().jsFun_a(322) '>2 appemit 通过 external.script调用导入的js文件中的函数,只能实时</a></p>
- 	<a href='javascript: AppJsFun.msgbox("webkit blink可以全局函数","title"); (322) '>2 全局函数  </a></p>
+ 	<a href='javascript: AppJsFun.msgbox("webkit blink可以全局函数","title");  '>3 AppType=2 webkit和3 blink接口函数  </a></p>
  
 	
     <script>
@@ -193,7 +197,7 @@ var embedHtmlStr = function() { /*!@preserve
 
 // console.log(AE_txt2code(embedHtmlStr))
  
-ReqPar6= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":AE_txt2code(embedHtmlStr)},"par0":{}} 
+ReqPar6= {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"htmlStr":AE_txt2code(embedHtmlStr)},"par0":{}} 
 
  
 
@@ -219,10 +223,7 @@ ReqPar6= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlSt
  click()
 
  */
- 
- 
- 
- 
+
 </script>
 </body>
 
