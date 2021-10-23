@@ -87,23 +87,23 @@
 		var codeStr;
       
 	 if(cmdId=="openDlg"	){
-			  codeStr =   AE.txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*!@preserve
  var path=fsys.dlg.open('docx|*.docx|所有文件|*.*||',,fsys.getSpecial(0x8))
 return {path=path}
 */});
 		}else if (cmdId=="stop"	){
-				  codeStr =   AE.txt2code(function(){/*
+				  codeStr =   AE.txt2code(function(){/*!@preserve
 AppJsObject.shockwave.stop(); 
 return {status="stop"}
 */});
 		} else if(cmdId=="play"	){
-			  codeStr =   AE.txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*!@preserve
  AppJsFun.msgbox(AppJsObject.shockwave.Movie)			  
 AppJsObject.shockwave.play(); 
 return {status="play"}
 */});
 		} else if(cmdId=="reportX_open"	){
-			  codeStr =   AE.txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*!@preserve
 //AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
 var  reportXPath=AppJsFun.dlgOpen('rpxe|*.rpxe|所有文件|*.*||')	  
  AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var
@@ -132,7 +132,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 	 //    codeStr = "var savePath=AppJsFun.dlgSave('rpxe|*.rpxe|所有文件|*.*||','另存为')  if (savePath) AppJsObject.reportX.SaveReport(savePath);"
 	 
 		}else if(cmdId=="file_upload"	){
-			  codeStr =   AE.txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*!@preserve
  var upPar={
 				URL= "http://eu.httpbin.org/post"
 				;filePath=AppJsVar_reportXPath
@@ -149,7 +149,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
   return {upload_status=upload_status}
 */});
 		}else if(cmdId=="file_download"	){
-			  codeStr =   AE.txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*!@preserve
  var upPar={
 				URL= "https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb/docs/img/logo.png"
 				;savePath=AppJsFun.dlgSave('png|*.png|所有文件|*.*||')                  //需要手动指定路径，或者默认相对路径  "/download"
@@ -166,12 +166,12 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 */});
  
 		}else if(cmdId=="RevMsg"	){   //执行AppDll_RevMsg方法
-			  codeStr =   AE.txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*!@preserve
  AppJsObject.dll_demo1.AppDll_RevMsg(AppDll_hwnd,'','{"data":"send from bowser JS ","info":555}'); 
 */});
  
 		}else if(cmdId=="myadd"	){   
-			  codeStr =   AE.txt2code(function(){/*
+			  codeStr =   AE.txt2code(function(){/*!@preserve
  var sum=AppJsObject.dll_demo1.myAdd(1,5);
 return  sum; 
 */});
@@ -216,7 +216,7 @@ return  sum;
 							  //,flags:  
 							  }
 				 };
-				 		   codeStr21 =   AE.txt2code(function(){/*
+				 		   codeStr21 =   AE.txt2code(function(){/*!@preserve
 //AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
 var  reportXPath=AppJsFun.dlgOpen('rpxe|*.rpxe|所有文件|*.*||',,"/demo/htmlDemo/file")	  
  AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var
@@ -262,7 +262,7 @@ Req3={"emit":"open","Obj":"dll","src":[  {                       //,  私有的�
 								   }   //暂时支持一个控件
 						    ]
 						 ,"AppShow":false                  //整体不可见 必须设置，默认可见
-						 ,"par":{"webJs":0},"par0":{"AppStep":{"init":"return {1}",  "destroy":"return {3}", "closed":"return {4}","loaded":`AppJsFun.msgbox("12312312");AppJsObject.dll_demo1.AppDll_loaded(AppDll_hwnd,'{"rid":-2}','{"data":"loaded from JS33","info":233}');return {a=3333};`},"AppMethod":"msg Synchronization component need set: POST" }
+						 ,"par":{"webJs":0},"par0":{"AppStep":{"init":"return {1}",  "destroy":"return {3}", "closed":"return {4}","loaded":'AppJsFun.msgbox("12312312");AppJsObject.dll_demo1.AppDll_loaded(AppDll_hwnd,\'{"rid":-2}\',\'{"data":"loaded from JS33","info":233}\');return {a=3333};'},"AppMethod":"msg Synchronization component need set: POST" }
 						 };
 	
   AE.OpenApp(Req3);

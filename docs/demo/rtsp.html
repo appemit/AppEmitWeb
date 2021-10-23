@@ -82,7 +82,9 @@
  
 				https://wiki.videolan.org/VLC_command-line_help/
 				https://blog.csdn.net/langal1212/article/details/77676592
-				 减少VLC开始接收视频花屏现象，可以加上：
+				默认"par":{ "engine":["--subsdec-encoding=GB18030",
+	 "--freetype-font=宋体","--no-snapshot-preview","-I","dummy" ,"--ignore-config"]
+				 减少VLC开始接收视频花屏现象，可以在engine里面加上： 
 				"--network-caching=500",                   //网络额外缓存值 (ms)500-800
 				"--rtsp-frame-buffer-size=1000000",   //RTSP帧缓冲大小，默认大小为100000
 				"--rtsp-tcp",                                                //RTSP采用TCP传输方式
@@ -142,6 +144,8 @@ var   htmlStr=AE.txt2code(function(){/*!@preserve
     <param name='autoplay' value='true' />
     <param name='loop' value='false' />
     <param name='fullscreen' value='false' />
+ </object>
+ 
  
 */});
 //或者将htmlStr保存到本地文件，定义  "HttpServer_startUrl":"demo/htmlDemo/rtsp_HttpServer_startUrl.html"
@@ -183,7 +187,7 @@ var   htmlStr2=AE.txt2code(function(){/*!@preserve
 
 
 */});	
- ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr2 }  } 
+ ReqPar= {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{"htmlStr":htmlStr }  } 
 //  
 	var   htmlStr3=AE.txt2code(function(){/*!@preserve
  <div>
@@ -329,11 +333,14 @@ var embed_object_vlc={
 
   ]	;
   */
-  // AE.OpenApp(ReqPar6);
-		   AE.OpenApp(ReqPar0);
+  
+    //测试
+  	//	    AE.OpenApp(ReqPar);
+   //执行文本框里的内容
+ AE.OpenApp(ReqPar0);
 		 
 		 
-	   }
+  }
   //拍照
 		libvlc_snap=function(){
 		//    默认 inPar["ObjName"]:="vlcPlayer"，如果修改可以在  {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par"里面设置ObjName

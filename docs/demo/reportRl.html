@@ -101,13 +101,7 @@
  }
  //!@preserve 避免压缩代码时注释被取消，请验证  。script前修改为\ / 。  如果无法转为字符串代码，可用 `` 或者html文件引入，IE不支持·
  
-  function checkFull() {
-        var isFull =  window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled;
-        //to fix : false || undefined == undefined
-        if (isFull === undefined) {isFull = false;}
-        return isFull;
-    }
-	console.log(checkFull())
+ 
 	
 	
 </script>
