@@ -87,7 +87,7 @@ AE_eventType_Follow={
 			     elementId:"AppEmbed",                        //必需。绑定的div或者textarea等节点名称前缀，可以修改，要求和html一致
 				 AppFollow:31,                                    // AppShow:true时 才生效, APP和浏览器的响应其变化方式为  this.CurEventType 1  滚动  2移动 4隐显 8大小 16缩放比例  0否,对应的值求和即得到eventType_Follow
 				 																//如 31 响应所有事件 30不响应滚动事件 23不响应浏览器窗口resize事件  3为滚动1+移动事件2
-			     showPar:null,                      //强制缩放时刷新，-1 zoom时关闭再显示   SW_SHOWNORMAL = 1  SW_SHOWMINIMIZED = 2 SW_SHOWMAXIMIZED = 3 SW_MAXIMIZE = 3 SW_SHOWNOACTIVATE = 4  SW_SHOW = 5 SW_MINIMIZE = 6   SW_SHOWMINNOACTIVE = 7 SW_SHOWNA = 8      SW_RESTORE = 9	  10 _SW_SHOWDEFAULT 
+			     showPar:-1,                      //强制缩放时刷新，-1 zoom时关闭再显示   SW_SHOWNORMAL = 1  SW_SHOWMINIMIZED = 2 SW_SHOWMAXIMIZED = 3 SW_MAXIMIZE = 3 SW_SHOWNOACTIVATE = 4  SW_SHOW = 5 SW_MINIMIZE = 6   SW_SHOWMINNOACTIVE = 7 SW_SHOWNA = 8      SW_RESTORE = 9	  10 _SW_SHOWDEFAULT 
 				 rid : 0,                                                         //必需。默认一直自动加1。本次发送请求的标识 request id  ,可以修改。
 			     fixedPos_NoPageOffset : false,           // 对应的APP节点固定不变，设置true 将不计算 PageOffset
 			     absolutePos:{"left":0,"top":0},                  //嵌套 object 或者使用绝对位置#div来load加载html，需要实时修改为嵌套的位置来更新elementId的位置

@@ -113,7 +113,7 @@
 	}
 	   
    
-	var input_App=   function(){
+	var input_App= function(Jdata){    //回调的数据Jdata
  
 	      var ReqPar0={};
 	       ReqPar0=JSON.parse(document.getElementById("input_par").value);
@@ -346,7 +346,7 @@ var embed_object_vlc={
 		//    默认 inPar["ObjName"]:="vlcPlayer"，如果修改可以在  {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par"里面设置ObjName
 		//AppJsObject[inPar["ObjName"]].takeSnap(snapPath,snapWidth,snapHeight,snapNum)
             var snapPath="/file/snap/a_"+Date.now()+".bmp"
-             var  ReqPar8={"emit":"runCall","Obj":"libvlc","AppId":1,"src":[],"par":{"objName":"vlcPlayer"},"par0":{"callFun":{"takeSnap":[snapPath,0,0,0]}  }}	   
+             var  ReqPar8={"emit":"runCall","Obj":"libvlc","AppId":1,"AppMark":"sdfdAppMark","src":[],"par":{"objName":"vlcPlayer"},"par0":{"callFun":{"takeSnap":[snapPath,0,0,0]}  }}	   
            AE.OpenApp(ReqPar8);
 		}
  

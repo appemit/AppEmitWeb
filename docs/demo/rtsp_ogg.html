@@ -83,7 +83,7 @@ https://blog.csdn.net/langal1212/article/details/77676592
 	*/
  
  
-	var input_App=   function(){
+	var input_App= function(Jdata){    //回调的数据Jdata
  
 		 //直接rtsp->ogg          
 		 //需要转码       "-vvv  \"rtsp://:8554/vlc\"  --loop :sout=#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:http{mux=ogg,dst=:8080/stream} :sout-keep
