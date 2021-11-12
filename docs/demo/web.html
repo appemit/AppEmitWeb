@@ -38,7 +38,9 @@
           <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com","htmlStr":null,"HttpServer_startUrl":null  }}'/>
 	   
 		 <button type="button" id="btn_Flash" onclick="input_App() " >do it</button> &nbsp;  &nbsp; <button type="button" onclick="close_App() " >close</button> &nbsp;  &nbsp; <button type="button" id="btn_Flash" onclick="AE.OpenApp(ReqPar2)" >注册ocx网页打开</button>
-		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar3)" >单独注册ocx</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar4)" >执行追加函数</button>
+		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar3)" >单独注册ocx</button>
+		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar41)" >打开前设置cookie</button>
+		  <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar4)" >执行追加函数</button>
 		 <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar5)" >支持操作网页内核控件</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar6)" >接口</button>
 		 </div>
  <div style="font-size:10px">flashOcx  IE    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":"flash_ocx"}}</div>      
@@ -46,7 +48,7 @@
  
 	 <div style="font-size:10px">close  :  {"emit":"close","Obj":"web","AppId":1}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"web"}</div>      
 	    <div style="font-size:10px">w1.  多个&nbsp; &nbsp;[{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}]</div>      
- 
+ {"emit":"open","Obj":"test","AppType":1}
 
 
  
@@ -161,6 +163,8 @@ var  regPar={"pid": "292A53CD-DA8F-46A5-808D-B286F2759C37"       //pid 名称，
 //定节点执行命令	,举例设置获取header  "header":"c:5\r\nb:7"
 ReqPar4= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.baidu.com","header":{"c":5,"b":7}},"par0":{"AppStep":{"init":'var inet_whttp=AppJsFun.inet_whttp();inet_whttp.addHeaders="a:1\r\nb:4";/*{a=1;b=4};*/ ; inet_whttp.beginRequest("http://www.qq.com/","GET"  );  inet_whttp.send(); 	var new_header = inet_whttp.readHeader() ; inet_whttp.endRequest();return {new_header};', "destroy":null, "closed":null,"loaded":'AppJsFun.Sleep(8000);AppJsObject.web.go("http://news.baidu.com/");'}}}
 
+ReqPar41= {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://local.a.com ","User-Agent":navigator.userAgent},"par0":{"AppStep":{"init":'AppJsFun.inet.setCookie("https://local.a.com", "43200", "temp6" );  AppJsFun.inet.setCookie("https://local.a.com", "2222", "temp6" );', "destroy":null, "closed":null,"loaded":'AppJsFun.Sleep(1000); return AppJsObject.web.document.cookie;'}}}
+ 
 
 //直接操作IE内核对象,首先打开网页生成对象AppJsObject.web，再使用AppJsObject.web直接调用
 ReqPar5= { "emit": "runCmd", "Obj": "web", "AppId": 1, "codeStr": 'AppJsObject.web.go("http://www.163.com")' };
