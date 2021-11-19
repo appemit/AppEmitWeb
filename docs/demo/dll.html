@@ -20,33 +20,30 @@
 </head>
 <body>
 
-     <div style="font-size:10px"> 2.可视化com组件 
-				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"dll","AppType":2,"src":[],"pos":1,"par":{"plugins":["ReportX"],"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}'/>
+     <div style="font-size:10px">  命令行
+				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value=''/>
 		   	<button type="button" id="btn_Flash" onclick="start_App() " >do it</button> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> &nbsp; &nbsp;<a href="web.html" target="_blank">web</a><a href="AppEmbed.html" target="_blank">AppEmbed </a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;
 		   </div>  
-  	
-	<div style="font-size:10px"> 1. 要安装flash ocx&nbsp;   {"emit":"open","Obj":"dll","AppType":1,"src":[],"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1}}</div>
- 	 	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":3,"src":[],"AppShow":false,"AppFollow":0,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1},"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
- 	 	<div style="font-size:10px"> 4.第3方dll调用无界面 &nbsp;   {"emit":"open","Obj":"dll","AppType":4,"src":[],"AppShow":false,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":1 },"par0":{"AppMethod":"msg Synchronization component need set: POST" }}</div>
-	 		<div style="font-size:10px"> 5.自行调用方式 &nbsp;   	<button type="button" id="btn_Flash" onclick="callFunByself() " >手动</button>  
-	 	  6 AppJs_step  	<button type="button" id="btn_AppJs_step" onclick="AppJs_step() " >AppJs_step</button> </div>
-	 
-	 <div >	   reportX_OCX
-     <button type="button" id="btn_runCmd" onclick="runCmd('reportX_open') " >2open</button>  
-	 <button type="button" id="btn_runCmd" onclick="runCmd('reportX_save') " >2save</button>  
-	 flash_OCX
-     <button type="button" id="btn_runCmd" onclick="runCmd('stop') " >1stop</button>  
-	 <button type="button" id="btn_runCmd" onclick="runCmd('play') " >1play</button>  
+		   	<div style="font-size:10px"> 1. 要安装flash ocx&nbsp;  
+			<button type="button" id="btn_runCmd" onclick="call_flash() " >启动flash</button>   <button type="button" id="btn_runCmd" onclick="runCmd('play') " >1play</button>  
+ 	     <button type="button" id="btn_runCmd" onclick="runCmd('stop') " >1stop</button>  
+	
+	 </div>
+		<div style="font-size:10px">    2.可视化com组件 <button type="button" id="btn " onclick="call_reportX() " >2call_reportX</button>   
+		   
+  	  <button type="button" id="btn_runCmd" onclick="runCmd('reportX_open') " >2open</button>  
+	 <button type="button" id="btn_runCmd" onclick="runCmd('reportX_save') " >2save</button>
+ 	设置回调函数<button type="button" id="btn " onclick="callFunByself() " >回调方式调用</button>   </div>
+	 </div>
  
 
-	    file
-	 <button type="button" id="btn_runCmd" onclick="runCmd('file_upload') " >upload</button>    
-	 	 <button type="button" id="btn_runCmd" onclick="runCmd('file_download') " >download</button> 
-		 	   dll  
-			    <button type="button" id="btn_runCmd" onclick="runCmd('RevMsg') " >3RevMsg</button>    
-	 <button type="button" id="btn_runCmd" onclick="runCmd('myadd') " >4myadd(1,5)</button>    
-    </div >     
- <div readonly id="AppEmbed1"  style="border:none; 	width:100%;height:100%" ></textarea>
+ 	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;  <button type="button" id="btn1" onclick="call_cDll()" >call_cDll</button>   </div>
+  	
+	<!--<div style="font-size:10px"> 4.dll 调用   <button type="button" id="btn1" onclick="call_cppDemoDll()" >call_cppDll</button>   </div> -->
+ 
+	<div style="font-size:10px"> dotNet和系统com组件  查看 dotNet.html </div>
+ 
+ <div   id="AppEmbed1"  style="border:none; 	width:800px;height:600px" ></div>
 	 
   
 
@@ -55,18 +52,37 @@
 <script>
 /**步骤
  // 1. AE.InitApp  连接ws
- // 2.AE.OpenApp  打开app dll
-  //3. AE.OpenApp  调用发送命令
-  //4. 结束时一定需要正常退出,调用 的dll需要 stop或者null或者销毁
-**/
+ // 2.AE.OpenApp  打开app dll,或者 调用发送命令 runCmd 
+  //3. 结束时一定需要正常退出,调用 的dll需要 stop或者null或者销毁
  
- /////////////////////  方法1 设置"webJs":1调用"URL":"/demo/htmlDemo/js/dllJs.html" 的4个过程代码，自动运行
-  /////////////////////  方法2 设置"webJs":0 或者null，可收到按照业务需要调用 {"emit":"runCmd","Obj":"**","AppId":1,"codeStr":codeStr } 接口
-  
+   // 代码里面不能有错误, 要不没有结果
+   //全局变量 com库 AppJsLibrary   AppJsLibrary.objName 访问调用的库的处理  AppJsLibrary.objName.dll 引用dll 只有private可以访问
+   // 全局变量 对象  AppJsObject     AppJsObject.objName 访问实例对象 
+ 
+ //AppStep主要调用过程, 按事件顺序自动执行/////////////////////
+//AppJs_init  生成AppJsObject前执行
+//AppJs_loaded 系统启动APP ,产生AppJsObject对象后执行
+//AppJs_destroy AppJsObject销毁前执行。 No_Quit_FreeLibrary  不释放dll, FreeLibrary(dll)
+//AppJs_closed AppJsObject关闭后执行。已经没有AppJsObject对象了
+////////////////////////////
+
+	/////////////////一、js被 AppEmit调用示例/////////////////////////////////////////// 
+   // 1     flash.ocx 可视化示例
+   //  2    reportX.ocx     可视化OCX
+   // 3       dll  个人开发 dll ,交互信息
+  //4  dotNet com  
+   //////////////////////////////////////////////////////////////////////
+   **/
+   
+
 	  var  reportXPath;
 	  
-	  var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
-	 
+	  //var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	 //     var init_mark=  AE.InitApp("wss://local.appemit.com:443/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	   
+       var init_mark=  AE.InitApp("wss://localhost:443/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	// var init_mark=  AE.InitApp("wss://localhost:443/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境	   
+		   
  	//office
 	var start_App= function(){
  
@@ -79,28 +95,21 @@
 		    
 	    
 	   }
-	   
- 
-		 
+ 	 
 	runCmd=function(cmdId){                 //  或者在嵌入网页 dllJs.html 中 js 直接调用
  
 		var codeStr;
       
-	 if(cmdId=="openDlg"	){
-			  codeStr =   AE.txt2code(function(){/*!@preserve
- var path=fsys.dlg.open('docx|*.docx|所有文件|*.*||',,fsys.getSpecial(0x8))
-return {path=path}
-*/});
-		}else if (cmdId=="stop"	){
+	 if (cmdId=="stop"	){
 				  codeStr =   AE.txt2code(function(){/*!@preserve
 AppJsObject.shockwave.stop(); 
 return {status="stop"}
 */});
 		} else if(cmdId=="play"	){
 			  codeStr =   AE.txt2code(function(){/*!@preserve
- AppJsFun.msgbox(AppJsObject.shockwave.Movie)			  
+   
 AppJsObject.shockwave.play(); 
-return {status="play"}
+return {status="play,AppJsObject.shockwave.Movie"}
 */});
 		} else if(cmdId=="reportX_open"	){
 			  codeStr =   AE.txt2code(function(){/*!@preserve
@@ -123,60 +132,14 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 			
 			// 方案2  直接采取全局变量 
 		 
-		   codeStr = 'AppJsFun.msgbox(AppJsVar_reportXPath);   AppJsObject.reportX.SaveReport(AppJsVar_reportXPath);'
-			 codeStr+= 'return {status="save reportX 2"}' ;
-		 
-			 
+		   codeStr = ' AppJsObject.reportX.SaveReport(AppJsVar_reportXPath);'
+			 codeStr+= 'return {status="save reportX 2,AppJsVar_reportXPath"}' ;
+  
      // 方案3  另存为
 	        
 	 //    codeStr = "var savePath=AppJsFun.dlgSave('rpxe|*.rpxe|所有文件|*.*||','另存为')  if (savePath) AppJsObject.reportX.SaveReport(savePath);"
 	 
-		}else if(cmdId=="file_upload"	){
-			  codeStr =   AE.txt2code(function(){/*!@preserve
- var upPar={
-				URL= "http://eu.httpbin.org/post"
-				;filePath=AppJsVar_reportXPath
-				;method= "POST"
-				;username=null
-				;password=null
-				;userAgent= null
-				;proxy= null
-				;proxyBypass= null
-				;flags=null
-				;cookie= null
-				}
-  var upload_status=AppJsFun.upload(upPar);
-  return {upload_status=upload_status}
-*/});
-		}else if(cmdId=="file_download"	){
-			  codeStr =   AE.txt2code(function(){/*!@preserve
- var upPar={
-				URL= "https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb/docs/img/logo.png"
-				;savePath=AppJsFun.dlgSave('png|*.png|所有文件|*.*||')                  //需要手动指定路径，或者默认相对路径  "/download"
-				;resumePath= null              //续传路径
-				;userAgent= null
-				;proxy= null
-				;proxyBypass= null
-				;flags=null
-				;cookie= null
- 
-				}
-  var download_status,dl_err,info,savePath=AppJsFun.download(upPar);
-  return {download_status=download_status;err=dl_err;info=info;savePath=savePath}
-*/});
- 
-		}else if(cmdId=="RevMsg"	){   //执行AppDll_RevMsg方法
-			  codeStr =   AE.txt2code(function(){/*!@preserve
- AppJsObject.dll_demo1.AppDll_RevMsg(AppDll_hwnd,'','{"data":"send from bowser JS ","info":555}'); 
-*/});
- 
-		}else if(cmdId=="myadd"	){   
-			  codeStr =   AE.txt2code(function(){/*!@preserve
- var sum=AppJsObject.dll_demo1.myAdd(1,5);
-return  sum; 
-*/});
- 
-		}
+		} 
  	
  	      //codeStr支持转为Base64.encode编码
  	//  var Req={"emit":"runCmd","Obj":"dll","codeStr":Base64.encode(codeStr),Base64:1 }    //都支持
@@ -184,39 +147,212 @@ return  sum;
 
 	   AE.OpenApp(Req);
  
-  
-	
 }	
+
+  /////////////////////  方法1 需要注册的dll 。 也可以设置"webJs":1，在另外js文件调用"URL":"/demo/htmlDemo/js/dllJs.html" 的4个过程代码，自动运行
+
+
+ function call_flash(){
  
- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   /////////////////////  方法2 设置"webJs":0 或者null，可手动或者配置，按照业务需要调用 {"emit":"runCmd","Obj":"**","AppId":1,"codeStr":codeStr } 接口
-   //不执行"webJs":1文档里面的AppJs_init  AppJsObject AppJs_loaded  AppJs_destroy  AppJs_closed  四个过程
+	    var codeStr1=   AE.txt2code(function(){/*!@preserve
+ AppJsObject.shockwave.Movie =AppJsFun.fullpath("/demo/htmlDemo/file/s1.swf");
+ AppJsObject.shockwave.stop();  //不自动播放
+	// AppJsFun.msgbox( AppJsObject.shockwave.Movie );
+*/});
+
+ Req1=[{"emit":"open","Obj":"dll",AppShow:1 ,"AppFollow":1,"pos":1
+								,  	src:[  {
+	 							     "asAdmin":1   //1需要管理员权限注册 0不需要
+								 	,"reg":true    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
+								    ,createType:"createEmbed"      //可视化的控件 createEmbed(comCarrier,clsId,iid) ,只能有一个 , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+									,objName:"shockwave"             //AppJsObject.shockwave 来访问此控件
+									 ,comCarrier:"custom"           // createEmbed可视化 picture(图片控件设置)、static 、 winform   默认推荐 custom         //不同类型组件采取不同载体
+									,pid:"flash_ocx"                //已经加入的插件，如果没有会自动下载
+									//,dllFile:"C:/Windows/SysWOW64/Macromed/Flash/Flash32_33_0_0_401.ocx"     //  必须 和自己电脑安装的一致
+									,dllFile:"plugins/Flash32.ocx"     //   
+									,CLASSES_ROOT:"HKEY_CLASSES_ROOT\\ShockwaveFlash.ShockwaveFlash.11\\CLSID"
+									,clsId :"{D27CDB6E-AE6D-11cf-96B8-444553540000}"  //guid
+									,iid:null
+									,itface:null
+									 
+								   }   //暂时支持一个可视化控件
+						    ]
+                     ,"par":{ "plugins":["ReportX"], "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":codeStr1}  }    // 加载swf
+					//,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+    
+       ]	 
+ 	      AE.OpenApp(Req1);
+ 
+ }
+  
+  
+  /////////////////方法2 调用有GUI的dll  ///////////////////////////
+  //设置 comCarrier
+     function call_reportX(){
+ Req2=[{"emit":"open","Obj":"dll",AppShow:true ,"AppFollow":1,"pos":1
+								,  src:[  {
+ 								    createType:"createEmbedEx"       //可视化的控件等同 createEmbed ,createEmbedEx。createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+									,objName:"reportX"            //AppJsObject.reportX 来访问此控件
+									 ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
+									,pid:"ReportX"
+									,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
+									,clsId :"{A5DA6E97-1D4C-4708-B705-84A45716B4DD}"  //guid
+									,iid:null 
+									,itface:null
+ 
+								   }   //暂时支持一个控件
+						    ]
+                  //AppStep 可以在插件前后执行对应命令
+					 ,"par":{"plugins":["ReportX"], "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }  //ReportX是系统加入的plugin,如果没有会自动下载
+					//,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+              //执行第2条命令
+			,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":"return  {a='reportx'};" } 
+       ]	 
+ 	      AE.OpenApp(Req2);
+ 
+ }
+
+ 
+ /////////////////////////3  关键是需要对调用的方法写接口////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 	  // 32位  dll  个人开发dll   可以 交互信息 示例 data为发送数据. dll的源码是c编写，请见 demo/htmlDemo/dll/dll_demo1.c
+	  //可以设置AppStep自动过程 {"init":"","loaded":"", "destroy":"", "closed":""}
+  // 关键是需要对调用的方法写接口，具体见帮助文件，针对不同数据类型，或者使用demo/developTool工具自动尝试转换，需要验证。
+
+   function call_cDll(){
+   var  codeStr30 =   AE.txt2code(function(){/*!@preserve
+   //定义接口
+ AppJsObject.dll_demo1.myAdd =AppJsLibrary.dll_demo1.dll.api( "Add","int(int a,int b)", "cdecl" );
+ var sum=AppJsObject.dll_demo1.myAdd(1,5);return  sum;
+*/}); 	  
+	  
+var  codeStr31 =   AE.txt2code(function(){/*!@preserve
+ AppJsObject.dll_demo1.AppDll_RevMsg(AppDll_hwnd,'','{"data":"send from bowser JS ","info":555}'); 
+*/}); 
+
+ Req31=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
+								,src:[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+	 								//   "asAdmin":0   //1需要管理员权限注册 0不需要
+								//	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
+								     createType:"createDll"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+								    ,objName:"dll_demo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
+ 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/dll_demo1.dll"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
+									,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"                          //插件ID，可以和clsId不同
+									,AuthKey:"A1-rbJouaNIsm-NwndUCunpnRW8GYw-72Sp7XbDjiSQ2MuXtEaFyrs1c4nTBrqXHrKu"                //pid的授权，appemit网站获取
+									,clsId :"{AE7086AF-ECFE-42F7-B6DC-BC729F90B7AF}"  //guid  自己自行生成的，  dll  里面设置的一致	
+                                    ,CLASSES_ROOT:null        //自行开发dll不用注册，则不用设置
+								   ,clsIdAuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                //dll文件访问的授权 自行设置
+								    ,ver:"1.0.0"  
+									,iid:null  
+									,data:'{"msg":"data from JS","info":1}'               //发送给dll  数据
+									
+								   }   //暂时支持一个控件
+						    ]
+
+				//	,"par":{ "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }
+					,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+				 //发送信息
+				,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr31}
+				 //调用方法,必须企确保调用前，已经定义。
+			  ,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr30 } 
+       ]	 
+ 	      AE.OpenApp(Req31);
+ 
+ }
+ 
+/////////////C++ dll 调用  callDll//////////////////////////////////////////
+ 
+ 
+   function call_cppDemoDll(){
    
+   var  codeStr40 =   AE.txt2code(function(){/*!@preserve
+ //AppJsObject.cppTestDemo1.getName =AppJsLibrary.cppTestDemo1.dll.api( "getName","void(byte &buffer,int len)", "cdecl" );
+  //AppJsObject.cppTestDemo1.getInfo =AppJsLibrary.cppTestDemo1.dll.api( "getInfo","void(TestInfo &pInfo)", "cdecl" );
+ var obj=  AppJsLibrary.cppTestDemo1.dll.CreateTestObject();
+  
+    AppJsFun.log(AppJsLibrary.cppTestDemo1.dll);
+  var name=AppJsFun.raw.buffer(20); 
+  name=AppJsObject.cppTestDemo1.getName(name,10); 
+  //AppJsFun.log(111,name);
+  return {name:name}      //表自动转换json
+*/}); 	  
+
+/*
+ Req41=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
+								,src:[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+	 								//   "asAdmin":0   //1需要管理员权限注册 0不需要
+								//	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
+								     createType:"callDll"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+								    ,objName:"cppTestDemo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
+ 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/cppTestDemo1.dll"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
+									,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"                          //插件ID，可以和clsId不同
+									,AuthKey:"A1-rbJouaNIsm-NwndUCunpnRW8GYw-72Sp7XbDjiSQ2MuXtEaFyrs1c4nTBrqXHrKu"                //pid的授权，appemit网站获取
+									//,clsId :"{AE7086AF-ECFE-42F7-B6DC-BC729F90B7AF}"  //guid  自己自行生成的，  dll  里面设置的一致	
+                                    ,CLASSES_ROOT:null        //自行开发dll不用注册，则不用设置
+ 								    ,ver:"1.0.0"  
+									,iid:null  
+								//	,data:'{"msg":"data from JS","info":1}'               //发送给dll  数据
+									
+								   }   
+						    ]
+
+					//,"par":{ "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }
+					,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+				 //发送信息
+				,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr40 }
+				 //调用方法
+			 //  ,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":" var sum=AppJsObject.cppTestDemo1.myAdd(1,5);return  sum;" } 
+       ]	 
+ 	      AE.OpenApp(Req41);
+  */
+  
+  /////////////////采用 callDll方式
+ 
+  var codeStr = AE.txt2code(function() { /*!@preserve
+  AppJsObject.jspaypos.docre=AppJsLibrary.jspaypos.dll.api( "docre","int(string strIn,string & strOut)", "stdcall" );  //cdecl
+var strOut = raw.buffer(4096);
+var strIn=`{
+"a":"m",
+"b":"jspaypos",
+}`;
+ 
+ var outInt=AppJsObject.jspaypos.docre(strIn,strOut );
+//AppJsFun.msgbox(outInt);
+ 
+return  {outInt=outInt;strOut=AppJsFun.JSONtryParse( AppJsFun.raw.str( strOut),false,936 )};  //false 没有转义符 ,936 GBK   raw.str纯粹字符串 raw.string /0标识的字符串
+*/ });
+  
+ 
+  
+ }
+
+ 
+   /////////////////////  方法22 设置 回调  {"emit":"runCmd","Obj":"**","AppId":1,"codeStr":codeStr } 接口
+  
   function callFunByself(){
   //生成了reportX对象
-		Req2={"emit":"open","Obj":"dll","AppType":2,AppShow:true ,"pos":1
+		Req222={"emit":"open","Obj":"dll","AppType":2,AppShow:true ,"pos":1
 								,"src":[  {
-											createType:"createEmbed"       //可视化的控件createEmbed(comCarrier,clsId,iid)  , createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+											createType:"createEmbedEx"       //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 											,objName:"reportX"            //AppJsObject.reportX 来访问此控件
 											// ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
 											,pid:"ReportX"
 											,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
-											,clsId :"A5DA6E97-1D4C-4708-B705-84A45716B4DD"  //guid
+											,clsId :"{A5DA6E97-1D4C-4708-B705-84A45716B4DD}"  //guid
 											,iid:null 
 											,itface:null
 										 
 										   }   //暂时支持一个控件
 									]
-					,"par":{"plugins":["ReportX"],"htmlStr":null,"HttpServer_startUrl":null,"URL":"/demo/htmlDemo/js/dllJs.html","webJs":0}
+					,"par":{"plugins":["ReportX"],"htmlStr":null,"HttpServer_startUrl":null,"URL":null,"webJs":0}
 					,"par0":{"AppMethod":"msg Synchronization component need set: POST" 						
-								//,cookies:                                      
-								//,userAgent:                                   
-								//,proxy:                                         
-							   //,proxyBypass:                              
-							  //,flags:  
+ 
 							  }
 				 };
-				 		   codeStr21 =   AE.txt2code(function(){/*!@preserve
+				 		   codeStr211 =   AE.txt2code(function(){/*!@preserve
 //AppJsObject.reportX.OpenReport(..io.fullpath("/demo/htmlDemo/file/rep1.rpxe"))
 var  reportXPath=AppJsFun.dlgOpen('rpxe|*.rpxe|所有文件|*.*||',,"/demo/htmlDemo/file")	  
  AppJsVar_reportXPath=reportXPath;      //全局变量  ,没有var
@@ -227,48 +363,22 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 }
 */});
 
-		  
-		  
-		  AE.callbackFunc= [{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0},"func":function(){AE.OpenApp({"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr21 })}} // reportX生成执行打开命令
-                                       , {"equ": { "Obj":"dll" ,"rid":2},"func":function(){AE.callbackFun_cancel=true;}} // 可以取消回调
+ 
+		  AE.callbackFunc= [{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0,"service":"appemit"}
+		                                          ,"func":function(){AE.OpenApp({"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr211 })}} // reportX生成执行打开命令
+                                     // , {"equ": { "Obj":"dll" ,"rid":2},"func":function(){AE.callbackFun_cancel=true;}} // 可以取消回调
 										] ;
-		 
-		 AE.OpenApp(Req2);
+	 
+		 AE.OpenApp(Req222);
         
 		 
  }
 
-////////////////////// 可以设置默认执行的步骤   AppStep或者直接发送命令也可以，尤其是ocx或者dll需要在destroy前需要释放 ：
-/// {"init":"","loaded":"", "destroy":"", "closed":""}
-////////////////////////////////////////////////////////////////////
-AppJs_step=function(){
+ 
 
-Req3={"emit":"open","Obj":"dll","src":[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
-								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
-								//   "asAdmin":0   //1需要管理员权限注册 0不需要
-								//	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
-								     createType:"createDll"               //  dll开发
-								    ,objName:"dll_demo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
- 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/dll_demo1.dll"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
-									,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"
-									,AuthKey:"A1-rbJouaNIsm-NwndUCunpnRW8GYw-72Sp7XbDjiSQ2MuXtEaFyrs1c4nTBrqXHrKu"                //pid的授权，appemit网站获取
-									,clsId :"50FCF891-1B93-4AE5-8A66-AB26A3C03378"  //guid  自己自行生成的， 最好和pid不同。 dll  里面设置的一致	
-                                    ,CLASSES_ROOT:null        //自行开发dll不用注册，则不用设置
-								   ,clsIdAuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                //dll文件访问的授权 自行设置
-								    ,ver:"1.0.0"  
-									,iid:null  
-									 ,data:'{"msg":"init from JS2","info":12}'               //发送给dll  数据
-									
-								   }   //暂时支持一个控件
-						    ]
-						 ,"AppShow":false                  //整体不可见 必须设置，默认可见
-						 ,"par":{"webJs":0},"par0":{"AppStep":{"init":"return {1}",  "destroy":"return {3}", "closed":"return {4}","loaded":'AppJsFun.msgbox("12312312");AppJsObject.dll_demo1.AppDll_loaded(AppDll_hwnd,\'{"rid":-2}\',\'{"data":"loaded from JS33","info":233}\');return {a=3333};'},"AppMethod":"msg Synchronization component need set: POST" }
-						 };
-	
-  AE.OpenApp(Req3);
+//dotNet和系统com组件  查看 dotNet.html
 
-}
-	
+
 
 </script>
 </body>

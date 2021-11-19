@@ -1,0 +1,162 @@
+<!DOCTYPE html>  <!--  manifest="/websocket.appcache"-->
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title> AppEmit dll ocx ActiveX</title>  
+	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+ <!--  <script src="https://cdn.jsdelivr.net/npm/js-base64@3.2.4/base64.min.js"></script>  -->
+ 
+      <style type="text/css">
+        html,body{
+            height: 100%;
+	      width:100%
+        }
+    body{
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+     <div style="font-size:10px"> 
+			 		 
+						<button type="button" id="btn_Flash" onclick="link_App() " >连接设备</button>  
+		   </div>  
+     
+    </div >     
+ <div readonly id="AppEmbed1"  style="border:none; 	width:100%;height:100%" ></textarea>
+	 
+  
+
+ <!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>   如果使用Gzip压缩解压数据，则需要引入-->
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>  
+<script>
+/**步骤
+//
+ // 1. AE.InitApp  连接ws
+ // 2.AE.OpenApp  打开app dll   把dll文件拷贝到对应文件夹
+  //3. AE.OpenApp  调用发送命令
+  //4. 结束时一定需要正常退出,调用 的dll需要 stop或者null或者销毁
+**/
+ 
+	  var ReqPar = { "emit": "open",
+        "Obj": "dll",
+		"AppId": 1,
+        "AppType": 1,
+        "src": [ { //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
+                               //   "asAdmin":0   //1需要管理员权限注册 0不需要
+                              //	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册
+								     createType: "callDll", //  dll开发
+								     objName: "RfReaderCPU", // 自行定义  //AppJsObject.RfReaderCPU 来访问此dll
+ 									 dllFile: "/plugins/private/5B04FB3B-1805-482D-9D38-E2C4F7AD735D/RfReaderCPU.dll", //  必须 \\   / 分隔, 个人的插件放在ugins/private/clsId/文件夹下面
+                                    stdcall_cdecl:"stdcall",
+								   pid: "5B04FB3B-1805-482D-9D38-E2C4F7AD735D",
+									 AuthKey: "A1-w4LHtA9pYuf3eEST0-zosEOfDDg8776hQ3usEHywlKWTmcSSRmrS0o0XLgfwJSlt", // pid的授权，appemit网站获取
+									 // clsId: "9E8FD996-7D60-430A-8CE1-6796416E3FE0", // guid  自己自行生成的， 最好和pid不同。 dll  里面设置的一致
+                                  CLASSES_ROOT: null, // 自行开发dll不用注册，则不用设置
+								  // ,clsIdAuthKey:"A1-QG7YAE5aUc7CCPSswU6yfhz6ojjZKFu-MPJy6nWAotpxq9QXRBTxJQZehIlpoAPh"                /l文件访问的授权 自行设置
+								     ver: "1.0.0",
+                                       iid: null
+          //, data:'{"msg":"init from JS","info":1}'               //发送给dll  数据
+
+								   } // 暂时支持一个控件
+						    ],
+
+		   "AppShow": false,
+        "par": { "webJs":0},  // 引入JS执行文件或者html文件  	 ReqPar.par={ "webJs":2,"htmlStr":AE.txt2code(embedHtmlStr) }
+        "par0": { "AppMethod": "msg Synchronization component need set: POST" } 
+		};
+		
+
+	 
+ 	//office
+	var init_App= function(){
+ 
+
+         AE.OpenApp(ReqPar); // 连接好了    RfReaderCPU，生成了AppJsObject.RfReaderCPU  对象
+ 
+  
+		 
+ }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+ // 这个地方是关键，声明方法，接口的数据类型要对，现在没有测试，比较麻烦。
+ //需要使用的方法 都需要声明，然后后面才可以在js里面/
+
+//////////////////////////////////////////////////////////////////
+
+   var codeStr0 = AE.txt2code(function() { /*!@preserve
+ class Basic_Info_CPU {
+int Serial_No; //卡流水号
+BYTE OpeningDate[7];//卡片启用日期
+BYTE ValidateDate[7];//卡片有效日期
+BYTE CardVersion;//卡版本
+BYTE CardLockMark;//锁卡标志，0 表示正常卡，1 表示黑名单卡
+BYTE Gender;//性别
+BYTE CardType;//卡类
+word CardDeposit;//卡押金
+BYTE ICCardNo[17];//IC 卡编号
+BYTE Name[17];//人员姓名
+BYTE DocumentType;//证件类型，1 表示身份证
+BYTE IdentityCard[21];//身份证号
+BYTE Password[7];//用户密码
+}
+
+//有的dll可以不声明直接调用，AppJsLibrary.RfReaderCPU.dll.GetBasicInfo_CPU(......)  
+//下面声明或者重载方法
+ AppJsObject.RfReaderCPU.GetBasicInfo_CPU= AppJsLibrary.RfReaderCPU.dll.api("GetBasicInfo_CPU","int(pointer icdev,string UserPassword,struct &BasicInfo,INT &CardSN)");
+ AppJsObject.RfReaderCPU.rf_init=AppJsLibrary.RfReaderCPU.dll.api( "rf_init","pointer(int port,int baud)", "stdcall" );  //cdecl
+ //AppJsObject.RfReaderCPU.GetLicInfo_CPU=AppJsLibrary.RfReaderCPU.dll.api( "GetLicInfo_CPU","int(string CommPassword,string UserPassword,BYTE &SysCardNo,byte &CardApp, byte &CardAppID,int &CustomNo)", "stdcall" );  //cdecl
+ 
+ */ });
+  var codeStr = AE.txt2code(function() { /*!@preserve
+ 
+var port =0;
+var baud=19200;
+ 
+ var icdev=AppJsObject.RfReaderCPU.rf_init(port,baud );
+  var basic_Info_CPU = Basic_Info_CPU();
+  var UserPassword="0000000";
+  var CardSN;
+  //使用声明之后的方法 或者尝试直接调用AppJsLibrary.RfReaderCPU.dll.GetBasicInfo_CPU(......)  
+  AppJsObject.RfReaderCPU.GetBasicInfo_CPU(icdev,UserPassword,basic_Info_CPU,CardSN)
+  
+// AppJsFun.msgbox(tonumber(icdev));
+//return  {outInt=outInt;strOut=AppJsFun.JSONtryParse( AppJsFun.raw.str( strOut),false,936 )};  //false 没有转义符 ,936 GBK   raw.str纯粹字符串 raw.string 
+return  { strOut=icdev};   
+*/ });
+ 
+var link_App= function(){
+      // 调用 GetLicInfo_CPU
+	 
+      AE.OpenApp({ "emit": "runCmd", "Obj": "dll", "AppId": 1, "codeStr": codeStr })
+	  
+}
+
+ 
+
+callbackFun2=function(Jdata){
+  if  ( Jdata && Jdata.data  ) {
+       console.log(Jdata);
+	}
+	
+}
+
+ // 初始化回调执行init_App,再生成全局对象AppJsObject.RfReaderCPU的方法GetLicInfo_CPU
+  AE.callbackFunc= [    {"equ": {  "clientAuth":1,"rep": 0,"rid":0},"func":init_App }             
+                                ,{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0,"rid":1},"func":function(){AE.OpenApp({"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr0 })}} // 
+								 , {"equ": { "Obj":"dll" ,"rid":2},"func":function(){callbackFun2}} // 测试
+                             //  , {"equ": { "Obj":"dll" ,"rid":3},"func":function(){AE.callbackFun_cancel=true;}} // 后面可以取消回调，不再判断执行
+							   
+							   
+							 	] ;
+	 						
+  var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	  
+ 
+
+</script>
+</body>
+</html>

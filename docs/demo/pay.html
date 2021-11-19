@@ -22,7 +22,7 @@
 
      <div style="font-size:10px"> 
 			 		 
-						<button type="button" id="btn_Flash" onclick="link_App() " >连接银行付款</button>  
+						<button type="button" id="btn_Flash" onclick="link_App() " >连接DLL</button>  
 		   </div>  
      
     </div >     
@@ -40,18 +40,13 @@
   //4. 结束时一定需要正常退出,调用 的dll需要 stop或者null或者销毁
 **/
  
-		 
- 	//office
-	var init_App=   function(){
- 
-	   var ReqPar = { "emit": "open",
+	  var ReqPar = { "emit": "open",
         "Obj": "dll",
 		"AppId": 1,
         "AppType": 1,
-        "src": [ { //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
-								  // webJs0:0,                           //只能设置为0   关闭本js的控制 ;	或者注释 为默认打开控制
-          //   "asAdmin":0   //1需要管理员权限注册 0不需要
-          //	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册
+        "src": [ { //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1(如果设置了，则验证，更新文件必须更新)， pid  AuthKey等数据
+                                //   "asAdmin":0   //1需要管理员权限注册 0不需要
+                              //	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册
 								     createType: "callDll", //  dll开发
 								     objName: "jspaypos", // 自行定义  //AppJsObject.jspaypos 来访问此dll
  									 dllFile: "/plugins/private/9E8FD996-7D60-430A-8CE1-6796416E3FE0/jspaypos.dll", //  必须 \\   / 分隔, 个人的插件放在ugins/private/clsId/文件夹下面
@@ -69,54 +64,74 @@
 						    ],
 
 		   "AppShow": false,
-        "par": { "webJs": 0 },
-        "par0": { "AppMethod": "msg Synchronization component need set: POST" } }
+       //  "par": { "webJs":0},  // 引入JS执行文件或者html文件  	 ReqPar.par={ "webJs":2,"htmlStr":AE.txt2code(embedHtmlStr) }
+      //  "par0": { "AppMethod": "msg Synchronization component need set: POST" } 
+		};
+		
+
+	 
+ 	//office
+	var init_App= function(){
+ 
 
          AE.OpenApp(ReqPar); // 连接好了    jspaypos，生成了AppJsObject.jspaypos  对象
  
   
 		 
  }
-   var codeStr0 = AE.txt2code(function() { /*
+   var codeStr0 = AE.txt2code(function() { /*!@preserve
  AppJsObject.jspaypos.CreditTransJson=AppJsLibrary.jspaypos.dll.api( "CreditTransJson","int(string strIn,string & strOut)", "stdcall" );  //cdecl
  */ });
-  var codeStr = AE.txt2code(function() { /*
+  var codeStr = AE.txt2code(function() { /*!@preserve
  
 var strOut = raw.buffer(4096);
 var strIn=`{"channelNo":"m",
 "clientInfo":"jspaypos",
 "mchIp":"192.168.46.1",
-"msgID":"20200821171147000059",
-"partnerId":"3b157fb3583a45fc9fd96ac9205f070e",
-"publicKeyCode":"00",
-"shopId":"123324232131231234",
-"svrCode":"",
-"version":"v1.0.0",
-"deviceNo":"L1A1001",
-"operatorid":"s0000001",
-"createDate":"20200809",
-"createTime":"180101",
-"bizDate":"20200809",
-"service":"ePay",
-"totalFee":"200.00",
-"authCode":"12812123434355353434534",
-"outTradeNo":"3202312312412323",
-"proInfo ":"A1001",
 "attach":"testData"}`;
  
  var outInt=AppJsObject.jspaypos.CreditTransJson(strIn,strOut );
 //AppJsFun.msgbox(outInt);
  
-return  {outInt=outInt;strOut= web.json.tryParse( raw.str( strOut),false,936 )};  //false 没有转义符 ,936 GBK   raw.str纯粹字符串 raw.string /0标识的字符串
+return  {outInt=outInt;strOut=AppJsFun.JSONtryParse( AppJsFun.raw.str( strOut),false,936 )};  //false 没有转义符 ,936 GBK   raw.str纯粹字符串 raw.string /0标识的字符串
 */ });
  
-var link_App=   function(){
+var link_App= function(){
       // 调用 CreditTransJson
 	 
       AE.OpenApp({ "emit": "runCmd", "Obj": "dll", "AppId": 1, "codeStr": codeStr })
 	  
 }
+
+  /**
+* //Js直接调用AppEmit 网页控件对象 变量external， 函数AppJsFun,或者其它设定的导出变量
+*下面的注释为执行代码
+*
+**/
+
+  //!@preserve 避免压缩代码时注释被取消，请验证  。script前修改为\ /。  如果无法转为字符串代码，可用`` 或者html文件引入，IE不支持·
+ var embedHtmlStr = function() { /*!@preserve
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <div onmousedown='javascript:  
+        external.hitCaption();
+        return false;
+    ' style="-webkit-user-select: none;cursor:default;background:#cce;padding:25px;margin:10px;">拖动窗口</div>
+	
+	<a href='javascript: myAppJsFun.msgbox("33","title");   '>1.2  js调用appemit的通用函数库AppJsFun的msgbox窗口</a></p>
+	<a href='javascript: external.script().jsFun_a(322) '>2 appemit 通过 external.script调用导入的js文件中的函数,只能实时</a></p>
+ 	<a href='javascript: AppJsFun.msgbox("webkit blink可以全局函数","title"); (322) '>2 全局函数  </a></p>
  
+	
+    <script>
+	 //高频次使用且不变的变量最好定义，避免一直实时访问appemit导出external.AppJsFun  
+     var  myAppJsFun=external.AppJsFun;  //wekit或者blink可以不要"external."
+	 var jsFun_a=function(a){ alert(a+123); }
+	 //这样注释转多行字符串的形式不支持script，需要修改。 即在运行代码前所有的script前的< \ /被替换为< /
+    <\/script>
+*/}
+
+
+
  // 初始化回调执行init_App,再生成全局对象AppJsObject.jspaypos的方法CreditTransJson
   AE.callbackFunc= [    {"equ": {  "clientAuth":1,"rep": 0,"rid":0},"func":init_App }             
                                 ,{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0,"rid":1},"func":function(){AE.OpenApp({"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr0 })}} // 
