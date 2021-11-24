@@ -35,22 +35,20 @@
 
   
  <script type="text/javascript">
-  function getVLC(name)   
-{   
-        if (window.document[name])      
-        {   
+  function getVLC(name)   {   
+        if (window.document[name])   {   
                 return window.document[name];   
         }   
-        if (navigator.appName.indexOf("Microsoft Internet")==-1)   
-        {   
+        if (navigator.appName.indexOf("Microsoft Internet")==-1)     {   
                 if (document.embeds && document.embeds[name])   
                         return document.embeds[name];      
         }   
-        else   
-        {   
+        else    {   
                 return document.getElementById(name);   
         }   
 }
+
+
    var vlc = getVLC("vlc");
    
    function  toggleMute(){
