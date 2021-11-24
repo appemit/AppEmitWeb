@@ -1,0 +1,53 @@
+<!DOCTYPE html>  <!--  manifest="/websocket.appcache"-->
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title> mp4</title>  
+	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+
+    <script type="text/javascript">
+    </script>
+ 
+</head>
+<body>
+
+
+<div class="container">
+       <div >  
+ 
+		   </div>
+   <button type="button" id="btn3 " onclick="toggleMute()" >toggleMute</button> 
+<object type='application/x-vlc-plugin' id='vlc' events='True' width="98%" height="96%">
+    <param name='mrl' value='https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/file/n1.mp4' />
+ 
+    <param name='volume' value='50' />
+    <param name='autoplay' value='true' />
+    <param name='loop' value='false' />
+    <param name='fullscreen' value='false' />
+ </object>
+ 
+
+		</div>
+ 
+</div>
+
+  
+ <script type="text/javascript">
+ 
+   var vlc = document.getElementById("vlc");
+   
+   function  toggleMute(){
+     vlc.audio.toggleMute() ;
+	 AppJsFun.log(AppJsObject.web.cookie )
+	 AppJsFun.log(AppJsObject.web.cookieData().getCookies("baidu.net")
+	
+	 external.emitBack({cookie:AppJsObject.web.cookieData().getCookies("baidu.com"), ccc:external.web.cookieData().getCookies("baidu.net")})
+	 
+   }
+ 
+ 
+</script>
+</body>
+</html>
