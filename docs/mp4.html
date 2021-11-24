@@ -35,19 +35,152 @@
 
   
  <script type="text/javascript">
- 
-   var vlc = document.getElementById("vlc");
+  function getVLC(name)   
+{   
+        if (window.document[name])      
+        {   
+                return window.document[name];   
+        }   
+        if (navigator.appName.indexOf("Microsoft Internet")==-1)   
+        {   
+                if (document.embeds && document.embeds[name])   
+                        return document.embeds[name];      
+        }   
+        else   
+        {   
+                return document.getElementById(name);   
+        }   
+}
+   var vlc = getVLC("vlc");
    
    function  toggleMute(){
      vlc.audio.toggleMute() ;
-	 AppJsFun.log(AppJsObject.web.cookie )
-	 AppJsFun.log(AppJsObject.web.cookieData().getCookies("baidu.net")
-	
-	 external.emitBack({cookie:AppJsObject.web.cookieData().getCookies("baidu.com"), ccc:external.web.cookieData().getCookies("baidu.net")})
+	 //AppJsFun.log(AppJsObject.web.cookieStr() )
+     external.emitBack({cookie:AppJsObject.web.cookieStr(), kernel:AppJsObject.web.kernel});
 	 
    }
  
+
  
+ function registerVLCEvent(event, handler) {
+    var vlc = getVLC("vlc");
+    if (vlc) {
+        if (vlc.attachEvent) {
+            // Microsoft
+            vlc.attachEvent (event, handler);
+        } else if (vlc.addEventListener) {
+            // Mozilla: DOM level 2
+            vlc.addEventListener (event, handler, false);
+        }
+    }
+}
+// stop listening to event
+function unregisterVLCEvent(event, handler) {
+    var vlc = getVLC("vlc");
+    if (vlc) {
+        if (vlc.detachEvent) {
+            // Microsoft
+            vlc.detachEvent (event, handler);
+        } else if (vlc.removeEventListener) {
+            // Mozilla: DOM level 2
+            vlc.removeEventListener (event, handler, false);
+        }
+    }
+}
+// event callbacks
+function handle_MediaPlayerNothingSpecial(){
+    AppJsFun.log("Idle");
+}
+function handle_MediaPlayerOpening(){
+    AppJsFun.log("Opening");
+}
+function handle_MediaPlayerBuffering(val){
+    AppJsFun.log("Buffering: " + val + "%");
+}
+function handle_MediaPlayerPlaying(){
+    AppJsFun.log("Playing");
+}
+function handle_MediaPlayerPaused(){
+    AppJsFun.log("Paused");
+}
+function handle_MediaPlayerStopped(){
+    AppJsFun.log("Stopped");
+}
+function handle_MediaPlayerStopAsyncDone(){
+    AppJsFun.log("Stopped asynchronously");
+}
+function handle_MediaPlayerForward(){
+    AppJsFun.log("Forward");
+}
+function handle_MediaPlayerBackward(){
+    AppJsFun.log("Backward");
+}
+function handle_MediaPlayerEndReached(){
+    AppJsFun.log("EndReached");
+}
+function handle_MediaPlayerEncounteredError(){
+    AppJsFun.log("EncounteredError");
+}
+function handle_MediaPlayerTimeChanged(time){
+    AppJsFun.log("Time changed: " + time + " ms");
+}
+function handle_MediaPlayerPositionChanged(val){
+    AppJsFun.log("Position changed: " + val);
+}
+function handle_MediaPlayerSeekableChanged(val){
+    AppJsFun.log("Seekable changed: " + val);
+}
+function handle_MediaPlayerPausableChanged(val){
+    AppJsFun.log("Pausable changed: " + val);
+}
+function handle_MediaPlayerMediaChanged(){
+    AppJsFun.log("Media changed");
+}
+function handle_MediaPlayerTitleChanged(val){
+    AppJsFun.log("Title changed: " + val);
+}
+function handle_MediaPlayerChapterChanged(val){
+    AppJsFun.log("Chapter changed: " + val);
+}
+function handle_MediaPlayerLengthChanged(val){
+    AppJsFun.log("Length changed: " + val + " ms");
+}
+function handle_MediaPlayerVout(val){
+    AppJsFun.log("Number of video output changed: " + val);
+}
+function handle_MediaPlayerMuted(){
+    AppJsFun.log("Audio volume muted");
+}
+function handle_MediaPlayerUnmuted(){
+    AppJsFun.log("Audio volume unmuted");
+}
+function handle_MediaPlayerAudioVolume(volume){
+    AppJsFun.log("Audio volume changed: " + Math.round(volume * 100) + "%");
+}
+// Register a bunch of callbacks.
+registerVLCEvent("MediaPlayerNothingSpecial", handle_MediaPlayerNothingSpecial);
+registerVLCEvent("MediaPlayerOpening", handle_MediaPlayerOpening);
+registerVLCEvent("MediaPlayerBuffering", handle_MediaPlayerBuffering);
+registerVLCEvent("MediaPlayerPlaying", handle_MediaPlayerPlaying);
+registerVLCEvent("MediaPlayerPaused", handle_MediaPlayerPaused);
+registerVLCEvent("MediaPlayerStopped", handle_MediaPlayerStopped);
+registerVLCEvent("MediaPlayerStopAsyncDone", handle_MediaPlayerStopAsyncDone);
+registerVLCEvent("MediaPlayerForward", handle_MediaPlayerForward);
+registerVLCEvent("MediaPlayerBackward", handle_MediaPlayerBackward);
+registerVLCEvent("MediaPlayerEndReached", handle_MediaPlayerEndReached);
+registerVLCEvent("MediaPlayerEncounteredError", handle_MediaPlayerEncounteredError);
+registerVLCEvent("MediaPlayerTimeChanged", handle_MediaPlayerTimeChanged);
+registerVLCEvent("MediaPlayerPositionChanged", handle_MediaPlayerPositionChanged);
+registerVLCEvent("MediaPlayerSeekableChanged", handle_MediaPlayerSeekableChanged);
+registerVLCEvent("MediaPlayerPausableChanged", handle_MediaPlayerPausableChanged);
+registerVLCEvent("MediaPlayerMediaChanged", handle_MediaPlayerMediaChanged);
+registerVLCEvent("MediaPlayerTitleChanged", handle_MediaPlayerTitleChanged);
+registerVLCEvent("MediaPlayerChapterChanged", handle_MediaPlayerChapterChanged);
+registerVLCEvent("MediaPlayerLengthChanged", handle_MediaPlayerLengthChanged);
+registerVLCEvent("MediaPlayerVout", handle_MediaPlayerVout);
+registerVLCEvent("MediaPlayerMuted", handle_MediaPlayerMuted);
+registerVLCEvent("MediaPlayerUnmuted", handle_MediaPlayerUnmuted);
+registerVLCEvent("MediaPlayerAudioVolume", handle_MediaPlayerAudioVolume);
 </script>
 </body>
 </html>
