@@ -22,7 +22,7 @@
 
      <div style="font-size:10px">  命令行
 				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value=''/>
-		   	<button type="button" id="btn_Flash" onclick="start_App() " >do it</button> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> &nbsp; &nbsp;<a href="web.html" target="_blank">web</a><a href="AppEmbed.html" target="_blank">AppEmbed </a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;
+		   	<button type="button" id="btn_Flash" onclick="start_App() " >do it</button> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> &nbsp; &nbsp;<a href="web.html" target="_blank">web</a>&nbsp; &nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed </a>&nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a> &nbsp; &nbsp;<a href="office.html" target="_blank">PDF_Office</a>&nbsp; &nbsp;
 		   </div>  
 		   	<div style="font-size:10px"> 1. 要安装flash ocx&nbsp;  
 			<button type="button" id="btn_runCmd" onclick="call_flash() " >启动flash</button>   <button type="button" id="btn_runCmd" onclick="runCmd('play') " >1play</button>  
@@ -40,7 +40,7 @@
  	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;  <button type="button" id="btn1" onclick="call_cDll()" >call_cDll</button>   </div>
   	
 	<!--<div style="font-size:10px"> 4.dll 调用   <button type="button" id="btn1" onclick="call_cppDemoDll()" >call_cppDll</button>   </div> -->
- 
+  	<div style="font-size:10px"> 5. 调用 Com dll <button type="button" id="btn1" onclick="call_comDll2()" >call_comDll2</button>   </div>
 	<div style="font-size:10px"> dotNet和系统com组件  查看 dotNet.html </div>
  
  <div   id="AppEmbed1"  style="border:none; 	width:800px;height:600px" ></div>
@@ -77,10 +77,10 @@
 
 	  var  reportXPath;
 	  
-	  //var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+	 var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
 	 //     var init_mark=  AE.InitApp("wss://local.appemit.com:443/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
 	   
-       var init_mark=  AE.InitApp("wss://localhost:443/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
+     //  var init_mark=  AE.InitApp("wss://localhost:443/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境
 	// var init_mark=  AE.InitApp("wss://localhost:443/appemit?cid=00000-1&sid=1&flag=1");  //flag=1 调试环境	   
 		   
  	//office
@@ -201,7 +201,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 									,iid:null 
 									,itface:null
  
-								   }   //暂时支持一个控件
+								   }   
 						    ]
                   //AppStep 可以在插件前后执行对应命令
 					 ,"par":{"plugins":["ReportX"], "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }  //ReportX是系统加入的plugin,如果没有会自动下载
@@ -259,6 +259,46 @@ var  codeStr31 =   AE.txt2code(function(){/*!@preserve
 			  ,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr30 } 
        ]	 
  	      AE.OpenApp(Req31);
+ 
+ }
+ 
+ /////////////5  调用com dll，一般的activeX需要注册///////////////////////////////////////////
+    function call_comDll2(){
+   var  codeStr50 =   AE.txt2code(function(){/*!@preserve
+   //定义接口 
+ // AppJsFun.log( AppJsObject.eyebeamdial)
+  AppJsObject.eyebeamdial.DialNumber("123456");    //这里没有报错，说明调用成功了
+
+*/}); 	  
+	  
+ 
+
+ Req51=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
+								,src:[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+	 								//   "asAdmin":0   //1需要管理员权限注册 0不需要
+								   "reg":true    //使用appemit直接调用，一般可以不注册。null 不注册   true 判断注册 false 卸载注册    
+								    , createType:"createObject"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+								    ,objName:"eyebeamdial"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
+ 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/eyebeamdial.dll"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
+									,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"                          //插件ID，可以和clsId不同
+									,AuthKey:"A1-rbJouaNIsm-NwndUCunpnRW8GYw-72Sp7XbDjiSQ2MuXtEaFyrs1c4nTBrqXHrKu"                //pid的授权，appemit网站获取
+									,clsId :"{E100534D-F191-4B16-A2F8-E9856967AE31}"  //guid  自己自行生成的，  dll  里面设置的一致	
+                                    ,CLASSES_ROOT:"HKEY_CLASSES_ROOT\\eyebeamdial.dial.1\\CLSID"        // dll不用注册，则不用设置
+								  	 ,ver:"1.0.0"  
+									,iid:null  
+									//,data:'{"msg":"data from JS","info":1}'               //发送给dll  数据
+									
+								   }   //暂时支持一个控件
+						    ]
+
+				//	,"par":{ "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }
+				//	,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+				 //发送信息
+				,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr50}
+				 
+       ]	 
+ 	      AE.OpenApp(Req51);
  
  }
  

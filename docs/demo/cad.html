@@ -1,0 +1,210 @@
+<!DOCTYPE html>  <!--  manifest="/websocket.appcache"-->
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title> AppEmit  cad  </title>  
+	   <meta name="description" content=" AppEmit是应用程序（尤其是浏览器）与本地程序间互相通信的易扩展的轻量级中间件">
+	<meta name="keywords" content=" Embed App,游戏,办公,websocket,SSL,RTSP,plugins,flash,mp4,flv,swf, m3u8,rtmp,mp3,aac">
+
+    <script type="text/javascript">
+    </script>
+      <style type="text/css">
+        html,body{
+            height: 100%;
+	      width:100%
+        }
+    body{
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+     <div style="font-size:10px">1 .cad
+				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"cad","AppType":1,"AppFollow":31,"src":"/demo/htmlDemo/file/cad1.dwg","pos":1,"par0":{"objName":"autocad","embed":-1,"AppMethod":"POST","HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"newcad1.dwg" },"show_UpdateTool":true}}'/>
+		   	<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>&nbsp; &nbsp;<a href="web.html" target="_blank">web</a>&nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed  </a> &nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> 
+		   </div>
+          <div style="font-size:10px"> 2.打开网络，默认保存上传  {"emit":"open","Obj":"cad","AppType":1,"AppFollow":31,"src":[["https://cdn.jsdelivr.net/gh/appemit/AppemitWeb@master/docs/demo/file/cad2.dwgtmp","cad2.dwg"]],"pos":1,"par0":{"objName":"autocad","embed":-1,"AppMethod":"POST","HttpPost":{"URL":"http://eu.httpbin.org/post","valid":1,"fileName":"newcad2.dwg" },"show_UpdateTool":true}}                                                                                             
+	 <div style="font-size:10px">   <button type="button" id="btn2" onclick="IsQuiescent() " >是否静止IsQuiescent</button>  </div>
+	 <button type="button" id="btn2" onclick="cmd_line() " >画一条线cmd_line</button>  
+    <button type="button" id="btn2" onclick="DoCommands() " >DoCommands</button>
+ 
+ 
+ 
+   <button type="button" id="btn2" onclick="UploadFile() " >推荐手动上传</button> 
+     <button type="button" id="btn2" onclick='AE.OpenApp({"emit":"close","Obj":"cad","AppId":1,"par0":{"AppMethod":"POST"}}) ' >关闭</button> 
+   
+     <div style="font-size:10px">  close : {"emit":"close","Obj":"cad","AppId":1,"par0":{"AppMethod":"POST"}}       or     {"emit":"closeAll","Obj":"cad","par0":{"AppMethod":"POST"}}  </div>
+</div>
+
+ <div readonly id="AppEmbed1"  style="border:none; 	width:100%;height:600px" ></textarea>
+	 
+ 
+<!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    如果使用Gzip压缩解压数据，则需要引入-->
+  <script type="text/javascript" src="AppEmit_1.2_min.js"></script>  
+<script>
+/**
+
+  //inPar["src"]={"demo/htmlDemo/file/cad1.dwg"}
+ // inPar["src"]={{"https://cdn.jsdelivr.net/gh/appemit/AppemitWeb@master/docs/demo/file/cad1.dwg";"cad1.dwg"}}
+ 
+  
+  
+  AutoCAD 接口文档: https://help.autodesk.com/view/OARX/2020/PLK/?guid=GUID-A809CD71-4655-44E2-B674-1FE200B9FE30
+  
+   1 默认 AutoCAD的"progId":["AutoCAD.Application","GStarCAD.Application"]，全局变量 对象  AppJsObject     AppJsObject.objName 访问实例对象,默认autocad则为 AppJsObject.autocad 访问
+   2 AppJsObject.autocad.SendCommand(lispCmds)   同步命令  AppJsObject.autocad.PostCommand(lispCmds)   异步命令
+        可以执行 AutoCAD 里所有命令以及 AutoLISP 表达式，跟在 AutoCAD 里输入命令效果一样。
+   3  autocad命令默认是同步，需要增加"AppMethod":"POST"来传递消息机制
+   4   常用对象 AppJsObject.autocad.ActiveDocument.ModelSpace  AppJsObject.autocad.ActiveDocument.Utility
+*/
+  
+	    var init_mark=  AE.InitApp("ws://localhost:80/appemit?cid=00000-1&flag=1");
+ 
+ 	//cad
+ 	var input_App= function(Jdata){    //回调的数据Jdata
+ 
+	      var ReqPar={};
+	       ReqPar=JSON.parse(document.getElementById("input_par").value);
+		  
+ 		//   ReqPar={"emit":"open","Obj":"flash","src":"D:/work/temp/m1.swf","pos":1,"par0":{"autoPlay":1,"toolbar":0,"rightMenu":0,"hitCaption":0,"hideStop":0,"loop":1,"volumeMute":0}}
+	
+	   	   AE.OpenApp(ReqPar);
+  }
+ 
+    //打开pdf
+		//  ReqPar={"emit":"open","Obj":"web","AppType":4,"pos":1,"par":{"URL":"https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/AppEmit_help.pdf"},"par0":{"rightMenu":1,"show_UpdateTool":true}}
+ 
+ 
+ /////////操作autocad对象//////////////////////////////////////////////
+ UploadFile=function(){
+  //上传 AppJsObject.autocad.UploadFile({"URL":"http://eu.httpbin.org/post","valid":1})
+ 
+ 	  var Req={"emit":"runCmd","Obj":"cad","AppId":1,"codeStr":'AppJsObject.autocad.UploadFile({"URL":"http://eu.httpbin.org/post","valid":1})' ,"par0":{"AppMethod":"POST"}}   
+  
+      AE.OpenApp( Req );
+ 
+ }
+
+//GetAcadState().IsQuiescent  
+IsQuiescent=function(){
+     //反馈是否为静止状态
+ 	 var Req={"emit":"runCmd","Obj":"cad","AppId":1,"codeStr":'return AppJsObject.autocad.GetAcadState().IsQuiescent' ,"par0":{"AppMethod":"POST"}}   
+	 //  var Req={"emit":"runCmd","Obj":"cad","AppId":1,"codeStr":'return AppJsObject.autocad.GetState()' ,"par0":{"AppMethod":"POST"}}   
+ 
+      AE.OpenApp( Req );
+ 
+ }
+//发送命令
+DoCommands=function(){
+  //AppJsObject.autocad.SendCommand(lispCmds)   同步命令;  AppJsObject.autocad.PostCommand(lispCmds)   异步命令
+  //这里面注意`引用代码
+  var cmd1= AE.txt2code(function(){/*!@preserve
+`(setq c:hello nil)
+(defun c:hello(/ name)
+(set 'name (getstring "What's your name? "))
+(set 'msg (strcat "Hello, " name <?= time(),"这是 js调用" ?>))
+(write-line msg))
+hello`
+*/});
+
+ 	  var Req={"emit":"runCmd","Obj":"cad","AppId":1,"codeStr":'AppJsObject.autocad.PostCommand('+cmd1+')' ,"par0":{"AppMethod":"POST"} } 
+  
+      AE.OpenApp( Req );
+ 
+ }
+ 
+//LoadLisp 支持路径
+ 
+ 
+
+cmd_line =function(){
+ //通过 AppJsObject.autocad 来调用来调用autocad,也可以定义一个 var cad=AppJsObject.autocad; 用cad来缩写
+
+   //注意 结尾一定要有;  或者\r\n 
+  //vue需要使用 AE.txt2code_Vue
+var	codeStr1 =   AE.txt2code(function(){/*!@preserve
+AppJsObject.autocad.ActiveDocument.ModelSpace.AddText("测试文本",{10;20;30},5);
+
+var pt1 = AppJsObject.autocad.ActiveDocument.Utility.GetPoint(,'\r\n请选择第一点: ');
+var pt2 = AppJsObject.autocad.ActiveDocument.Utility.GetPoint(,'\r\n请选择第二点: ');
+AppJsObject.autocad.ActiveDocument.ModelSpace.AddLine(pt1,pt2);
+*/});
+ 
+ 
+   var  Req3={"emit":"runCmd","Obj":"cad","AppId":1,"codeStr":codeStr1,"par0":{"AppMethod":"POST"} }   
+  
+
+      AE.OpenApp( Req3 );
+
+}
+
+ /**
+ 
+ appemit数值数组传入 COM 默认为 double 类型数组，
+单个数值，整数默认为 32 位整型（int），小数默认为 64 位浮点数（ double ）。 
+字符串或字符串数组默认为 BSTR 类型。
+
+AutoCAD 有些数值或数组参数不使用上述的默认类型，
+ 提供了以下函数可以明确的声明 COM 参数的类型：
+-------------------------------------------------------------------
+com.byte() 将参数指定的数值或数组声明为 8 位整型数值。
+com.ubyte()  将参数指定的数值或数组声明为 8 位无符号整型数值。
+com.word() 将参数指定的数值或数组声明为 16 位整型数值。
+com.uword() 将参数指定的数值或数组声明为 16 位无符号整型数值。
+com.int() 将参数指定的数值或数组声明为 32 位整型数值。
+com.uint() 将参数指定的数值或数组声明为 32 位无符号整型数值。
+com.long() 将参数指定的数值或数组声明为 64 位整型数值。
+com.ulong() 将参数指定的数值或数组声明为 64 位无符号整型数值。
+com.float() 将参数指定的数值或数组声明为 32 位浮点数值。
+com.double() 将参数指定的数值或数组声明为 64 位浮点数值。
+com.Variant() 将参数指定的值或数组声明为变体类型。
+-------------------------------------------------------------------
+要注意不同编程语言之间的差别： 
+VB6/VBA 中 Integer 是16位数值，Long 是32位数值，
+而在 C# 中 int 是32位数值, long 是64位数值，
+更重要的不是类型名字，而是存储长度
+
+
+
+　　Set aCADdoc=Application.ActiveDocument
+ 
+　　请看下面的例子对文件的操作：
+ 
+　　Dim Docname As String
+ 
+　　Docname = "e:\temp\zk01.dwg"
+ 
+　　If Dir(docname) <> "" Then
+ 
+　　aCADdoc.Open docname '如果文件存在则打开CAD文件
+ 
+　　Else
+ 
+　　aCADdoc.new("aCAD") '若不存在则以aCAD.dwt为模板建立一个新文件。
+ 
+　　End If
+ 
+ 
+　　aCADdoc.save
+ 
+ 
+　　Document对象还提供了两个非常有用的方法—SetVariable 和 GetVariable，通过它们可以得到(用GetVariable)或改变(用SetVariable )AutoCAD的系统变量。
+  
+　　aCADdoc.SetVariable "Orthomode", 1 '打开正交模式
+ 
+　　dim CADver As String
+ 
+　　CADver=aCADdoc.Getvariable("ACADver") '获取AutoCAD的版本号
+ 
+　　图形实体是指所有CAD的图元物体，如点(point)、线(Line)、圆(Circle)、弧(Arc)、文字(Text)等，它们包含于ModelSpace和PaperSpace集合对象中。对实体的操作总要从这两个集合开始，向下查找相应实体所属的方法或属性。而图形实体的操作包括实体的生成、编辑和查询。 ModelSpace与PaperSpace是所有图形实体的集合，因此要取得图中的某一实体，一般采用遍历查找的方法，下面代码是CAD图形实体的生成、编辑实体或查询。
+  
+ 
+ 
+ */
+
+
+</script>
+</body>
+</html>
