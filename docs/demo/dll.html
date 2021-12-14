@@ -404,7 +404,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 */});
 
  
-		  AE.callbackFunc= [{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0,"service":"appemit"}
+		  AE.callbackFunc= [{"equ": { "Obj":"dll" ,"AppStatus":1,"rep": 0,"service":AE.service}
 		                                          ,"func":function(){AE.OpenApp({"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr211 })}} // reportX生成执行打开命令
                                      // , {"equ": { "Obj":"dll" ,"rid":2},"func":function(){AE.callbackFun_cancel=true;}} // 可以取消回调
 										] ;

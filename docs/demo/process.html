@@ -114,7 +114,7 @@ cmd ，powershell
 								   ,"args":""                           //会屏蔽不安全命令,有提示
 								    ,"workDir":null
 									,"AuthKey":"E1-PqmrIPdMxE2dEKoyZQLKoZBx71EAkwijJSaG5BHD12g"   //UID下同名称的相同
-	 							    ,"embed":-1        //  1嵌入类似子窗口,关闭网页会关闭程序不是所有窗口都支持； -1浮动窗口跟随，不会关闭exe；   0独立窗口
+	 							    ,"embed":1        //  1嵌入类似子窗口,关闭网页会关闭程序不是所有窗口都支持； -1浮动窗口跟随，不会关闭exe；   0独立窗口
 									//,"Visible":true
 									}
 				                  ,"pos":1
@@ -186,7 +186,7 @@ cmd ，powershell
   }
   function callbackdemo(){
  
-		  AE.callbackFunc= [{"equ": { "Obj":"process" ,"AppStatus":1,"rep": 0,"service":"appemit"}  //回调函数的条件
+		  AE.callbackFunc= [{"equ": { "Obj":"process" ,"AppStatus":1,"rep": 0,"service":AE.service}  //回调函数的条件
 		                                          ,"func":callbackFun1}  
                                      // , {"equ": { "Obj":"process" ,"rid":2},"func":function(){AE.callbackFun_cancel=true;}} // 可以取消回调
 										] ;

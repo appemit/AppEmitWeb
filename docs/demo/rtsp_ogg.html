@@ -140,7 +140,7 @@ https://blog.csdn.net/langal1212/article/details/77676592
 	var init_App=function(){   
  
 	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开,转码成功, ,任务管理器会出现vlc.exe，再执行AE.callbackFunc.func
-          AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
+          AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
                                    ,{"equ": { "Obj":"media", "rid": 1,"rep": 0},"func":function(){AE.OpenApp({"emit":"getPar","Obj":"app","par":["intranetIP"]} )} } //input_App成功后，获取本地的内网IP
 									,{"equ": { "Obj":"app" ,"rid": 2,"rep": 0},"func":callPlayFunc}     // 获取本地的内网IP后，调用callPlayFunc  
                                  ] 
@@ -155,7 +155,7 @@ https://blog.csdn.net/langal1212/article/details/77676592
 	         init_App();          //载入页面运行 
 	 }else if(runtime_flag ==2){
 	       //重新连接，需要增加AppRuntime参数，关闭后台服务程序   {"emit":"closeAll","Obj":"media","AppRuntime":1}
-	         var  AE_callbackFunc_close= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0}
+	         var  AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0}
 			                                        ,"func":function(){
 															     ReqPar= {"emit":"closeAll","Obj":"media","AppRuntime":1};					   
 																 AE.OpenApp(ReqPar );   
@@ -164,7 +164,7 @@ https://blog.csdn.net/langal1212/article/details/77676592
 			                   }   ] ;
 		                                   
  
-		      AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc_close);   //连接websocket成功后，执行AE_callbackFunc_close
+		      AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");   //连接websocket成功后，执行AE.callbackFunc
 	 
 	 }
 

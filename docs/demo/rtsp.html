@@ -31,7 +31,7 @@
 		<div style="font-size:10px">v1. libvlc  支持多开:   
 				<!-- <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.zhihu.com"}}'/>
  -->		 	
- <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value=' {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }}'/>
+ <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value=' {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":1,"bgcolor":"2A2937"}}'/>
 	 
 		 <button type="button" id="btn_1" onclick="input_App() " >do it</button><button type="button" id="btn_2" onclick="libvlc_snap() " >libvlc_snap</button>
 			 <button type="button" id="btn3 " onclick="regEvent() " >regEvent</button> 
@@ -84,6 +84,8 @@
   <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
  
 <script>
+
+ 
  /*
  //方案说明
  //  plugins/vlc-help.txt 有参数介绍
@@ -102,11 +104,11 @@
 	   
 				 减少VLC开始接收视频花屏现象，可以在engine里面加上： 
 				"--network-caching=500",                   //网络额外缓存值 (ms)500-800 ,默认300   //本地需要设置 --file-caching=500
-				"--rtsp-frame-buffer-size=500000",   //RTSP帧缓冲大小，默认大小为100000
-				"--rtsp-tcp",                           //RTSP采用TCP传输方式  这个需要测试
+				"--rtsp-frame-buffer-size=500000",   //RTSP帧缓冲大小，500000-700000,  默认大小为100000
+				"--rtsp-tcp",                           //RTSP采用TCP传输方式   
 				
 			 Direct3D video output
-			 "--vout=direct2d"                  //不支持3D改为2D
+			 "--vout=direct2d"                  //若不支持3D改为2D
 				
 			禁用硬件解码（显卡支持硬解的可略过）
 			
@@ -142,14 +144,15 @@
 //////////////////v1 libvlc ///////////////////////////////////////////			   
  // v1 libvlc 
 // "par0" 设置
-//   "trackbar":0,"bgcolor":8150110 隐藏进度条 设置控制栏的颜色
+//   "trackbar":0  隐藏进度条
+"bgcolor": 3615018 或者6位16进制的字符串 "2A2937",  设置控制栏的颜色  https://www.sioe.cn/yingyong/yanse-rgb-16/
 //   "event":注册获得反馈
 //loop  0只播放第一个。
           ture或者 -1 一直重复
           1,2,3,4,...n : mrl 为数组 ,则整组重复n组； 
 		  2,3,4,...n: mrl 字符串,则单曲重复n次 
-// 窗口栏  "par0":"windowPars":[12,28,10,10,0xFFF5F5F5,0]  默认 [12,28,10,10,0xFFF5F5F5,0] 字体大小,按钮宽度,按钮高度,标题栏高度,背景色,前景色
 // 最小最大关闭按钮 默认"par0":"minmaxclose":[0,0,1]
+// 然后可以设置窗口栏  "par0":"windowPars":[12,28,10,10,0,0]  默认 [12,28,10,10,0,0] 字体大小,按钮宽度,按钮高度,标题栏高度,背景色,前景色
 
 ///////////////////////////////////////////////////
   // ReqPar=[{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":0 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030", "--freetype-font=Microsoft JhengHei","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapRBUTTONDBLCLK":1,"snapWidth":0,"snapHeight":0}}]	;
@@ -214,29 +217,45 @@ callback1= function(Jdata,inPar){
    }
  
  }
+ 
+ 
+ 
 function regEvent(){
    
    var ReqPar11={"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":webMp4_demo1,"localFile":0},"par0":{"minmaxclose":[0,0,1],"volume":70,"autoplay":1,"controls":1,"event":eventAll }}
      
-    AE.callbackFunc= [{"equ": { "Obj":"libvlc",  "event": "play" ,"rep": 0},"func":callback1, "inPar":"inPar 111"} ] ;  
-     
+      
 	AE.OpenApp(ReqPar11);
  }
  
  //控制vlc///////////////////////////////////////////////////////////
+ callback2= function(Jdata,inPar){
+      //业务处理，获得cmd1的运行结果
+   if (Jdata.data ) {
+     console.log("处理业务数据",Jdata.data )
+   
+   }
+ 
+ }
+ 
+   //回调函数，如果equ有多个反馈同时相等，都会回调。要确保唯一，可以指定rid或者AppMark
+    AE.callbackFunc= [{"equ": { "Obj":"libvlc",  "event": "play" ,"rep": 0},"func":callback1, "inPar":"inPar 111"}
+	                              ,{"equ": { "Obj":"libvlc",  "rid": "libvlcLength_mark" ,"rep": 0},"func":callback2, "inPar":null}  //测试
+								  ] ;  
+								  
+								  
+								  
  function runcode1(){
  var  cmd1=AE.txt2code(function(){/*!@preserve
  if (AppJsObject.libvlc.state) {
     AppJsObject.libvlc.time=AppJsObject.libvlc.length/4 ;       //设置位置
-   
-     return  {time:AppJsObject.libvlc.time,length:AppJsObject.libvlc.length}
- 
+     return  {time:AppJsObject.libvlc.time,length:AppJsObject.libvlc.length,state:AppJsObject.libvlc.state}
   }
 */});
-    
-       var Req={"emit":"runCmd","Obj":"libvlc","AppId":1,"codeStr":cmd1 }    //都支持
-
-	   AE.OpenApp(Req);
+          //根据  AE.callbackFunc "equ"来回调处理
+       var Req={"emit":"runCmd","Obj":"libvlc","rid":"libvlcLength_mark","AppId":1,"codeStr":cmd1 }    //"AppMark":"libvlcLength_mark"
+ 
+      AE.OpenApp(Req);
 
 }
 
@@ -436,10 +455,10 @@ var embed_object_vlc={
   //拍照//runCall 是直接调用对象的函数, runCmd是运行代码
   **/
 		libvlc_snap=function(){
-		//    默认 inPar["ObjName"]:="libvlc"，如果修改可以在  {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par"里面设置ObjName
-		//AppJsObject[inPar["ObjName"]].takeSnap(snapPath,snapWidth,snapHeight,snapNum)
+		//    默认 inPar["objName"]:="libvlc"，如果修改可以在  {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par"里面设置ObjName
+		//AppJsObject[inPar["objName"]].takeSnap(snapPath,snapWidth,snapHeight,snapNum)
             var snapPath="/file/snap/a_"+Date.now()+".bmp"
-             var  ReqPar8={"emit":"runCall","Obj":"libvlc","AppId":1,"AppMark":"sdfdAppMark","src":[],"par":{"objName":"libvlc","callFun":{"takeSnap":[snapPath,0,0,0]}  }}	   
+            var  ReqPar8={"emit":"runCall","Obj":"libvlc","AppId":1,"AppMark":"sdfdAppMark","src":[],"par":{"objName":"libvlc","callFun":{"takeSnap":[snapPath,0,0,0]}  }}	   
            AE.OpenApp(ReqPar8);
 		}
  

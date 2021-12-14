@@ -117,15 +117,15 @@ Launched external handler for
 		// AE.InitApp(document.getElementById('input_url').value);
  
 	  //或者采用回调	
-	   	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE_callbackFunc.func
-         AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket初始化成功后，执行input_App
+	   	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE.callbackFunc.func
+         AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket初始化成功后，执行input_App
 		                        ,{"equ": { "AppId": 1,"Obj": "web","rep": 0,"rid": 1,"AppStatus": 1 },"func":input_App2,inPar:{a:5}}  //,"neq": {data:null}
 					 
 								 //可以设置rid做标志(后面命令的rid延续前面的状态++1)，如果不方便打乱rid,在runCmd命令可以增加一个AppMark，唯一标识每一条命令的每一次执行。
 								 //还可以通过"neq"进一步判断//如果还不能区分，最好是重写appemit.min.js里面的 AE.InitApp中的websocket过程，处理Jdata
 								,{"equ": { "AppId": 1,"Obj": "web","rep": 0,"rid":"mark_rid1","AppMark":"独一的mark，非rid序列使用" },"neq": {data:null},"func":input_App3}  //,"neq": {data:null}
                             ] ;
-            // AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc)
+            // AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1")
 			  AE.InitApp(document.getElementById("input_url").value)
 	}
 

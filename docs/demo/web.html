@@ -42,7 +42,8 @@
 		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar41)" >打开前设置cookie</button>
 		  <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar4)" >执行追加函数</button>
 		 <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar5)" >支持操作网页内核控件</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar6)" >接口</button>
-		 </div>
+ 	
+		</div>
  <div style="font-size:10px">flashOcx  IE    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":"flash_ocx"}}</div>      
 	<div style="font-size:10px">flashNP webkit    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":["flash_NP"]}}</div>      
  
@@ -59,7 +60,7 @@
 			 <!--    textarea或者改为div  都可以,绑定嵌入APP的位置, AppEmbed 要一致。如果要跟随浏览器变化大小，设置相对%比例即可-->
  		     <div id="AppEmbed1"  style="	border: solid 2px #F0F0F0; min-width:30px;min-height:20px;width:600px;height:400px" ></div>
 			  <div id="AppEmbed2"  style="	border: solid 2px #F0F0F0; min-width:30px;min-height:20px;width:300px;height:300px" ></div>
-			 
+			   <div id="AppEmbed3"  style="	border: solid 2px #F0F0F0; min-width:30px;min-height:20px;width:30px;height:30px" ></div>
 			                
 		</div>
               <div style=" margin-left:1800px; margin-top:1800px;text-align:center ">
@@ -69,6 +70,8 @@
 <!--<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.11/pako.min.js"></script>    如果使用Gzip压缩解压数据，则需要引入-->
 <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
 <script>
+ 
+
 /*
 /////////////////////////////////////////////////////
 //步骤 
@@ -76,6 +79,9 @@
 2 执行AE.InitApp一次
 3 使用vue或者直接多次使用AE.OpenApp来调用函数
 4 默认关闭网页自动 AE.OpenApp("emit":"close","AppId":1...) 【等效AE.CloseApp("AppId":1...)】
+
+注意 对于IE有些加载了pdf 的文档遇到缓存，默认加了一个noRefresh:false
+如果是单页面，不显示，可以设置noRefresh:true
 ////////////////////////////////////////////////
 */
    var close_App=function(){
@@ -88,10 +94,10 @@
 		 AE.InitApp(document.getElementById('input_url').value);
  
 	  //或者采用回调	
-	//  	  //反馈接口与AE_callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE_callbackFunc.func
-    //      var  AE_callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
+	//  	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE.callbackFunc.func
+    //      AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
     //                                     ] ;
-     //       AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1",AE_callbackFunc)
+     //       AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1")
 	}
 	   
    
@@ -228,7 +234,11 @@ ReqPar6= {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"htmlSt
  click()
 
  */
-
+ 
+ 
+	   
+ 
+ 
 </script>
 </body>
 

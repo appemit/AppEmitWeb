@@ -69,7 +69,7 @@ var fixedOffsetAuto_callback = function(mutationsList, observer) {
            AE.OpenApp(ReqPar);
        }
 	       
-      AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App}   ] ;//连接websocket成功后，执行input_App
+      AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0},"func":input_App}   ] ;//连接websocket成功后，执行input_App
  
  /////////////////////////////////
  
