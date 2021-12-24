@@ -43,9 +43,12 @@
 		  <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar4)" >执行追加函数</button>
 		 <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar5)" >支持操作网页内核控件</button>
  	
+
 	   <button type="button" id="btn_reg" onclick="getbackData()" >反馈数据</button>
 	
 		</div>
+		<div style="font-size:10px">   <button type="button" id="btn_reg" onclick="IDCard()" >高拍仪</button>	</div>
+		
  <div style="font-size:10px">flashOcx  IE    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":"flash_ocx"}}</div>      
 	<div style="font-size:10px">flashNP webkit    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":["flash_NP"]}}</div>      
  
@@ -173,7 +176,7 @@
 			   } ;  
 	////////////////////////////////////////////////////////////////////////////
  
-	
+
 	
 /**	
 //"emit":"func" 单独的注册操作 ,未提交注册的文件，为了安全，限制为AppEmit文件夹下，不能注册或者注销其它文件夹下面的ocx dll
@@ -266,7 +269,7 @@ ReqPar6= {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"htmlSt
  
  htmlStr5=AE.txt2code( function(){/*!@preserve
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<p><a href='javascript:backdata()'>反馈数据</a></p>
+	<p><a href='javascript:backdata()'>主动反馈数据</a></p>
  
     <script>
 	backdata=function(){
@@ -290,7 +293,45 @@ ReqPar6= {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"htmlSt
  
  }
 	   
+ 	//////高拍仪
+	function  IDCard(){
+				var htmlStr7=AE.txt2code(function(){/*!@preserve
+			   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			 <div>
+				高拍仪，需要注册才能使用。<input type="button" id="btn1" name="btn1" value="调用ocx"  onclick="GetVersionInfo()"></input>
+                <OBJECT style="float:right" classid="clsid:10EC554B-357B-4188-9E5E-AC5039454D8B" id="objIDCard" width="300" height="200"></OBJECT>
+
+				</div>
+	  <script>
+	  function GetVersionInfo(){
+	    alert(objIDCard.objIDCard.GetVersionInfo())
+	  
+	  }
+	 
+	 //这样注释转多行字符串的形式不支持script，需要修改。 即在运行代码前所有的script前的< \ /被替换为< /
+    <\/script>
+				
+			*/});
  
+            //未提交注册的文件，为了安全，限制为AppEmit文件夹，不能注册或者注销其它文件夹下面的ocx dll,其中 pid唯一
+		 	 ReqPar7= {"emit":"open","Obj":"web","AppType":1,"pos":1,"AppId":1
+			  ,"par":{"URL":null,"htmlStr":htmlStr7,"HttpServer_startUrl":null                                         //"HttpServer_startUrl":"/demo/htmlDemo/ocx.html"   //使用本地html
+			   ,"embed_object" : {                                     //多个object可以设置embed_object为数组 
+								   "objName":"objIDCard"    
+							    ,"reg":true    //null 不执行注册   1强制操作 true 未注册则注册  false 卸载注册 (重启AppEmit后，就不能加载dll了)  
+								 	,"asAdmin":0   //1需要管理员权限注册 0不需要 ,win7管理员身份会有提示确认窗口
+								    //  ,"pid":"292A53CD-DA8F-46A5-808D-B286F2759C37" //使用私有插件,则需要增加下列信息 如果dll/ocx文件改变了，需要更新appemit登陆窗口中我的应用里面的sha1值
+								 ,"dllFile":"/plugins/private/292A53CD-DA8F-46A5-808D-B286F2759C37/具体地址.ocx"      //为了安全，限制为AppEmit文件夹，不能注册或者注销其它文件夹下面的ocx
+								   ,"CLASSES_ROOT":"HKEY_CLASSES_ROOT\\真实的ReportProj1.ReportX\\CLSID"   //可选，reg= true检查是否已经注册,一定要是\\分隔
+								   ,"clsId":"10EC554B-357B-4188-9E5E-AC5039454D8B"                           // 可选，reg= true检查是否已经注册
+								//   ,"AuthKey":"A1-ZneY-2qGoXRfc7h6GZZxBB2gceORBwyhoxsA6GK5agLtIAwLhh6BnK61W8fORVNv"  								  
+								 } 
+				   }
+			   } ;  
+	 AE.OpenApp(ReqPar7);
+}	
+	
+/////////////////////////
  
 </script>
 </body>

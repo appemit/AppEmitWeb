@@ -44,6 +44,7 @@
   var targetNode ;
  var targetNode_oldOffset={"left":0,"top":0};
  var observer;
+// MozMutationObserver是优化代码
 var fixedOffsetAuto_callback = function(mutationsList, observer) {
 	// Use traditional 'for loops' for IE 11
 	for(  k in mutationsList) {
@@ -71,8 +72,11 @@ var fixedOffsetAuto_callback = function(mutationsList, observer) {
 	       
       AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0},"func":input_App}   ] ;//连接websocket成功后，执行input_App
  
- /////////////////////////////////
- 
+ //////////首先连接好 websocket一次,没有必要每次弹窗都执行InitApp///////////////////////
+   AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");    //启动websocket 
+   
+//////////////////////////////////
+   
  var  layer_fixed=true;   //true = position: absolute;    false= position:  relative
  
 layui.use(['layer', 'form'], function(){
@@ -97,14 +101,14 @@ layui.use(['layer', 'form'], function(){
 	 }else{
 		AE.fixedPos_NoPageOffset=true;  // 固定则  不计算PageOffset
 		AE.AppFollow=30;                     // 固定则不响应滚动事件,全部响应默认31
-		// fixed=ture  offset: 'auto'  F12出现console的情况以及windowresize更新后layer延迟auto
+		// fixed=ture  offset: 'auto'  F12出现console的情况以及windowresize更新后layer延迟auto  ,MozMutationObserver是优化代码
 		 var MutationObserver = window.MutationObserver || window.webkitMutationObserver || window.MozMutationObserver;
          observer = new MutationObserver(fixedOffsetAuto_callback);
 	   targetNode = document.getElementById( (layero.selector).substring(1, layero.selector.length));
        observer.observe(targetNode, { attributes: true, childList: false, subtree: false });
     }
  
-         AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");    //启动websocket 
+       
       }
 	 ,cancel: function(index, layero){ 
 	      AE.CloseApp({});   //关闭当前所有App   ， 指定AppId则关闭对应的
