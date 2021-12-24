@@ -185,13 +185,20 @@ namespace CSNET2ClassLibrary
 
 
 //com  下面为调用系统不需要指定dll的情况。更多可以参考 dll.html的通用的dll 调用
+/**
+createEmbedEx ： 嵌入对象
+ createObject(clsId,iid) ：  创建对象
+ queryObjectR ：   c++ ，查询 IDispatch 接口、并创建 com.IDispatch 对象\n如果成功则调用 com.Release 释放传入的 IUnknown 指针\n使其引用计数减一,释放的指针不应再使用,\n返回的 COM 对象会增加引用计数,\n并在对象释放时自动减一
+ getObject： 获取对象
+*/
+
 var callCom1=function (){
 //调用 Connection
 var Req3= [{"emit":"open","Obj":"dll","AppId": 1,"src":[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
  								//   "asAdmin":0   //1需要管理员权限注册 0不需要
 								//	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册
                                       ComDll:"Com"							 //com组件,不写默认为dll 
-								    , createType:"createObject"                //     createEmbedEx       , createObject(clsId,iid)    
+								    , createType:"createObject"                //     createEmbedEx , createObject(clsId,iid)  ,   queryObjectR,  getObject
  									 ,objName:"comTest1"              //自行定义   
 									// ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
   					              //  ,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/CSNET2ClassLibrary.dll"     //  必须 \\   / 分隔, 程序集或者Dll文件 AppJsLibrary.sysAsmObj ,个人的插件放在/plugins/private/clsId/文件夹下面
@@ -224,7 +231,7 @@ var Req4= [{"emit":"open","Obj":"dll","AppId": 1,"pos":1,"src":[  {             
  								//   "asAdmin":0   //1需要管理员权限注册 0不需要
 								//	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册
                                       ComDll:"Com"							 //com组件,不写默认为dll 
-								    , createType:"createEmbedEx"                //     createEmbedEx       , createObject(clsId,iid)    
+								    , createType:"createEmbedEx"                //       createEmbedEx , createObject(clsId,iid)  ,   queryObjectR,  getObject ; 
  									 ,objName:"explorer2"              //自行定义   
 									  ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
   					              //  ,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/CSNET2ClassLibrary.dll"     //  必须 \\   / 分隔, 程序集或者Dll文件 AppJsLibrary.sysAsmObj ,个人的插件放在/plugins/private/clsId/文件夹下面

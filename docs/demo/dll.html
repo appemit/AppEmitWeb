@@ -40,7 +40,13 @@
  	<div style="font-size:10px"> 3.dll开发无界面 &nbsp;  <button type="button" id="btn1" onclick="call_cDll()" >call_cDll</button>   </div>
   	
 	<!--<div style="font-size:10px"> 4.dll 调用   <button type="button" id="btn1" onclick="call_cppDemoDll()" >call_cppDll</button>   </div> -->
-  	<div style="font-size:10px"> 5. 调用 Com dll <button type="button" id="btn1" onclick="call_comDll2()" >call_comDll2</button>   </div>
+  	<div style="font-size:10px"> 4. 调用 Com dll <button type="button" id="btn1" onclick="call_comDll2()" >call_comDll2</button>   </div>
+	  	<div style="font-size:10px"> 5. ActiveX  <button type="button" id="btn1" onclick="ActiveX_NISEC_SKP()" >调用税控com NISEC_SKP</button> <button type="button" id="btn1" onclick="call_reportX_activeX()" >调用reportX</button>  </div>
+		<div style="font-size:10px"> 6. 二维码打印机 <button type="button" id="btn1" onclick="call_printer()" >tsclib</button>   </div>
+	
+	
+	
+	
 	<div style="font-size:10px"> dotNet和系统com组件  查看 dotNet.html </div>
  
  <div   id="AppEmbed1"  style="border:none; 	width:800px;height:600px" ></div>
@@ -67,10 +73,8 @@
 ////////////////////////////
 
 	/////////////////一、js被 AppEmit调用示例/////////////////////////////////////////// 
-   // 1     flash.ocx 可视化示例
-   //  2    reportX.ocx     可视化OCX
-   // 3       dll  个人开发 dll ,交互信息
-  //4  dotNet com  
+	包括 dll , activeX , com,  dotNet不同类型
+ 
    //////////////////////////////////////////////////////////////////////
    **/
    
@@ -160,7 +164,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 	// AppJsFun.msgbox( AppJsObject.shockwave.Movie );
 */});
 
- Req1=[{"emit":"open","Obj":"dll",AppShow:1 ,"AppFollow":1,"pos":1
+ Req1=[{"emit":"open","Obj":"dll",AppShow:1 ,"AppFollow":31,"pos":1
 								,  	src:[  {
 	 							     "asAdmin":1   //1需要管理员权限注册 0不需要
 								 	,"reg":true    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
@@ -190,7 +194,7 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
   /////////////////方法2 调用有GUI的dll  ///////////////////////////
   //设置 comCarrier
      function call_reportX(){
- Req2=[{"emit":"open","Obj":"dll",AppShow:true ,"AppFollow":1,"pos":1
+ Req2=[{"emit":"open","Obj":"dll",AppShow:true ,"AppFollow":31,"pos":1
 								,  src:[  {
  								    createType:"createEmbedEx"       //可视化的控件等同 createEmbed ,createEmbedEx。createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 									,objName:"reportX"            //AppJsObject.reportX 来访问此控件
@@ -262,6 +266,10 @@ var  codeStr31 =   AE.txt2code(function(){/*!@preserve
  
  }
  
+ 
+ 
+ 
+
  /////////////5  调用com dll，一般的activeX需要注册///////////////////////////////////////////
     function call_comDll2(){
    var  codeStr50 =   AE.txt2code(function(){/*!@preserve
@@ -275,8 +283,9 @@ var  codeStr31 =   AE.txt2code(function(){/*!@preserve
 
  Req51=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
 								,src:[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
-	 								//   "asAdmin":0   //1需要管理员权限注册 0不需要
 								   "reg":true    //使用appemit直接调用，一般可以不注册。null 不注册   true 判断注册 false 卸载注册    
+								   // , "asAdmin":1   //1需要管理员权限注册 0不需要
+								   // ,"bat":true   //常规注册失败，直接修改注册表 ,regsvr32注册
 								    , createType:"createObject"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
 								    ,objName:"eyebeamdial"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
  									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/eyebeamdial.dll"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
@@ -302,72 +311,7 @@ var  codeStr31 =   AE.txt2code(function(){/*!@preserve
  
  }
  
-/////////////C++ dll 调用  callDll//////////////////////////////////////////
- 
- 
-   function call_cppDemoDll(){
-   
-   var  codeStr40 =   AE.txt2code(function(){/*!@preserve
- //AppJsObject.cppTestDemo1.getName =AppJsLibrary.cppTestDemo1.dll.api( "getName","void(byte &buffer,int len)", "cdecl" );
-  //AppJsObject.cppTestDemo1.getInfo =AppJsLibrary.cppTestDemo1.dll.api( "getInfo","void(TestInfo &pInfo)", "cdecl" );
- var obj=  AppJsLibrary.cppTestDemo1.dll.CreateTestObject();
-  
-    AppJsFun.log(AppJsLibrary.cppTestDemo1.dll);
-  var name=AppJsFun.raw.buffer(20); 
-  name=AppJsObject.cppTestDemo1.getName(name,10); 
-  //AppJsFun.log(111,name);
-  return {name:name}      //表自动转换json
-*/}); 	  
 
-/*
- Req41=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
-								,src:[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
-	 								//   "asAdmin":0   //1需要管理员权限注册 0不需要
-								//	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
-								     createType:"callDll"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
-								    ,objName:"cppTestDemo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
- 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/cppTestDemo1.dll"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
-									,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"                          //插件ID，可以和clsId不同
-									,AuthKey:"A1-rbJouaNIsm-NwndUCunpnRW8GYw-72Sp7XbDjiSQ2MuXtEaFyrs1c4nTBrqXHrKu"                //pid的授权，appemit网站获取
-									//,clsId :"{AE7086AF-ECFE-42F7-B6DC-BC729F90B7AF}"  //guid  自己自行生成的，  dll  里面设置的一致	
-                                    ,CLASSES_ROOT:null        //自行开发dll不用注册，则不用设置
- 								    ,ver:"1.0.0"  
-									,iid:null  
-								//	,data:'{"msg":"data from JS","info":1}'               //发送给dll  数据
-									
-								   }   
-						    ]
-
-					//,"par":{ "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }
-					,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
-				 }
-				 //发送信息
-				,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr40 }
-				 //调用方法
-			 //  ,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":" var sum=AppJsObject.cppTestDemo1.myAdd(1,5);return  sum;" } 
-       ]	 
- 	      AE.OpenApp(Req41);
-  */
-  
-  /////////////////采用 callDll方式
- 
-  var codeStr = AE.txt2code(function() { /*!@preserve
-  AppJsObject.jspaypos.docre=AppJsLibrary.jspaypos.dll.api( "docre","int(string strIn,string & strOut)", "stdcall" );  //cdecl
-var strOut = raw.buffer(4096);
-var strIn=`{
-"a":"m",
-"b":"jspaypos",
-}`;
- 
- var outInt=AppJsObject.jspaypos.docre(strIn,strOut );
-//AppJsFun.msgbox(outInt);
- 
-return  {outInt=outInt;strOut=AppJsFun.JSONtryParse( AppJsFun.raw.str( strOut),false,936 )};  //false 没有转义符 ,936 GBK   raw.str纯粹字符串 raw.string /0标识的字符串
-*/ });
-  
- 
-  
- }
 
  
    /////////////////////  方法22 设置 回调  {"emit":"runCmd","Obj":"**","AppId":1,"codeStr":codeStr } 接口
@@ -414,7 +358,263 @@ if  reportXPath  {AppJsObject.reportX.OpenReport(reportXPath)
 		 
  }
 
+
+//税控NISEC activeX,无界面
+  function ActiveX_NISEC_SKP(){
+   var  codeStr61 =   AE.txt2code(function(){/*!@preserve
+   //定义接口 
+  // AppJsFun.log( AppJsObject.NISEC_SKPX)
+   var strin="<?xml version='1.0' encoding='gbk'?><business comment='税控盘信息查询' id='SKPXXCX'><body yylxdm='1'><input><skpkl>88888888</skpkl></input></body></business>"
+   return {strOut:AppJsObject.NISEC_SKPX.OperateDiskX(strin) };    //这里没有报错，说明调用成功了
+
+*/}); 	  
+	  
  
+
+ Req61=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
+								,src:[  {  
+								//,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+								   //"reg":true    //使用appemit直接调用，一般可以不注册。null 不注册   true 判断注册 false 卸载注册    
+								   // , "asAdmin":1   //1需要管理员权限注册 0不需要
+								   // ,"bat":true   //常规注册失败，直接修改注册表 ,regsvr32注册
+								      createType:"createObject"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+								     ,ComDll:"activeX"
+									,objName:"NISEC_SKPX"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
+ 									,dllFile:"D:/Program Files (x86)/nisec/NISEC_SKPCX.ocx"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
+									//,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"                          //插件ID，可以和clsId不同
+									//,AuthKey:"A1-rbJouaNIsm-NwndUCunpnRW8GYw-72Sp7XbDjiSQ2MuXtEaFyrs1c4nTBrqXHrKu"                //pid的授权，appemit网站获取
+									 ,clsId :"{7E777ADB-F89A-49A3-BCC9-76B353AD0775}" 
+								 
+                                   // ,CLASSES_ROOT:"HKEY_CLASSES_ROOT\\eyebeamdial.dial.1\\CLSID"        // dll不用注册，则不用设置
+								  	 ,ver:"1.0.0"  
+									,iid:null  
+									//,data:'{"msg":"data from JS","info":1}'               //发送给dll  数据
+									
+								   }  
+						    ]
+
+				//	,"par":{ "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }
+				//	,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+				 //发送信息
+				,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr61}
+				 
+       ]	 
+	   
+	   
+	   	  AE.callbackFunc= [{"equ": { "Obj":"dll" ,"rep": 0,"AppId":1}
+		                        ,"func":function(Jdata,inPar){console.log(111,Jdata)}}  
+                             ] ;
+										
+										
+										
+ 	      AE.OpenApp(Req61);
+ 
+ }
+ 
+ // activex 有界面
+ function call_reportX_activeX(){
+ Req62=[{"emit":"open","Obj":"dll",AppShow:true ,"AppFollow":31,"pos":1
+								,  src:[  {
+ 								    createType:"createEmbedEx"       //推荐 createEmbedEx ,createEmbed ,  createObject(clsId,iid)  
+									,ComDll:"activeX"
+									,objName:"reportX"            //AppJsObject.reportX 来访问此控件
+									 ,comCarrier:"custom"           // createEmbed可视化  picture(图片控件设置)、static 、winform  默认 推荐 custom           //不同类型组件采取不要载体
+									,pid:"ReportX"
+									,dllFile:"/plugins/thirdparty/report/ReportX.ocx"
+									,clsId :"{A5DA6E97-1D4C-4708-B705-84A45716B4DD}"  //guid
+									,iid:null 
+									,itface:null
+ 
+								   }   
+						    ]
+                  //AppStep 可以在插件前后执行对应命令
+					 ,"par":{"plugins":["ReportX"], "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }  //ReportX是系统加入的plugin,如果没有会自动下载
+					//,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+              //执行第2条命令
+			,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":"AppJsObject.reportX.OpenReport(..io.fullpath('/demo/htmlDemo/file/rep1.rpxe'));return  {a='reportx'};" } 
+       ]	 
+ 	      AE.OpenApp(Req62);
+ 
+ }
+ 
+ 
+ /////////////C++ dll 调用  callDll//////////////////////////////////////////
+ 
+ 
+   function call_cppDemoDll(){
+   
+   var  codeStr40 =   AE.txt2code(function(){/*!@preserve
+ //AppJsObject.cppTestDemo1.getName =AppJsLibrary.cppTestDemo1.dll.api( "getName","void(byte &buffer,int len)", "cdecl" );
+  //AppJsObject.cppTestDemo1.getInfo =AppJsLibrary.cppTestDemo1.dll.api( "getInfo","void(TestInfo &pInfo)", "cdecl" );
+ var obj=  AppJsLibrary.cppTestDemo1.dll.CreateTestObject();
+  
+    AppJsFun.log(AppJsLibrary.cppTestDemo1.dll);
+  var name=AppJsFun.raw.buffer(20); 
+  name=AppJsObject.cppTestDemo1.getName(name,10); 
+  //AppJsFun.log(111,name);
+  return {name:name}      //表自动转换json
+*/}); 	  
+
+/*
+ Req41=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
+								,src:[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+	 								//   "asAdmin":0   //1需要管理员权限注册 0不需要
+								//	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
+								     createType:"callDll"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+								    ,objName:"cppTestDemo1"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
+ 									,dllFile:"/plugins/private/50FCF891-1B93-4AE5-8A66-AB26A3C03378/cppTestDemo1.dll"     //  必须 \\   / 分隔, 个人的插件放在/plugins/private/clsId/文件夹下面
+									,pid:"50FCF891-1B93-4AE5-8A66-AB26A3C03378"                          //插件ID，可以和clsId不同
+									,AuthKey:"A1-rbJouaNIsm-NwndUCunpnRW8GYw-72Sp7XbDjiSQ2MuXtEaFyrs1c4nTBrqXHrKu"                //pid的授权，appemit网站获取
+									//,clsId :"{AE7086AF-ECFE-42F7-B6DC-BC729F90B7AF}"  //guid  自己自行生成的，  dll  里面设置的一致	
+                                    ,CLASSES_ROOT:null        //自行开发dll不用注册，则不用设置
+ 								    ,ver:"1.0.0"  
+									,iid:null  
+								//	,data:'{"msg":"data from JS","info":1}'               //发送给dll  数据
+									
+								   }   
+						    ]
+
+					//,"par":{ "AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }
+					,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+				 //发送信息
+				,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr40 }
+				 //调用方法
+			 //  ,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":" var sum=AppJsObject.cppTestDemo1.myAdd(1,5);return  sum;" } 
+       ]	 
+ 	      AE.OpenApp(Req41);
+  */
+  
+  
+  
+  
+  /////////////////采用 callDll方式////////////////////////////////////////////////
+ 
+  var codeStr = AE.txt2code(function() { /*!@preserve
+  AppJsObject.jspaypos.docre=AppJsLibrary.jspaypos.dll.api( "docre","int(string strIn,string & strOut)", "stdcall" );  //cdecl
+var strOut = raw.buffer(4096);
+var strIn=`{
+"a":"m",
+"b":"jspaypos",
+}`;
+ 
+ var outInt=AppJsObject.jspaypos.docre(strIn,strOut );
+//AppJsFun.msgbox(outInt);
+ 
+return  {outInt=outInt;strOut=AppJsFun.JSONtryParse( AppJsFun.raw.str( strOut),false,936 )};  //false 没有转义符 ,936 GBK   raw.str纯粹字符串 raw.string /0标识的字符串
+*/ });
+  
+ 
+  
+ }
+ 
+
+//调用打印机
+
+
+function call_printer(){
+   
+var  codeStr6 =   AE.txt2code(function(){/*!@preserve
+  // AppJsFun.log(AppJsObject)
+    //接口文档请查看/plugins/thirdparty/printer/tsclib/ ,下面为流程举例
+ 
+      AppJsObject.tsclib.openport("Gprinter  GP-3120TU");//这里需要改成你的条码打印机名称
+      AppJsObject.tsclib.setup("40","30","3","10","0","3","0");
+
+	//直接输出TSC-TSPL指令
+	AppJsObject.tsclib.sendcommand("SET CUTTER OFF");
+	AppJsObject.tsclib.sendcommand("DIRECTION 1");
+	AppJsObject.tsclib.clearbuffer();
+
+	//打印条码
+	//AppJsObject.tsclib.barcode("100","50","39","96","1","0","2","4","123456789");
+
+	//打印二维码
+	AppJsObject.tsclib.qrcode("100","100","H","4","A","0","M2","S7","AABCB03abcN123汉字")
+	//AppJsObject.tsclib.printerfont("100","200","TSS24.BF2","0","2","2","中文字体");
+
+	//直接输出TSPL指令
+	AppJsObject.tsclib.sendcommand("BOX 50,10,600,280,5");
+	//AppJsObject.tsclib.windowsfont(100,200,24,0,2,0,"arial","中文 Font 72 pt");
+			
+	AppJsObject.tsclib.printlabel("1","1");
+	AppJsObject.tsclib.closeport();
+ 
+   
+ 
+*/}); 	 
+
+ 
+/** 更多接口
+//  AppJsObject.tsclib.setup(labelWidth,labelHeight,speed,density,sensor,vertical,offset);
+//  AppJsObject.tsclib.clearbuffer();
+//  AppJsObject.tsclib.barcode(x,y,codeType,height, readable, rotation,narrow,wide, code);
+//  AppJsObject.tsclib.qrcode(x,y,eccLevel,width, mode, rotation,model,mask, dataString);
+//  AppJsObject.tsclib.printerfont(x,y,fontName,rotation,xmul, ymul, ..string.fromto(content,65001,0));
+//  AppJsObject.tsclib.printlabel(numberOfSet,numberOfCopy);
+//  AppJsObject.tsclib.formfeed();
+//  AppJsObject.tsclib.nobackfeed();
+//  AppJsObject.tsclib.downloadpcx(fileName,imageName);
+//  AppJsObject.tsclib.windowsfontUnicode(x,y,fontheight, rotation,fontstyle,fontunderline,szFaceName,..string.toUnicode(content));
+//  AppJsObject.tsclib.sendBinaryData(hexData,#hexData);
+//  AppJsObject.tsclib.usbportqueryprinter();
+//  AppJsObject.tsclib.usbportwrite(command);
+//  AppJsObject.tsclib.about();
+//  
+//   //指针类型
+//  var ptr = AppJsObject.tsclib.usbprintername();
+//  if( ptr ) return AppJsFun.raw.str(topointer(ptr));
+//  
+//  
+//  intellisense(tsclib)
+//  openport(.(printerName) = 打开打印机
+//  closeport() = 关闭打印机
+//  sendcommand(.(command) = 发送命令
+//  setup(.(labelWidth,labelHeight,speed,density,sensor,vertical,offset) = 设置
+//  clearbuffer() = 清空缓冲
+//  qrcode(.(x,y,eccLevel,width, mode, rotation,model,mask,dataString) = 打印二维码\nx QRCODE条码左上角X座标\ny QRCODE条码左上角Y座标\neccLevel 错误纠正能力等级\n	L 7%\n	M 15%\n	Q 25%\n	H 30%\nwidth 1~10\nmode 自动生成编码/手动生成编码\n	A Auto\n	M Manual\nrotation 顺时针旋转角度\n	0 不旋转\n	90 顺时针旋转90度\n	180 顺时针旋转180度\n	270 顺时针旋转270度\nmodel 条码生成样式\n	M1 (预设), 原始版本\n	M2 扩大版本\nmask 范围：S0~S8，预设S7\ndataString 条码资料内容
+//  barcode(.(x,y,codeType,height, readable, rotation,narrow,wide, code) = 输出条码
+//  printerfont(.(x,y,fontName,rotation,xmul, ymul, content) = 输出文本
+//  printlabel(.(numberOfSet,numberOfCopy) = 打印标签
+//  formfeed() = 跳页，该函数需在setup 后使用
+//  nobackfeed() = 设定纸张不回吐
+//  about() = 关于
+//  downloadpcx(.(fileName,imageName) = 下载单色PCX 格式图文件至打印机
+//  windowsfont(.(x,y,fontheight, rotation,fontstyle,fontunderline,szFaceName,content) = 使用Windows TTF 字型打印文字
+//  sendBinaryData(.(hexData) = 发送二进制数据
+
+**/
+ 
+ Req6=[{"emit":"open","Obj":"dll",AppShow:false ,"AppFollow":0
+								,src:[  {                       //,  私有的必需,在appemit登录窗口，我的应用，插件中设置sha1 pid  AuthKey等数据
+	 								//   "asAdmin":0   //1需要管理员权限注册 0不需要
+								   //	,"reg":null    //使用appemit直接调用，一般可以不注册。null 不注册   true 注册 false 卸载注册    
+								     createType:"callDll"               //  dll开发createDll    //可视化的控件 createEmbedEx    createEmbed(comCarrier,clsId,iid)  , callDll(), createObject(clsId,iid)   createInstance(clsId,itface)   createUnknown(clsId,iid) 
+								    ,objName:"tsclib"              //自行定义  //AppJsObject.dll_demo1 来访问此dll
+ 									,dllFile:"/plugins/thirdparty/printer/tsclib/TSCLIB.dll"     //  必须 \\   / 分隔, 
+ 	                                ,stdcall_cdecl:"stdcall"         //调用方式
+                                   // ,CLASSES_ROOT:null        //自行开发dll不用注册，则不用设置
+ 								  //  ,ver:"1.0.0"  
+									,iid:null  
+								 //	,data:'{"msg":"data from JS","info":1}'               //发送给dll  数据
+									
+								   }   
+						    ]
+
+					 ,"par":{"plugins":["tsclib"],"AppStep":{"init":null,  "destroy":null, "closed":null,"loaded":null} }  //提示plugins 没有则下载
+					 //,"par0":{"AppMethod":"msg Synchronization component need set: POST" }
+				 }
+				 //发送信息
+				,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":codeStr6 }
+				 //调用方法
+			 //  ,{"emit":"runCmd","Obj":"dll","AppId":1,"codeStr":" var sum=AppJsObject.cppTestDemo1.myAdd(1,5);return  sum;" } 
+       ]	 
+ 	      AE.OpenApp(Req6);
+ 
+}
+
 
 //dotNet和系统com组件  查看 dotNet.html
 

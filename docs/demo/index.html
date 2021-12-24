@@ -32,6 +32,7 @@
 				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"hardWare","Obj":"pc","par0":{"dev":["os","base"]}}' />
 				 <!-- 更多信息 ["device","os","display","cpu","net","memory","storage","base"]   -->
 				<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>
+				<button type="button" id="btn_Flash" onclick="getTemperature() " >管理员身份运行，硬件温度</button>
 			</div>
 		 
 			<div style="font-size:10px">3. emit msg to someone [All sids=cid, self_sid emit msg  to(distinct (toSids ∪ toSids)-self_sid) ]&nbsp; {"emit":"msg", "Obj":"sid","toSids":["2"],"toGids":[1,2],"data":"hi, I am Tom."} </div>           
@@ -84,6 +85,10 @@
 	   }
 	
  
+ function getTemperature(){
+ var ReqPar2={"emit":"temperature","Obj":"pc"}
+  AE.OpenApp(ReqPar2);   
+ }
  
 </script>
 </body>

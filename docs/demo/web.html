@@ -41,15 +41,17 @@
 		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar3)" >单独注册ocx</button>
 		  &nbsp;  &nbsp; <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar41)" >打开前设置cookie</button>
 		  <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar4)" >执行追加函数</button>
-		 <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar5)" >支持操作网页内核控件</button><button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar6)" >接口</button>
+		 <button type="button" id="btn_reg" onclick="AE.OpenApp(ReqPar5)" >支持操作网页内核控件</button>
  	
+	   <button type="button" id="btn_reg" onclick="getbackData()" >反馈数据</button>
+	
 		</div>
  <div style="font-size:10px">flashOcx  IE    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":"flash_ocx"}}</div>      
 	<div style="font-size:10px">flashNP webkit    &nbsp;   &nbsp; {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"URL":"http://sxiao.4399.com/4399swf/upload_swf/ftp14/yzg/20140328/bombit7/zx_game7.htm","plugins":["flash_NP"]}}</div>      
  
 	 <div style="font-size:10px">close  :  {"emit":"close","Obj":"web","AppId":1}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"web"}</div>      
 	    <div style="font-size:10px">w1.  多个&nbsp; &nbsp;[{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"htmlStr":null,"HttpServer_startUrl":null,"URL":"http://www.baidu.com"},"par0":{"header":null,"noScriptErr":true,"UIFLAG":null,"DLCTL":null,"userAgent":null,"crossDomain":true,"rightMenu":-1,"show_UpdateTool":true}},{"emit":"open","Obj":"web","AppType":1,"AppId":2,"pos":1,"par":{"URL":"http://www.baidu.com"}}]</div>      
- {"emit":"open","Obj":"test","AppType":1}
+ 
 
 
  
@@ -72,7 +74,7 @@
 <script>
  
 
-/*
+/**
 /////////////////////////////////////////////////////
 //步骤 
 1 在主页index.htmll load页面时加载AppEmit_1.2_min.js一次
@@ -82,6 +84,31 @@
 
 注意 对于IE有些加载了pdf 的文档遇到缓存，默认加了一个noRefresh:false
 如果是单页面，不显示，可以设置noRefresh:true
+ 
+ 高级注册用户可以设置
+ par0:"enableInternetRunActiveX":1 ，开启本用户的IE注册表security zones设置，允许internet运行activex。HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\1200  设为0
+ par0:"ZoneMapDomains":[aaa.com,bbb.com] ,增加受信任站点，使用https网络，HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\Domains\aaa.com\www   https设为 2
+ 
+如果需要安装使用IE11，设置参数 par0:"IE11":1 ,会自动下载安装IE11
+版本类型和下载地址如下
+				if( lcid == 0x804 ){
+					url = "http://download.microsoft.com/download/F/2/8/F2871AC4-E82B-4636-BB37-A5F2B14C8616/IE11-Windows6.1-x86-zh-cn.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/5/6/F/56FD6253-CB53-4E38-94C6-74367DA2AB34/IE11-Windows6.1-x64-zh-cn.exe"
+ 
+				elseif( lcid == 0xC04 ){
+					url = "http://download.microsoft.com/download/7/8/8/788B10AB-C1D7-4DA9-BADF-2A939D769A43/IE11-Windows6.1-x86-zh-hk.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/5/1/C/51C47611-49D2-4791-B2DE-6DE0965B8ACC/IE11-Windows6.1-x64-zh-hk.exe"
+			 
+				elseif( lcid == 0x404 ){
+					url = "http://download.microsoft.com/download/6/C/3/6C373F0D-F076-4947-93E5-DE787D45F695/IE11-Windows6.1-x86-zh-tw.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/2/9/6/2966291B-B5D3-4D57-842E-8DD2F1AB0BA1/IE11-Windows6.1-x64-zh-tw.exe"
+             else
+					url = "http://download.microsoft.com/download/9/2/F/92FC119C-3BCD-476C-B425-038A39625558/IE11-Windows6.1-x86-en-us.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/7/1/7/7179A150-F2D2-4502-9D70-4B59EA148EAA/IE11-Windows6.1-x64-en-us.exe"
 ////////////////////////////////////////////////
 */
    var close_App=function(){
@@ -186,7 +213,7 @@ ReqPar5= { "emit": "runCmd", "Obj": "web", "AppId": 1, "codeStr": 'AppJsObject.w
 	 return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
  }
  //!@preserve 避免压缩代码时注释被取消，请验证  。script前修改为\ / 。  如果无法转为字符串代码，可用 `` 或者html文件引入，IE不支持·
-var embedHtmlStr = function() { /*!@preserve
+var embedHtmlStr = function(){/*!@preserve
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <div onmousedown='javascript:  
         external.hitCaption();
@@ -235,7 +262,33 @@ ReqPar6= {"emit":"open","Obj":"web","AppType":2,"AppId":1,"pos":1,"par":{"htmlSt
 
  */
  
+ //del
  
+ htmlStr5=AE.txt2code( function(){/*!@preserve
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<p><a href='javascript:backdata()'>反馈数据</a></p>
+ 
+    <script>
+	backdata=function(){
+	      external.emitBack('{"a":444}');
+	     external.runCmd("return {'temp':333}")  //,"cookieStr":external.web.cookieStr()
+	    }
+          
+    <\/script>
+*/})
+ 
+ 
+ 
+ getbackData=function(){
+ 
+ 		 	var  ReqPar5= {"emit":"open","Obj":"web","AppType":1,"pos":1,"AppId":1
+			     ,"par":{"URL":null,"htmlStr":htmlStr5,"HttpServer_startUrl":null }
+	 
+			   } ;  
+ 
+    AE.OpenApp(ReqPar5);
+ 
+ }
 	   
  
  

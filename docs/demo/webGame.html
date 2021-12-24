@@ -56,7 +56,7 @@
 		AE.InitApp(document.getElementById('input_url').value);
 	  //或者采用回调	
 	//  	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE.callbackFunc.func
-    //       AE.callbackFunc= [{"equ": { "service":"appemit", "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
+    //       AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
     //                                     ] ;
 	//  
 	//  	 AE.InitApp("ws://localhost:80/appemit?cid=00000-1&sid=1&flag=1");   //连接websocket成功后，执行input_App
