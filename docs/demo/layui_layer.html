@@ -48,7 +48,7 @@
 var fixedOffsetAuto_callback = function(mutationsList, observer) {
 	// Use traditional 'for loops' for IE 11
 	for(  k in mutationsList) {
-		   if (mutationsList[k].type === 'attributes' && mutationsList[k].target.id==targetNode.getAttribute("id")  ) {
+		   if (mutationsList[k].type === 'attributes' && mutationsList[k].target.className==targetNode.getAttribute("className")  ) {
  
 			 if (targetNode_oldOffset.left!=mutationsList[k].target.offsetLeft || targetNode_oldOffset.top!=mutationsList[k].target.offsetTop) {
 		 		 targetNode_oldOffset.left =mutationsList[k].target.offsetLeft; targetNode_oldOffset.top =mutationsList[k].target.offsetTop;
@@ -104,7 +104,8 @@ layui.use(['layer', 'form'], function(){
 		// fixed=ture  offset: 'auto'  F12出现console的情况以及windowresize更新后layer延迟auto  ,MozMutationObserver是优化代码
 		 var MutationObserver = window.MutationObserver || window.webkitMutationObserver || window.MozMutationObserver;
          observer = new MutationObserver(fixedOffsetAuto_callback);
-	   targetNode = document.getElementById( (layero.selector).substring(1, layero.selector.length));
+	   targetNode = document.getElementById( (layero.selector).substring(1, layero.selector.length));    //"layui-layer1"
+	   //console.log(targetNode);  
        observer.observe(targetNode, { attributes: true, childList: false, subtree: false });
     }
  

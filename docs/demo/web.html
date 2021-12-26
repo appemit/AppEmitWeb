@@ -68,7 +68,7 @@
 			   <div id="AppEmbed3"  style="	border: solid 2px #F0F0F0; min-width:30px;min-height:20px;width:30px;height:30px" ></div>
 			                
 		</div>
-              <div style=" margin-left:1800px; margin-top:1800px;text-align:center ">
+              <div style=" margin-left:3800px; margin-top:3800px;text-align:center ">
 			     测试滚动 
 		</div>  
 </div>
@@ -92,7 +92,7 @@
  par0:"enableInternetRunActiveX":1 ，开启本用户的IE注册表security zones设置，允许internet运行activex。HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\1200  设为0
  par0:"ZoneMapDomains":[aaa.com,bbb.com] ,增加受信任站点，使用https网络，HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\Domains\aaa.com\www   https设为 2
  
-如果需要安装使用IE11，设置参数 par0:"IE11":1 ,会自动下载安装IE11
+如果需要安装使用IE11，设置参数 par0:"IE11":1 ,会自动下载安装IE11。 windows 有IE内核，不要浏览器是可以的。
 版本类型和下载地址如下
 				if( lcid == 0x804 ){
 					url = "http://download.microsoft.com/download/F/2/8/F2871AC4-E82B-4636-BB37-A5F2B14C8616/IE11-Windows6.1-x86-zh-cn.exe"
@@ -121,8 +121,10 @@
  
 	var init_App=function(){ 
         //步骤一 初始化
+		   AE.zeroType=1   //启动0坐标模式,App GUI 只能移动到0,0位置
 		 AE.InitApp(document.getElementById('input_url').value);
- 
+		 
+       
 	  //或者采用回调	
 	//  	  //反馈接口与AE.callbackFunc.equ相等后执行对应的函数，当websocket打开, 再执行AE.callbackFunc.func
     //      AE.callbackFunc= [{"equ": { "service":AE.service, "rid": 0,"clientAuth":1,"rep": 0},"func":input_App} //连接websocket成功后，执行input_App
