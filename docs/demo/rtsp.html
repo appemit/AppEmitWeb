@@ -87,7 +87,14 @@
   <script type="text/javascript" src="AppEmit_1.2_min.js"></script>
  
 <script>
- /**方案说明 默认vlc插件为2.2.5.1
+ /**方案说明 
+A 方案 VLC播放RTSP  见rtsp.html , 可以直接libvlc调用，或者网页内核打开，或者转码ogg 或者 webtrc
+B 方案 mplayer播放RTSP  见rtsp2.html
+C 方案 mpvPlayer播放RTSP  见rtsp3.html
+D 方案 easyPlayerRTSP调用ffmpeg库播放RTSP .见rtsp4.html
+ 
+ ///////////////////////////////////////////////
+ A 方案 默认vlc插件为2.2.5.1
  1  直接使用dll接口,libvlc播放
  2  使用网页形式object播放
  3  转码webrtc，支持服务器
@@ -150,8 +157,8 @@
   var mp4_demo0="/demo/htmlDemo/file/q1.mp4"
   
 	var init_App=function(){   
-		//AE.InitApp(document.getElementById('input_url').value);
-	    AE.InitApp(); 
+		AE.InitApp(document.getElementById('input_url').value);
+	
 	}
 /**
 //////////////////v1 libvlc ///////////////////////////////////////////			   
