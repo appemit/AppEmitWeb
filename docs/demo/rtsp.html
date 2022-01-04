@@ -31,28 +31,27 @@
 		<div style="font-size:10px">v1. libvlc  支持多开:   
 				<!-- <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"web","AppType":1,"AppId":1,"pos":1,"par":{"URL":"http://www.zhihu.com"}}'/>
  -->		 	
- <input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value=' {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":1,"bgcolor":"2A2937"}}'/>
+ <input type="text" class="form-control" size="70" style="margin-bottom:3px;" id="input_par" value=' {"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":1,"bgcolor":"2A2937"}}'/>
 	 
 		 <button type="button" id="btn_1" onclick="input_App() " >do it</button><button type="button" id="btn_2" onclick="libvlc_snap() " >libvlc_snap</button>
 			 <button type="button" id="btn3 " onclick="regEvent() " >regEvent</button> 
  
 			  
-			  <button type="button" id="btn3 " onclick="runcode1() " >调用对象runcode1</button> 
+			  <button type="button" id="btn3 " onclick="runcode1() " >调用对象</button> 
 			      <button type="button" id="btn3 " onclick="set_Logo() " >设置水印</button> 
 			  
 			  
-           <button type="button" id="btn3 " onclick="transcode_save() " >transcode_保存视频</button> 
-		    <button type="button" id="btn3 " onclick="newOpen() " >不关闭播放器切换视频源</button> 
+           <button type="button" id="btn3 " onclick="transcode_save() " >transcode_保存</button> 
+		    <button type="button" id="btn3 " onclick="newOpen() " >切换视频源</button> 
 
 		</div>
 	  
-		 	    <div style="font-size:10px">v2. NPAPI网页|IE内核 方便多开:     <button type="button" id="btn3 " onclick="NPweb()" >np网页内核</button>  <button type="button" id="btn3 " onclick="IEwebvlc()" >IE网页内核</button> &nbsp; &nbsp;  {"emit":"open","Obj":"media","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","htmlStr":null,"HttpServer_start":null,"kernel":2},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"height":"95%" }}</div>      
-      <button type="button" id="btn3 " onclick="callwebvlc() " >调用 web vlc</button> 
+		 	    <div style="font-size:10px">v2. NPAPI网页|IE内核 方便多开:     <button type="button" id="btn3 " onclick="NPweb()" >np网页内核</button>  <button type="button" id="btn3 " onclick="IEwebvlc()" >IE网页内核</button>      
+      <button type="button" id="btn3 " onclick="callwebvlc() " >调用 web vlc</button>  </div>
 	
-	<div style="font-size:10px"><a href="rtsp_ogg.html" target="_blank">v3. 转为ogg ，支持原生浏览器</a><div>
-	    <div style="font-size:10px"><a href="rtsp2WebRTC.html" target="_blank">v4. 转为webRTC ，支持原生浏览器</a><div>
-  <div style="font-size:10px">v11.libvlc插件播放多个rtsp: [{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":1 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030",
-	 "--freetype-font=Microsoft JhengHei","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapRBUTTONDBLCLK":1,"snapWidth":0,"snapHeight":0 }}]</div> 	
+	<div style="font-size:10px"><a href="rtsp_ogg.html" target="_blank">v3. 转为ogg ，支持原生浏览器</a> 
+	    <a href="rtsp2WebRTC.html" target="_blank">v4. 转为webRTC ，支持原生浏览器</a><div><a href="rtsp2.html" target="_blank">f2开源库mplayer</a>&nbsp;<a href="rtsp3.html" target="_blank">f3开源库mpvPlayer</a>&nbsp;<a href="rtsp4.html" target="_blank">f4 easyPlayerRTSP</a>&nbsp;
+  <div style="font-size:10px">v11.libvlc插件播放多个rtsp,或者参考 layApp.html布局。或者使用web内核，直接网页设置多个object:    <button type="button" id="btn3 " onclick="array_apps()" >多个</button>  </div> 	
   <div style="font-size:10px">close  :  {"emit":"close","Obj":"libvlc","AppId":1}           &nbsp;  &nbsp; &nbsp;      or   &nbsp;   &nbsp; {"emit":"closeAll","Obj":"libvlc"}</div>      
 
 
@@ -173,6 +172,8 @@ D 方案 easyPlayerRTSP调用ffmpeg库播放RTSP .见rtsp4.html
 		  2,3,4,...n: mrl 字符串,则单曲重复n次 
 // 最小最大关闭按钮 默认"par0":"minmaxclose":[0,0,1]
 // 然后可以设置窗口栏  "par0":"windowPars":[12,28,10,10,0,0]  默认 [12,28,10,10,0,0] 字体大小,按钮宽度,按钮高度,标题栏高度,背景色,前景色
+
+
 
 ///////////////////////////////////////////////////
   // ReqPar=[{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":1 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030", "--freetype-font=Microsoft JhengHei","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapRBUTTONDBLCLK":1,"snapWidth":0,"snapHeight":0}}]	;
@@ -356,6 +357,19 @@ position =0  ，1 (左), 2 (右), 4 (顶部), 8 (底部), 5 (左上), 6 (右上)
 		 
 		 
   }	 
+  
+ //多个播放，使用数组形式。或者参考 layApp.html布局。或者使用web内核，直接网页设置多个object。
+  	var array_apps= function(Jdata){    //回调的数据Jdata
+ 
+	      var ReqPar11=  [{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":1,"par":{ "mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":1,"volume":70,"autoplay":1,"controls":1 }},{"emit":"open","Obj":"libvlc","AppType":1,"pos":1,"AppId":2,"par":{ "engine":["--subsdec-encoding=GB18030", "--freetype-font=Microsoft JhengHei","--no-snapshot-preview","-I","dummy" ,"--ignore-config"],"mrl":"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov","localFile":0},"par0":{"fullscreen":true,"volume":70,"autoplay":true,"controls":true ,"snapPath":"/file/snap/" ,"snapFormat":".bmp","snapRBUTTONDBLCLK":1,"snapWidth":0,"snapHeight":0 }}]
+  
+    AE.OpenApp(ReqPar11);
+		 
+		 
+  }	 
+ 
+  
+  
 /**
  ///////////v2. NPAPI网页//////// libvlc的功能都有,功能更强大 ///////////////////
 //v2. NPAPI网页 通过webkit内核打开 可以设置mrl和其它参数，其等效实现htmlStr0相同的代码。
