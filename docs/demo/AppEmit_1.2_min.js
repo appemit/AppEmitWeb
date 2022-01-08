@@ -94,7 +94,7 @@ AE_eventType_Follow={
 				 wss_port:[443,7131,7132,7133,7366],      //必需，  wss端口。可修改 。同上。
 				 port_try_Maxcnt:3,                                   //非必需，为指定端口最大尝试次数，可以调整为0或者 65536 不限制尝试。
 				 excludePorts:[2049],                                 // 必需，为指定端口排除表，与config.ini文件设置一致，已排除小于2000的端口，可追加chrome不可用的websocket端口。只能追加。https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?&page=5
- 
+                 initSet:null,
                  service:"appemit", 			      //服务名称，普通用户修改无效	,如果有权修改，则initSet中的wsUrl需要一致
 				 emitInterval:10,    			   //发送命令时间间隔 
 				 URLProtocol:1,                       //默认1开启网页定义私有协议appemitweb启动后台程序，同时config.ini里面 URLProtocol=1已经设置了注册表才有效。用来解决客户端的后台程序被关闭了的情况，已经有用户上线不能重启后台程序。
