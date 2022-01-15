@@ -38,6 +38,9 @@
 	   <button type="button" id="btn3 " onclick="changeMRL() " >更换播放源 </button> 
       <button type="button" id="btn3 " onclick="isPaused1() " >isPaused </button> 
 	   <button type="button" id="btn3 " onclick="pause_resume() " >暂停继续 </button> 
+	      <button type="button" id="btn_record" onclick="record() " >录像</button> 
+		    <button type="button" id="btn_record" onclick="takeSnap() " >拍照</button> 
+		  
 	<div style="font-size:10px">  <button type="button" id="btn3 " onclick="regEvent() " >注册事件 </button> 
 	 
       <button type="button" id="btn3 " onclick="call2app() " >多开 mpvPlayer</button> </div>
@@ -94,7 +97,7 @@ http://mpv.io/manual/master/#options
 http://mpv.io/manual/master/#list-of-input-commands
 http://mpv.io/manual/master/#properties
 https://github.com/mpv-player/mpv-examples/tree/master/libmpv
- 
+ https://buildmedia.readthedocs.org/media/pdf/mpv/latest/mpv.pdf
  */
  
   //init_App();    //载入页面运行 
@@ -102,8 +105,20 @@ https://github.com/mpv-player/mpv-examples/tree/master/libmpv
   var webMp4_demo1="https://cdn.jsdelivr.net/gh/appemit/AppEmitWeb@master/docs/demo/file/n1.mp4"
   var webRtsp_demo2="rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov"
   var mp4_demo0="/demo/htmlDemo/file/q1.mp4"
-  
-  
+  	   //"input-default-bindings", "yes");
+		// "input-vo-keyboard", "yes");
+ 
+	/**
+	//参考 https://mpv.io/manual/master/#options
+	  "par":{"engine":{"hwdec":"no"      //  (default) no:   设置硬件加速 none auto any d3d11va dxva2,...
+	            ,"rtsp-transport":"tcp"    //default: tcp  设置通信协议 tcp udp
+	          
+		        }
+		   }
+		   
+		    ,"network-timeout":5       //default: 60  设置网络超时时间 单位秒 报错。   需要单独调用 setOption命令
+	*/
+	
   //////////////////////////////////////////
   // 初始参数   option:{name:value} 
   //  osd 配字  http://mpv.io/manual/master/#options 
@@ -128,18 +143,45 @@ https://github.com/mpv-player/mpv-examples/tree/master/libmpv
   //////changeMRL 新开////////////
    function changeMRL(){
  var  cmd21=AE.txt2code(function(){/*!@preserve
-  {
-     AppJsObject.mpvPlayer.newOpen("/demo/htmlDemo/file/q1.mp4")
-     //return  {isPaused:AppJsObject.mpvPlayer.isPaused()}
+  {  
+ 
+      AppJsObject.mpvPlayer.newOpen("/demo/htmlDemo/file/q1.mp4" )
+	// AppJsObject.mpvPlayer.newOpen("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov")
+     return  {123}
   }
 */});
           //根据  AE.callbackFunc "equ"来回调处理
-       var Req21={"emit":"runCmd","Obj":"mpvPlayer","rid":"mpvPlayerchangeMRL_mark","AppId":1,"codeStr":cmd21 }    
+       var Req21={"emit":"runCmd","Obj":"mpvPlayer","rid":"mpvPlayerchangeMRL_mark","AppId":1,"codeStr":cmd21  }     //,"par0":{"AppMethod":"POST"}
       AE.OpenApp(Req21);
 
 } 
-  
-
+  record=function(){
+      
+    bt1=document.getElementById('btn_record') 
+    console.log(bt1.innerHTML)
+	if (bt1.innerHTML=="录像"){
+	  //开始录像
+	   AE.OpenApp({"emit":"runCmd","Obj":"mpvPlayer","rid":"mpvPlayerRecord_mark1","AppId":1,"codeStr":"AppJsObject.mpvPlayer.record('/file/video/aa1.mp4')"  } );
+	   bt1.innerHTML="停止录像"
+	}else{
+	 //停止录像
+	 
+	 AE.OpenApp({"emit":"runCmd","Obj":"mpvPlayer","rid":"mpvPlayerRecord_mark1","AppId":1,"codeStr":"AppJsObject.mpvPlayer.record('')"  } );
+	    bt1.innerHTML="录像"
+	}
+ 
+	
+  }
+  //拍照
+  takeSnap=function(){
+  //默认  par0:{"snapPath":"/file/snap/","snapFormat":".bmp"}
+  //默认右键双击开启截图，"snapRBUTTONDBLCLK":false 来取消
+      //AppJsObject.mpvPlayer.takeSnap(path/*或者file/snap/默认时间递增路径*/,flag)
+	 AE.OpenApp({"emit":"runCmd","Obj":"mpvPlayer","rid":"mpvPlayertakeSnap_mark1","AppId":1,"codeStr":"AppJsObject.mpvPlayer.takeSnap()"  } );
+	 
+ 
+	
+  }
  
 	////////获取数据//////////////////////////////////////////							  
  function isPaused1(){

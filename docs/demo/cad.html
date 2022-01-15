@@ -22,7 +22,7 @@
 <body>
 
      <div style="font-size:10px">1 .cad
-				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"cad","AppType":1,"AppFollow":31,"src":"/demo/htmlDemo/file/cad1.dwg","pos":1,"par0":{"objName":"autocad","embed":-1,"AppMethod":"POST","HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"newcad1.dwg" },"show_UpdateTool":true}}'/>
+				<input type="text" class="form-control" size="90" style="margin-bottom:3px;" id="input_par" value='{"emit":"open","Obj":"cad","AppType":1,"AppFollow":31,"src":"/demo/htmlDemo/file/cad1.dwg","pos":1,"par0":{"progId":["AutoCAD.Application"],"objName":"autocad","embed":-1,"AppMethod":"POST","HttpPost":{"URL":"http://eu.httpbin.org/post","valid":0,"fileName":"newcad1.dwg" },"show_UpdateTool":true}}'/>
 		   	<button type="button" id="btn_Flash" onclick="input_App() " >do it</button>&nbsp; &nbsp;<a href="web.html" target="_blank">web</a>&nbsp;&nbsp;<a href="AppEmbed.html" target="_blank">AppEmbed  </a> &nbsp; &nbsp;<a href="rtsp.html" target="_blank">rtsp</a>&nbsp; &nbsp;<a href="dll.html" target="_blank">DLL</a> &nbsp; &nbsp;<a href="index.html" target="_blank">index</a> 
 		   </div>
           <div style="font-size:10px"> 2.打开网络，默认保存上传  {"emit":"open","Obj":"cad","AppType":1,"AppFollow":31,"src":[["https://cdn.jsdelivr.net/gh/appemit/AppemitWeb@master/docs/demo/file/cad2.dwgtmp","cad2.dwg"]],"pos":1,"par0":{"objName":"autocad","embed":-1,"AppMethod":"POST","HttpPost":{"URL":"http://eu.httpbin.org/post","valid":1,"fileName":"newcad2.dwg" },"show_UpdateTool":true}}                                                                                             
@@ -53,7 +53,18 @@
   
   AutoCAD 接口文档: https://help.autodesk.com/view/OARX/2020/PLK/?guid=GUID-A809CD71-4655-44E2-B674-1FE200B9FE30
   
-   1 默认 AutoCAD的"progId":["AutoCAD.Application","GStarCAD.Application"]，全局变量 对象  AppJsObject     AppJsObject.objName 访问实例对象,默认autocad则为 AppJsObject.autocad 访问
+   1 默认 AutoCAD的pra0:{"progId":["AutoCAD.Application","GStarCAD.Application"]}，调用上一次打开autoCAD的版本。全局变量 对象  AppJsObject     AppJsObject.objName 访问实例对象,默认autocad则为 AppJsObject.autocad 访问
+     不同版本的progId不同，可以调用指定对应的版本，具体可以在regedit注册表中可以查询到。
+		AutoCAD2010 AutoCAD.Application.18
+		AutoCAD2011 AutoCAD.Application.18.1
+		AutoCAD2012 AutoCAD.Application.18.2
+		AutoCAD2013 AutoCAD.Application.19
+		AutoCAD2014 AutoCAD.Application.19.1
+		AutoCAD2015 AutoCAD.Application.20
+		AutoCAD2016 AutoCAD.Application.20.1
+		AutoCAD2017 AutoCAD.Application.21
+		AutoCAD2019 AutoCAD.Application.22
+		AutoCAD2020 AutoCAD.Application.23.1
    2 AppJsObject.autocad.SendCommand(lispCmds)   同步命令  AppJsObject.autocad.PostCommand(lispCmds)   异步命令
         可以执行 AutoCAD 里所有命令以及 AutoLISP 表达式，跟在 AutoCAD 里输入命令效果一样。
    3  autocad命令默认是同步，需要增加"AppMethod":"POST"来传递消息机制
